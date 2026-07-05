@@ -1,0 +1,27 @@
+# Secrets
+.env
+.env*.local
+
+# Dependencies & build output
+node_modules/
+.next/
+out/
+dist/
+coverage/
+*.tsbuildinfo
+next-env.d.ts
+.vercel/
+.turbo/
+
+# Generated RAG index (rebuilt by `npm run build:index` and the deploy prebuild)
+src/generated/
+
+# Fumadocs MDX generated source (rebuilt by the postinstall/build hook)
+.source/
+
+# Local, unpublished source drafts for the AI-twin corpus
+content/ai-twin/sources/
+
+# OS noise
+Thumbs.db
+.DS_Store
