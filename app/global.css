@@ -4,23 +4,33 @@
 
 @source '../node_modules/fumadocs-ui/dist/**/*.js';
 
-/* ─── Terminal-docs: amber accent, mono navigation, hairline borders ─── */
+/* ─── Terminal-docs: amber accent, mono navigation, warm canvas ─── */
 
 :root {
   --font-mono:
     ui-monospace, 'Cascadia Code', 'JetBrains Mono', 'Fira Code', Consolas,
     'Liberation Mono', Menlo, monospace;
-  --fd-layout-width: 1140px;
+  --fd-layout-width: 82rem;
 
-  --color-fd-primary: hsl(32, 95%, 40%);
+  --color-fd-primary: hsl(30, 96%, 38%);
   --color-fd-primary-foreground: hsl(40, 60%, 98%);
   --color-fd-ring: hsl(32, 95%, 44%);
+
+  /* Warm off-white canvas */
+  --color-fd-background: hsl(40, 24%, 96%);
+  --color-fd-card: hsl(40, 22%, 94%);
+  --color-fd-secondary: hsl(40, 20%, 92%);
 }
 
 .dark {
   --color-fd-primary: hsl(38, 96%, 56%);
   --color-fd-primary-foreground: hsl(30, 45%, 10%);
   --color-fd-ring: hsl(38, 96%, 56%);
+
+  /* Warm near-black canvas */
+  --color-fd-background: hsl(28, 13%, 7%);
+  --color-fd-card: hsl(28, 12%, 9.5%);
+  --color-fd-secondary: hsl(28, 11%, 13%);
 }
 
 /* Monospace, terminal-flavoured sidebar navigation */
@@ -30,7 +40,23 @@
   letter-spacing: -0.01em;
 }
 
-/* Comfortable reading measure for docs content */
-#nd-page article {
-  max-width: 46rem;
+/* Comfortable reading measure for the content column */
+#nd-page {
+  max-width: 52rem;
+}
+
+/* Amber links + terminal-style inline code in body copy */
+#nd-page .prose a {
+  color: var(--color-fd-primary);
+  font-weight: 500;
+}
+
+#nd-page .prose :not(pre) > code {
+  color: var(--color-fd-primary);
+  background-color: color-mix(
+    in srgb,
+    var(--color-fd-primary) 12%,
+    transparent
+  );
+  border-color: color-mix(in srgb, var(--color-fd-primary) 28%, transparent);
 }

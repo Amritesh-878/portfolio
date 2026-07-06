@@ -6,8 +6,5 @@ export function baseOptions(): BaseLayoutProps {
       title: 'Amritesh Praveen',
     },
     githubUrl: 'https://github.com/Amritesh-878',
-    themeSwitch: {
-      enabled: false,
-    },
   };
 }
