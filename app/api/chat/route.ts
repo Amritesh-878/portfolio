@@ -1,0 +1,149 @@
+import { readFileSync } from 'node:fs';
+import { join } from 'node:path';
+import { GoogleGenAI } from '@google/genai';
+import { parseChatRequest } from '@/lib/chat/schema';
+import { rateLimit } from '@/lib/chat/rate-limit';
+import { embed, embeddingModel } from '@/lib/rag/embeddings';
+import { retrieve } from '@/lib/rag/retrieve';
+import { buildSystemPrompt } from '@/lib/rag/prompt';
+import type { RagIndex, ScoredChunk } from '@/lib/rag/types';
+
+export const runtime = 'nodejs';
+
+const CHAT_MODEL = 'gemini-2.5-flash';
+const EMAIL = 'amritesh.praveen@gmail.com';
+
+let indexCache: RagIndex | null | undefined;
+
+function loadIndex(): RagIndex | null {
+  if (indexCache === undefined) {
+    try {
+      const raw = readFileSync(
+        join(process.cwd(), 'src', 'generated', 'rag-index.json'),
+        'utf8',
+      );
+      indexCache = JSON.parse(raw) as RagIndex;
+    } catch {
+      indexCache = null;
+    }
+  }
+  return indexCache;
+}
+
+function jsonError(message: string, status: number): Response {
+  return new Response(JSON.stringify({ error: message }), {
+    status,
+    headers: { 'content-type': 'application/json' },
+  });
+}
+
+function clientIp(request: Request): string {
+  return (
+    request.headers.get('x-forwarded-for')?.split(',')[0]?.trim() || 'unknown'
+  );
+}
+
+function traceOf(results: ScoredChunk[]) {
+  return results.map((result) => ({
+    id: result.chunk.id,
+    heading: result.chunk.heading,
+    vecRank: result.vecRank,
+    bm25Rank: result.bm25Rank,
+    fusedScore: Number(result.fusedScore.toFixed(4)),
+  }));
+}
+
+export async function POST(request: Request): Promise<Response> {
+  if (!rateLimit(clientIp(request), Date.now()).allowed) {
+    return jsonError(
+      'Too many messages in a short window. Give it a minute.',
+      429,
+    );
+  }
+
+  let body: unknown;
+  try {
+    body = await request.json();
+  } catch {
+    return jsonError('Request body must be valid JSON.', 400);
+  }
+  const parsed = parseChatRequest(body);
+  if (!parsed.ok) return jsonError(parsed.error, 400);
+
+  const apiKey = process.env.GEMINI_API_KEY;
+  if (!apiKey) {
+    return jsonError(
+      `The twin is offline (no API key configured). Email ${EMAIL}.`,
+      503,
+    );
+  }
+
+  const index = loadIndex();
+  if (!index) {
+    return jsonError(
+      `My knowledge index isn't built yet. Email ${EMAIL} and the human will answer.`,
+      503,
+    );
+  }
+  if (index.model !== embeddingModel()) {
+    return jsonError(
+      'My search index is stale (model mismatch); a rebuild is pending.',
+      503,
+    );
+  }
+
+  let results: ScoredChunk[];
+  try {
+    const queryVector = await embed(parsed.value.message, 'RETRIEVAL_QUERY');
+    results = retrieve(queryVector, parsed.value.message, index, 4);
+  } catch {
+    return jsonError(
+      `I can't reach my language model right now (quota or outage). Email ${EMAIL}.`,
+      503,
+    );
+  }
+
+  const contents = [
+    ...parsed.value.history.map((message) => ({
+      role: message.role === 'assistant' ? 'model' : 'user',
+      parts: [{ text: message.content }],
+    })),
+    { role: 'user', parts: [{ text: parsed.value.message }] },
+  ];
+
+  const ai = new GoogleGenAI({ apiKey });
+  const encoder = new TextEncoder();
+  const trace = traceOf(results);
+
+  const stream = new ReadableStream<Uint8Array>({
+    async start(controller) {
+      controller.enqueue(encoder.encode(`${JSON.stringify({ trace })}\n`));
+      try {
+        const response = await ai.models.generateContentStream({
+          model: CHAT_MODEL,
+          contents,
+          config: { systemInstruction: buildSystemPrompt(results) },
+        });
+        for await (const chunk of response) {
+          if (chunk.text) controller.enqueue(encoder.encode(chunk.text));
+        }
+      } catch {
+        controller.enqueue(
+          encoder.encode(
+            `\n\n(My model dropped mid-thought, likely quota or a hiccup. Try again, or email ${EMAIL}.)`,
+          ),
+        );
+      } finally {
+        controller.close();
+      }
+    },
+  });
+
+  return new Response(stream, {
+    headers: {
+      'content-type': 'text/plain; charset=utf-8',
+      'cache-control': 'no-store',
+      'x-content-type-options': 'nosniff',
+    },
+  });
+}
