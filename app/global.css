@@ -3,3 +3,34 @@
 @import 'fumadocs-ui/css/preset.css';
 
 @source '../node_modules/fumadocs-ui/dist/**/*.js';
+
+/* ─── Terminal-docs: amber accent, mono navigation, hairline borders ─── */
+
+:root {
+  --font-mono:
+    ui-monospace, 'Cascadia Code', 'JetBrains Mono', 'Fira Code', Consolas,
+    'Liberation Mono', Menlo, monospace;
+  --fd-layout-width: 1140px;
+
+  --color-fd-primary: hsl(32, 95%, 40%);
+  --color-fd-primary-foreground: hsl(40, 60%, 98%);
+  --color-fd-ring: hsl(32, 95%, 44%);
+}
+
+.dark {
+  --color-fd-primary: hsl(38, 96%, 56%);
+  --color-fd-primary-foreground: hsl(30, 45%, 10%);
+  --color-fd-ring: hsl(38, 96%, 56%);
+}
+
+/* Monospace, terminal-flavoured sidebar navigation */
+#nd-sidebar {
+  font-family: var(--font-mono);
+  font-size: 0.875rem;
+  letter-spacing: -0.01em;
+}
+
+/* Comfortable reading measure for docs content */
+#nd-page article {
+  max-width: 46rem;
+}

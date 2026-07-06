@@ -5,5 +5,9 @@ export function baseOptions(): BaseLayoutProps {
     nav: {
       title: 'Amritesh Praveen',
     },
+    githubUrl: 'https://github.com/Amritesh-878',
+    themeSwitch: {
+      enabled: false,
+    },
   };
 }
