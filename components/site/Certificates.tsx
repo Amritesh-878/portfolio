@@ -130,30 +130,34 @@ export function Certificates() {
         {CERTIFICATES.map((cert) => (
           <div
             key={cert.title}
-            className="flex h-full flex-col gap-1 rounded-lg border border-fd-border bg-fd-card p-4"
+            className="flex h-full flex-col rounded-lg border border-fd-border bg-fd-card p-4"
           >
             <span className="font-mono text-sm font-medium text-fd-foreground">
               {cert.title}
             </span>
-            <span className="text-xs text-fd-muted-foreground">
+            <span className="mt-0.5 text-xs text-fd-muted-foreground">
               {cert.issuer}
             </span>
-            <p className="mt-1 flex-1 text-sm text-fd-muted-foreground">
+            <p className="mt-2 text-sm text-fd-muted-foreground">
               {cert.blurb}
             </p>
-            <div className="mt-3 flex flex-wrap items-center gap-x-4 gap-y-1 border-t border-fd-border pt-3 font-mono text-xs">
-              {cert.verifyUrl ? (
-                <a
-                  href={cert.verifyUrl}
-                  target="_blank"
-                  rel="noreferrer noopener"
-                  className="text-fd-primary hover:underline"
-                >
-                  verify ↗
-                </a>
-              ) : null}
-              {cert.appliedIn ? <AppliedLink applied={cert.appliedIn} /> : null}
-            </div>
+            {cert.verifyUrl || cert.appliedIn ? (
+              <div className="mt-3 flex flex-wrap items-center gap-x-3 gap-y-1 font-mono text-xs">
+                {cert.verifyUrl ? (
+                  <a
+                    href={cert.verifyUrl}
+                    target="_blank"
+                    rel="noreferrer noopener"
+                    className="text-fd-primary hover:underline"
+                  >
+                    verify ↗
+                  </a>
+                ) : null}
+                {cert.appliedIn ? (
+                  <AppliedLink applied={cert.appliedIn} />
+                ) : null}
+              </div>
+            ) : null}
           </div>
         ))}
       </div>
