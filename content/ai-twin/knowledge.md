@@ -1,9 +1,9 @@
 # AI Twin knowledge corpus — Amritesh Praveen
 
-> **Amritesh: this file is what your twin knows. Review every fact before launch — especially
-> the items marked ⚠️. The twin is instructed to never answer beyond this corpus, so anything
-> missing here is something it will decline to discuss. Add sections freely; the indexer
-> chunks by heading, so keep one topic per heading.**
+> **Amritesh: this file is what your twin knows. Review every fact before launch. The twin is
+> instructed to never answer beyond this corpus, so anything missing here is something it will
+> decline to discuss. Add sections freely; the indexer chunks by heading, so keep one topic per
+> heading.**
 
 ## Identity
 
@@ -65,11 +65,11 @@ A competitive RAG system for document intelligence built during the Cognizant ha
 LangChain + vector database + embedding models for semantic retrieval and QA, with work focused
 on prompt management, context chunking, response evaluation, and inference speed.
 
-## Project: Wildfire Smoke Detection (ongoing)
+## Project: Wildfire Smoke Detection
 
-Early wildfire smoke detection using the SmokeyNet architecture — a hybrid of CNNs, LSTMs, and
-Vision Transformers — trained on the FigLib dataset. Current focus: optimization strategies to
-improve accuracy, F1, and robustness.
+Early wildfire smoke detection using the SmokeyNet architecture, a hybrid of CNNs, LSTMs, and Vision
+Transformers, trained on the FigLib dataset. The work explored optimization strategies to improve
+accuracy, F1, and robustness. It is a past project, not currently active.
 
 ## Project: YouTube Trending Analysis Dashboard
 
@@ -90,18 +90,19 @@ as an interactive Streamlit dashboard.
 
 ## Skills
 
-Languages: Python, Java, SQL. Libraries/frameworks: PyTorch, TensorFlow, Scikit-learn, LangChain,
+Languages: Python, Java, JavaScript/TypeScript, SQL. Libraries/frameworks: PyTorch, TensorFlow, Scikit-learn, LangChain,
 Pandas, NumPy, Seaborn, Matplotlib. Core areas: RAG, NLP, deep learning, computer vision,
 transformers, reinforcement learning. Visualization: Power BI, Tableau, Plotly, Streamlit.
 Tools: Git/GitHub.
 
 ## Certifications
 
-Machine Learning Specialization (Stanford, Coursera); NLP with Attention Models (DeepLearning.AI);
-Intro to TensorFlow (DeepLearning.AI); Fundamentals of Reinforcement Learning (University of
-Alberta); AI & ML Fundamentals (IBM SkillsBuild); Machine Learning with Python (Udemy); Generative
-AI Tools using Python (MSME, Govt. of India); Python Programming Essentials (Rice University);
-SQL & PostgreSQL (Udemy).
+Machine Learning Specialization, Supervised Machine Learning, and Advanced Learning Algorithms
+(Stanford / DeepLearning.AI); NLP with Attention Models and Introduction to TensorFlow
+(DeepLearning.AI); Fundamentals of Reinforcement Learning (University of Alberta); Regression &
+Forecasting for Data Scientists (EDUCBA); Causal Inference (Columbia University); AI & ML Course
+(Simplilearn); DevOps on AWS Specialization and DevOps on AWS: Code, Build, and Test (Amazon Web
+Services); Google Cloud Computing Foundations (Google Cloud).
 
 ## This website
 
@@ -113,11 +114,32 @@ retrieval trace visitors can open in the chat UI shows the real chunks and score
 
 ## What Amritesh is looking for
 
-⚠️ *(Amritesh: fill this in honestly — roles, locations, visa/relocation notes, what kind of team
-excites you. The twin gets asked this constantly and can only answer from here.)*
+Amritesh is an AI & ML Associate at Impact Solutions Lab and is happy in the role, so he is not
+actively job-hunting right now, but he stays open to genuinely interesting opportunities. The work
+that interests him is AI/ML engineering: RAG-based chatbots, NLP, and applied ML, plus reinforcement
+learning, automation tooling, and general coding that improves how things work. What he enjoys most
+is building chatbots on top of retrieval, writing automation tools, and hands-on work with code and
+data: putting ML in front of real use rather than leaving it in a notebook. He is based in India,
+prefers a hybrid setup, and is open to relocating for the right role. For anything concrete, such as
+specific roles, availability, or timelines, the human answers email at amritesh.praveen@gmail.com.
 
 ## Personal-flavor facts (safe for the twin to share)
 
-⚠️ *(Amritesh: add 5–10 humanizing facts — hobbies, favorite tools, how you got into AI, a hot
-take on RAG evaluation, what you're learning now. This is what makes the twin feel like you and
-not a resume reader. The twin declines personal topics not listed here.)*
+- Amritesh has been coding since school, pulled in by teachers, friends, and an uncle, and learned
+  by doing: hackathons, tech events, and side projects rather than tutorials alone. After 12th grade
+  he chose AI/ML as the field to point those coding skills at, figuring it would be the most fun to
+  actually understand.
+- As a kid, roughly 7th to 10th grade, he was deep in robotics: building robots, taking classes, and
+  travelling to university hackathons and tech events. The build-things-to-learn habit is an old one.
+- His reinforcement-learning interest started in the third year of college, thanks to a professor who
+  walked the class through the concepts. Hunter Wumpus itself began as a 1 a.m. brainstorm with his
+  roommate Gagan Venkat, the paper's co-author, about what their final-year project should be.
+- In college he spent a year in the Google Developer Student Club and took second place at Ignite, a
+  presentation competition.
+- Outside work he games (Brawl Stars, competitively, tournaments and all), listens to a lot of music,
+  and watches anime and the usual streaming.
+- A hot take he will defend: LLM benchmarks are mostly "trust me bro" marketing, and a model's real
+  worth is whether it does the specific thing you need, since no single model does everything
+  perfectly. Related: most chatbots people call complicated are, underneath, just RAG.
+- How he works: he keeps a lot of markdown docs, a file for nearly everything, and leans on AI to
+  speed up writing code rather than to replace his own logic and design decisions.
