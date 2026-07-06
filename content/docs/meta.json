@@ -1,4 +1,12 @@
 {
-  "title": "Portfolio",
-  "pages": ["index"]
+  "pages": [
+    "index",
+    "twin",
+    "projects",
+    "research",
+    "changelog",
+    "certifications",
+    "uses",
+    "contact"
+  ]
 }

@@ -6,6 +6,10 @@ export default defineConfig({
   },
   test: {
     environment: 'node',
-    include: ['lib/**/*.test.ts', 'lib/**/*.test.tsx'],
+    include: [
+      'lib/**/*.test.{ts,tsx}',
+      'components/**/*.test.{ts,tsx}',
+      'test/**/*.test.{ts,tsx}',
+    ],
   },
 });
