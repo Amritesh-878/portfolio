@@ -3,50 +3,126 @@ title: Hunter Wumpus
 description: An adversarial dungeon game where a PPO-trained agent hunts you.
 ---
 
+import {
+  WumpusArchitecture,
+  WumpusTraining,
+} from '@/components/site/WumpusDiagrams';
+
 ## What it is
 
-Hunt the Wumpus, inverted. On a 10×10 grid you search for gold, or the Wumpus itself,
-through fog of war, reading sensory hints: a **Breeze** near pits, a **Stench** near the
-Wumpus, a **Shine** near gold. The twist is the monster. It isn't scripted; it's a
-**PPO-trained reinforcement-learning agent** that hunts _you_, tracking your position from
-stale sensory cues rather than direct sight. Four ways it ends: you find the gold, you shoot
-the Wumpus (one arrow, cardinal directions only), you fall in a pit, or it devours you.
+Hunt the Wumpus, inverted. On a 10×10 grid you search for gold, or for the Wumpus itself,
+through fog of war, reading three sensory hints: a **Breeze** near pits, a **Stench** near the
+Wumpus, a **Shine** near gold. The twist is the monster. It isn't scripted. It's a
+**PPO-trained reinforcement-learning agent** that hunts you, and it tracks you from the fading
+scent you leave behind rather than from your exact coordinates. Four ways it ends: you find the
+gold and escape, you put your one arrow through the Wumpus, you fall into a pit, or it catches
+you in the dark.
 
 ## Architecture
 
-A **React + Vite** frontend talks to a **FastAPI** backend over REST (`/start`, `/move`). The
-backend owns the game engine and delegates the enemy's turn to the PPO agent:
+A **React + Vite** frontend talks to a **FastAPI** backend over a small REST API. The backend
+owns a deterministic game engine and hands the enemy's turn to the trained agent.
 
-- **Client:** the grid, tiles, HUD, and a `useControls` hook for keyboard input; renders
-  fog-of-war state returned by the server.
-- **Server:** a core engine validates and applies moves, then asks the Wumpus agent for its
-  next action.
-- **Agent:** a `stable-baselines3` PPO policy trained in a Gymnasium-compatible environment,
-  one per difficulty tier.
+<WumpusArchitecture />
+
+- **Client:** the grid, tiles, HUD, and a `useControls` keyboard hook, rendering only the
+  fog-of-war state the server returns.
+- **Server:** a deterministic engine validates each move, updates the board and the scent
+  memory, then asks the agent for the Wumpus's move.
+- **Agent:** a `stable-baselines3` PPO policy, loaded per difficulty tier, with a random-Wumpus
+  fallback if a model is missing so the game never hard-fails.
+
+## How the Wumpus thinks
+
+This is the part I care about. A monster that always knows exactly where you are is either
+trivial or unfair, so the Wumpus never sees your coordinates directly. It sees a
+**9-dimensional observation**: its own normalized position, yours, and five local **scent**
+readings, one for its tile and one for each cardinal neighbour.
+
+You leave scent on the tiles you walk, and it decays to nothing over three steps
+(`MAX_SCENT = 3`). The agent learns to climb that gradient, which reads as _hunting_: it follows
+where you went, loses the trail when it goes cold, and re-acquires it when you move again.
+Emergent tracking, never a coordinate lookup.
+
+Because every position in the observation is normalized to `[0, 1]`, the same policy transfers
+from the small grid it trains on to the full 10×10 board it plays on.
+
+## Training
+
+The Wumpus is the only thing learning. During training the player just moves at random, and the
+agent optimizes a shaped reward with PPO:
+
+| Event                              | Reward |
+| ---------------------------------- | ------ |
+| Each step                          | -1     |
+| Invalid move / walking into a wall | -5     |
+| Stepping onto a scented tile       | +2     |
+| Catching the player                | +100   |
+| Player dies in a pit               | +50    |
+| Player escapes with the gold       | -100   |
+
+The step penalty pushes for efficiency, the scent bonus rewards actually following the trail,
+and the terminal values make catching you the whole point. The rest is standard
+Stable-Baselines3 PPO:
+
+| Parameter       | Value     |
+| --------------- | --------- |
+| n_steps         | 2048      |
+| batch_size      | 64        |
+| n_epochs        | 10        |
+| gamma           | 0.99      |
+| learning_rate   | 3e-4      |
+| clip_range      | 0.2       |
+| total_timesteps | 1,000,000 |
+
+An `EvalCallback` scores the policy every 10,000 steps and keeps the best checkpoint. A model
+only ships if it beats a random-Wumpus baseline by at least 20 mean reward, otherwise it falls
+back to random. Here is the loop:
+
+<WumpusTraining />
+
+## Difficulty tiers
+
+Each difficulty is a separately trained policy. The lever is the training budget: more steps, a
+sharper hunter.
+
+| Tier       | Training budget |
+| ---------- | --------------- |
+| Easy       | 50k timesteps   |
+| Medium     | 250k timesteps  |
+| Hard       | 1M timesteps    |
+| Impossible | 2M timesteps    |
+
+## The API
+
+Three endpoints, JSON in and out:
+
+- `POST /game/start` opens a session and returns the first state: grid size, your position, the
+  senses, arrows remaining.
+- `POST /game/move` applies your action (`NORTH` through `WEST`, or `SHOOT_*`), advances the
+  Wumpus, and returns the new state.
+- `GET /game/{id}/status` re-reads the current state, for a refresh or a reconnect.
+
+Sessions live in memory, which is fine for one player at a time. Persistence and websockets are
+on the list.
 
 ## The research
 
-This became a published paper, _Reinforcement Learning for Constraint Satisfaction Game
-Agents_, co-authored with Gagan Venkat
+This became a published paper, _Reinforcement Learning for Constraint Satisfaction Game Agents_,
+co-authored with Gagan Venkat
 ([DOI 10.5281/zenodo.20076630](https://doi.org/10.5281/zenodo.20076630)). It works up from
 tabular methods, through deep Q-networks, to the adversarial PPO agent. More on the
 [research page](/research).
 
-## Design notes
-
-- **Memory-based tracking over line-of-sight.** The Wumpus infers where you are from decaying
-  sensory cues, so it reads as _hunting_ rather than teleporting to your tile.
-- **Reward shaping** to coax genuine pursuit behaviour without degenerate strategies.
-- **Symmetric partial information.** Fog of war on the client keeps the human on the same
-  footing as the agent, so neither side sees the whole board.
-
-## Play it
-
-[Play Hunter Wumpus →](/projects/hunter-wumpus/play). Pick a difficulty (each tier is a
-differently-trained Wumpus) and see how long you last.
-
 ## What I'd do differently
 
 Training an agent to be _fun to lose to_ is a different objective than training it to win. The
-interesting work lived in the reward function and the sensory model, not the algorithm, and
-that's where I'd invest more next time.
+interesting work lived in the reward shaping and the scent model, not the algorithm. The honest
+limitations: it trains on a smaller grid than it plays on, there is a single Wumpus, the player
+never learns, and sessions live in memory. Self-play, multiple Wumpuses, and a persistent
+backend are the obvious next steps.
+
+## Play it
+
+[Play Hunter Wumpus →](/projects/hunter-wumpus/play). Pick a difficulty, each tier a
+differently-trained Wumpus, and see how long you last.
