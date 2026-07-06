@@ -20,11 +20,12 @@ export default async function Page({ params }: DocsPageProps) {
   if (!page) notFound();
 
   const MDX = page.data.body;
+  const isHome = !slug || slug.length === 0;
 
   return (
     <DocsPage toc={page.data.toc} full={page.data.full}>
-      <DocsTitle>{page.data.title}</DocsTitle>
-      <DocsDescription>{page.data.description}</DocsDescription>
+      {!isHome && <DocsTitle>{page.data.title}</DocsTitle>}
+      {!isHome && <DocsDescription>{page.data.description}</DocsDescription>}
       <DocsBody>
         <MDX
           components={getMDXComponents({
@@ -47,8 +48,10 @@ export async function generateMetadata({
   const page = source.getPage(slug);
   if (!page) notFound();
 
+  const isHome = !slug || slug.length === 0;
+
   return {
-    title: page.data.title,
+    title: isHome ? 'Amritesh Praveen' : page.data.title,
     description: page.data.description,
   };
 }
