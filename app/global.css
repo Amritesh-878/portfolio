@@ -10,7 +10,7 @@
   --font-mono:
     ui-monospace, 'Cascadia Code', 'JetBrains Mono', 'Fira Code', Consolas,
     'Liberation Mono', Menlo, monospace;
-  --fd-layout-width: 80rem;
+  --fd-layout-width: 88rem;
 
   --color-fd-primary: hsl(28, 96%, 40%);
   --color-fd-primary-foreground: hsl(40, 60%, 98%);
@@ -42,7 +42,7 @@
 
 /* Comfortable reading measure for the content column */
 #nd-page {
-  max-width: 44rem;
+  max-width: 54rem;
 }
 
 /* Amber headings, links, and terminal-style inline code */
