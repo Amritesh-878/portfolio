@@ -14,7 +14,7 @@ describe('QuickstartCards', () => {
   const html = renderToStaticMarkup(<QuickstartCards />);
 
   it('links to the twin, the game, and the projects overview', () => {
-    expect(html).toContain('href="/twin"');
+    expect(html).toContain('href="/twin/chat"');
     expect(html).toContain('href="/projects/hunter-wumpus/play"');
     expect(html).toContain('href="/projects"');
   });

@@ -3,13 +3,11 @@ title: AI Twin
 description: A glass-box RAG chatbot, grounded in a curated corpus.
 ---
 
-import { TwinChat } from '@/components/site/TwinChat';
+My AI twin answers questions about me and my work, grounded only in a curated corpus. It is the
+same hybrid-RAG pattern I build professionally, pointed at myself, and it shows you the exact
+chunks behind every answer.
 
-Ask my AI twin about my work. It answers only from a small, curated corpus about me, and it
-shows you the exact chunks it pulled for every answer. It is the same hybrid-RAG pattern I build
-professionally, pointed at myself.
-
-<TwinChat />
+[Chat with the twin →](/twin/chat)
 
 ## How this works
 
@@ -27,5 +25,10 @@ point.
 - **The trace.** The panel under each answer shows the real chunks, their rank in each retriever,
   and the fused score. No black box.
 
-If a question is not in the corpus, the twin says so and points you to email. That is the honest
-version of a portfolio bot.
+## What it will and won't do
+
+It knows my projects, the paper, my experience, and roughly what I am looking for. If a question
+is outside the corpus, it says so and points you to email rather than guessing, and it declines
+off-topic or adversarial prompts in character.
+
+[Chat with the twin →](/twin/chat)

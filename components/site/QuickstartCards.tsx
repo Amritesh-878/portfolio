@@ -8,7 +8,7 @@ interface QuickstartCard {
 
 const CARDS: QuickstartCard[] = [
   {
-    href: '/twin',
+    href: '/twin/chat',
     title: 'Talk to my AI twin',
     description:
       'A retrieval-augmented chatbot grounded in a curated corpus, with its retrieval trace on display.',
