@@ -1,0 +1,11 @@
+# Build output & generated
+.next
+.source
+coverage
+src/generated
+
+# Machine-generated lockfile
+package-lock.json
+
+# Hand-authored corpus — left for the content task, not the code formatter
+content/ai-twin
