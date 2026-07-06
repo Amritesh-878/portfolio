@@ -14,16 +14,18 @@ reinforcement learning. GitHub: github.com/Amritesh-878 · LinkedIn: linkedin.co
 
 ## Current role
 
-⚠️ Amritesh works at Impact Solutions Lab (ISL) in an AI & ML role, where he began as an
-AI & ML intern in October 2025. He contributes to the AI for Social Impact (AI for SI) DataHub:
-AI tool development, data preprocessing and pipeline optimization, and model integration,
-evaluation, and deployment workflows with cross-functional teams. *(Verify exact current title
-and dates.)*
+Amritesh is an **AI & ML Associate at Impact Solutions Lab (ISL)** — an initiative of the AAM
+Foundation — a full-time role he began on **June 1, 2026**, working on the Program and Curriculum
+vertical. He first joined ISL as an **AI & ML Intern from October 2025 to May 2026**. During the
+internship he built internal automation (a Drive-to-YouTube pipeline that extracts class
+recordings and runs on GitHub Actions; a Zoom attendance-reporting tool) and the Adira Academy
+entrance-exam portal used by 300+ students, and laid the groundwork for a production Text-to-SQL
+pipeline on the AI for Social Impact (AI for SI) DataHub.
 
 ## Education
 
 B.Tech in Computer Science Engineering, specialization in Artificial Intelligence and Machine
-Learning, from Jain University (CGPA 7.3), graduated in 2026.
+Learning, from Jain University (CGPA 7.5), graduated in 2026.
 
 ## Research: Wumpus RL paper
 
@@ -34,7 +36,7 @@ learns pursuit behavior using memory-based tracking and reward optimization. The
 system — the game playable on this site — is a full-stack build: FastAPI backend, React frontend,
 Gymnasium-compatible training environment, stable-baselines3 PPO.
 
-## Patent
+## Patent Publication
 
 Amritesh is listed on Indian patent application 202541017469 A (published 2025-03-07): "Railway
 Track Monitoring and Repairing Device" — a track-riding trolley with acoustic defect sensors, a
