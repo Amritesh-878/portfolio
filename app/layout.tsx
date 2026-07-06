@@ -1,5 +1,6 @@
 import './global.css';
 import { RootProvider } from 'fumadocs-ui/provider/next';
+import { Analytics } from '@vercel/analytics/next';
 import type { ReactNode } from 'react';
 
 export default function RootLayout({ children }: { children: ReactNode }) {
@@ -9,6 +10,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         <RootProvider theme={{ disableTransitionOnChange: true }}>
           {children}
         </RootProvider>
+        <Analytics />
       </body>
     </html>
   );
