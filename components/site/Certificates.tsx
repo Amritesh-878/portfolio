@@ -84,6 +84,12 @@ const CERTIFICATES: Certificate[] = [
     },
   },
   {
+    title: 'Causal Inference',
+    issuer: 'Columbia University',
+    blurb: 'Estimating cause and effect from data, past mere correlation.',
+    verifyUrl: 'https://www.coursera.org/verify/W0PB9OVKIVJP',
+  },
+  {
     title: 'AI & ML Course',
     issuer: 'Simplilearn',
     blurb: 'An applied tour across the ML and deep-learning stack.',
