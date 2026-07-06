@@ -124,7 +124,7 @@ export function Certificates() {
         {CERTIFICATES.map((cert) => (
           <div
             key={cert.title}
-            className="flex flex-col gap-1 rounded-lg border border-fd-border bg-fd-card p-4"
+            className="flex h-full flex-col gap-1 rounded-lg border border-fd-border bg-fd-card p-4"
           >
             <span className="font-mono text-sm font-medium text-fd-foreground">
               {cert.title}
@@ -135,7 +135,7 @@ export function Certificates() {
             <p className="mt-1 flex-1 text-sm text-fd-muted-foreground">
               {cert.blurb}
             </p>
-            <div className="mt-2 flex flex-col items-start gap-1 font-mono text-xs">
+            <div className="mt-3 flex flex-wrap items-center gap-x-4 gap-y-1 border-t border-fd-border pt-3 font-mono text-xs">
               {cert.verifyUrl ? (
                 <a
                   href={cert.verifyUrl}
