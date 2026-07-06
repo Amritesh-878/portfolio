@@ -71,12 +71,9 @@
   backdrop-filter: none;
 }
 
-.animate-fd-dialog-in,
-.animate-fd-fade-in {
-  animation-duration: 120ms;
-}
-
-.animate-fd-dialog-out,
-.animate-fd-fade-out {
-  animation-duration: 90ms;
+:root {
+  --animate-fd-dialog-in: fd-dialog-in 0.12s cubic-bezier(0.16, 1, 0.3, 1);
+  --animate-fd-dialog-out: fd-dialog-out 0.09s cubic-bezier(0.16, 1, 0.3, 1);
+  --animate-fd-fade-in: fd-fade-in 0.1s ease;
+  --animate-fd-fade-out: fd-fade-out 0.09s ease;
 }
