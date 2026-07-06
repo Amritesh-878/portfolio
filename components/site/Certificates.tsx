@@ -22,17 +22,17 @@ const CERTIFICATES: Certificate[] = [
     appliedIn: { label: 'Wildfire Smoke Detection', href: '/projects' },
   },
   {
+    title: 'Supervised Machine Learning',
+    issuer: 'DeepLearning.AI',
+    blurb: 'Regression and classification, done from the ground up.',
+    verifyUrl: 'https://www.coursera.org/verify/0TSB0JUPQFYF',
+  },
+  {
     title: 'Advanced Learning Algorithms',
     issuer: 'DeepLearning.AI',
     blurb: 'Neural networks, decision trees, and practical model tuning.',
     verifyUrl: 'https://www.coursera.org/verify/U3WCBF98OA8L',
     appliedIn: { label: 'Wildfire Smoke Detection', href: '/projects' },
-  },
-  {
-    title: 'Supervised Machine Learning',
-    issuer: 'DeepLearning.AI',
-    blurb: 'Regression and classification, done from the ground up.',
-    verifyUrl: 'https://www.coursera.org/verify/0TSB0JUPQFYF',
   },
   {
     title: 'NLP with Attention Models',
@@ -59,22 +59,6 @@ const CERTIFICATES: Certificate[] = [
     appliedIn: { label: 'Wildfire Smoke Detection', href: '/projects' },
   },
   {
-    title: 'DevOps on AWS Specialization',
-    issuer: 'Amazon Web Services',
-    blurb: 'CI/CD pipelines that build, test, and deploy on AWS.',
-    verifyUrl: 'https://www.coursera.org/verify/specialization/3HEC8IT66P0D',
-    appliedIn: {
-      label: 'Hunter Wumpus (deploy)',
-      href: '/projects/hunter-wumpus',
-    },
-  },
-  {
-    title: 'DevOps on AWS: Code, Build, and Test',
-    issuer: 'Amazon Web Services',
-    blurb: 'Automated build and test stages inside a CI pipeline.',
-    verifyUrl: 'https://www.coursera.org/verify/Z11YJWEB0A30',
-  },
-  {
     title: 'Regression & Forecasting for Data Scientists',
     issuer: 'EDUCBA',
     blurb: 'Regression and time-series forecasting in Python.',
@@ -93,6 +77,22 @@ const CERTIFICATES: Certificate[] = [
     title: 'AI & ML Course',
     issuer: 'Simplilearn',
     blurb: 'An applied tour across the ML and deep-learning stack.',
+  },
+  {
+    title: 'DevOps on AWS Specialization',
+    issuer: 'Amazon Web Services',
+    blurb: 'CI/CD pipelines that build, test, and deploy on AWS.',
+    verifyUrl: 'https://www.coursera.org/verify/specialization/3HEC8IT66P0D',
+    appliedIn: {
+      label: 'Hunter Wumpus (deploy)',
+      href: '/projects/hunter-wumpus',
+    },
+  },
+  {
+    title: 'DevOps on AWS: Code, Build, and Test',
+    issuer: 'Amazon Web Services',
+    blurb: 'Automated build and test stages inside a CI pipeline.',
+    verifyUrl: 'https://www.coursera.org/verify/Z11YJWEB0A30',
   },
   {
     title: 'Google Cloud Computing Foundations',
