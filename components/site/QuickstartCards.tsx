@@ -29,21 +29,23 @@ const CARDS: QuickstartCard[] = [
 
 export function QuickstartCards() {
   return (
-    <div className="not-prose my-6 grid gap-3 sm:grid-cols-3">
-      {CARDS.map((card) => (
-        <Link
-          key={card.href}
-          href={card.href}
-          className="group flex flex-col gap-1.5 rounded-lg border border-fd-border bg-fd-card p-4 transition-colors hover:border-fd-primary/60 hover:bg-fd-primary/5"
-        >
-          <span className="font-mono text-sm font-medium text-fd-foreground transition-colors group-hover:text-fd-primary">
-            {card.title}
-          </span>
-          <span className="text-sm text-fd-muted-foreground">
-            {card.description}
-          </span>
-        </Link>
-      ))}
+    <div className="not-prose @container my-6">
+      <div className="grid gap-3 @xl:grid-cols-3">
+        {CARDS.map((card) => (
+          <Link
+            key={card.href}
+            href={card.href}
+            className="group flex flex-col gap-1.5 rounded-lg border border-fd-border bg-fd-card p-4 transition-colors hover:border-fd-primary/60 hover:bg-fd-primary/5"
+          >
+            <span className="font-mono text-sm font-medium text-fd-foreground transition-colors group-hover:text-fd-primary">
+              {card.title}
+            </span>
+            <span className="text-sm text-fd-muted-foreground">
+              {card.description}
+            </span>
+          </Link>
+        ))}
+      </div>
     </div>
   );
 }

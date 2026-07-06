@@ -4,7 +4,7 @@
 
 @source '../node_modules/fumadocs-ui/dist/**/*.js';
 
-/* ─── Terminal-docs: amber accent, mono navigation, warm canvas ─── */
+/* ─── Terminal-docs: muted-gold accent, mono nav, desaturated canvas ─── */
 
 :root {
   --font-mono:
@@ -12,14 +12,14 @@
     'Liberation Mono', Menlo, monospace;
   --fd-layout-width: 88rem;
 
-  --color-fd-primary: hsl(28, 96%, 40%);
-  --color-fd-primary-foreground: hsl(40, 60%, 98%);
-  --color-fd-ring: hsl(30, 95%, 45%);
+  --color-fd-primary: hsl(35, 64%, 43%);
+  --color-fd-primary-foreground: hsl(40, 30%, 97%);
+  --color-fd-ring: hsl(35, 64%, 46%);
 
-  /* Warm off-white canvas */
-  --color-fd-background: hsl(40, 30%, 95%);
-  --color-fd-card: hsl(40, 26%, 92%);
-  --color-fd-secondary: hsl(40, 22%, 90%);
+  /* Soft, low-saturation off-white */
+  --color-fd-background: hsl(40, 12%, 95%);
+  --color-fd-card: hsl(40, 10%, 92%);
+  --color-fd-secondary: hsl(40, 9%, 90%);
 
   /* Snappier command palette */
   --animate-fd-dialog-in: fd-dialog-in 0.12s cubic-bezier(0.16, 1, 0.3, 1);
@@ -29,14 +29,14 @@
 }
 
 .dark {
-  --color-fd-primary: hsl(38, 96%, 56%);
-  --color-fd-primary-foreground: hsl(30, 45%, 10%);
-  --color-fd-ring: hsl(38, 96%, 56%);
+  --color-fd-primary: hsl(42, 68%, 62%);
+  --color-fd-primary-foreground: hsl(30, 25%, 11%);
+  --color-fd-ring: hsl(42, 68%, 62%);
 
-  /* Warm, clearly-not-black canvas */
-  --color-fd-background: hsl(30, 20%, 8%);
-  --color-fd-card: hsl(30, 16%, 11%);
-  --color-fd-secondary: hsl(30, 13%, 15%);
+  /* Soft, low-saturation dark */
+  --color-fd-background: hsl(30, 9%, 9%);
+  --color-fd-card: hsl(30, 8%, 12%);
+  --color-fd-secondary: hsl(30, 7%, 16%);
 }
 
 /* Seamless light/dark switch: while the theme is changing, force ONE uniform
@@ -61,17 +61,7 @@
   letter-spacing: -0.01em;
 }
 
-/* Sidebar flush to the left edge, but the content + TOC stay centered in the
-   space that remains — so neither side is left with a big empty band. */
-#nd-notebook-layout {
-  grid-template:
-    'header header header header header' auto
-    'sidebar . main toc .' 1fr
-    / var(--fd-sidebar-col) minmax(0, 1fr) minmax(0, 60rem)
-    var(--fd-toc-width) minmax(0, 1fr) !important;
-}
-
-/* Amber headings, links, and inline code */
+/* Gold headings, links, and inline code */
 #nd-page h1,
 #nd-page h2 {
   color: var(--color-fd-primary);
