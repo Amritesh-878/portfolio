@@ -39,14 +39,18 @@
   --color-fd-secondary: hsl(30, 13%, 15%);
 }
 
-/* Smooth the light/dark switch instead of a hard flash */
+/* Seamless light/dark switch: while the theme is changing, force ONE uniform
+   colour transition on every element so nothing lags behind. Scoped to the
+   switch (.theme-changing) so it never slows down normal hovers. */
 @media (prefers-reduced-motion: no-preference) {
-  *,
-  ::before,
-  ::after {
-    transition-property: background-color, border-color, color, fill;
-    transition-duration: 0.25s;
-    transition-timing-function: ease;
+  html.theme-changing,
+  html.theme-changing *,
+  html.theme-changing *::before,
+  html.theme-changing *::after {
+    transition-property:
+      background-color, border-color, color, fill, stroke !important;
+    transition-duration: 0.25s !important;
+    transition-timing-function: ease !important;
   }
 }
 
