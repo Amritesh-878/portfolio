@@ -57,6 +57,23 @@
   letter-spacing: -0.01em;
 }
 
+/* Left-align the layout: pin the sidebar/nav/content flush to the left edge,
+   push the empty space to the right (zeroes the notebook grid's left gutter). */
+#nd-notebook-layout {
+  grid-template-columns:
+    0
+    var(--fd-sidebar-col)
+    minmax(
+      0,
+      calc(
+        var(--fd-layout-width, 97rem) - var(--fd-sidebar-col) -
+          var(--fd-toc-width)
+      )
+    )
+    var(--fd-toc-width)
+    minmax(min-content, 1fr) !important;
+}
+
 /* Comfortable reading measure for the content column */
 #nd-page {
   max-width: 54rem;
