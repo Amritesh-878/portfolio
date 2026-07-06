@@ -26,9 +26,12 @@ interface Section {
 function parseSections(source: string): Section[] {
   const sections: Section[] = [];
   let current: Section | null = null;
-  // Only H2 sections become chunks; anything before the first H2 (the doc title
+  // Normalize CRLF/CR: the heading regex's $ anchor won't match before a stray
+  // \r, which would silently yield zero chunks on Windows-authored files.
+  const lines = source.replace(/\r\n?/g, '\n').split('\n');
+  // Only H2 sections become chunks; content before the first H2 (the doc title
   // and the review-note blockquote) is dropped so the note is never indexed.
-  for (const line of source.split('\n')) {
+  for (const line of lines) {
     const heading = /^##\s+(.+)$/.exec(line);
     if (heading) {
       if (current) sections.push(current);
