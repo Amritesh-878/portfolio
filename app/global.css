@@ -39,21 +39,6 @@
   --color-fd-secondary: hsl(30, 7%, 16%);
 }
 
-/* Seamless light/dark switch: while the theme is changing, force ONE uniform
-   colour transition on every element so nothing lags behind. Scoped to the
-   switch (.theme-changing) so it never slows down normal hovers. */
-@media (prefers-reduced-motion: no-preference) {
-  html.theme-changing,
-  html.theme-changing *,
-  html.theme-changing *::before,
-  html.theme-changing *::after {
-    transition-property:
-      background-color, border-color, color, fill, stroke !important;
-    transition-duration: 0.25s !important;
-    transition-timing-function: ease !important;
-  }
-}
-
 /* Monospace, terminal-flavoured sidebar navigation */
 #nd-sidebar {
   font-family: var(--font-mono);
