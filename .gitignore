@@ -13,9 +13,6 @@ next-env.d.ts
 .vercel/
 .turbo/
 
-# Generated RAG index (rebuilt by `npm run build:index` and the deploy prebuild)
-src/generated/
-
 # Fumadocs MDX generated source (rebuilt by the postinstall/build hook)
 .source/
 
