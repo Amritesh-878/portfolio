@@ -10,16 +10,16 @@
   --font-mono:
     ui-monospace, 'Cascadia Code', 'JetBrains Mono', 'Fira Code', Consolas,
     'Liberation Mono', Menlo, monospace;
-  --fd-layout-width: 82rem;
+  --fd-layout-width: 80rem;
 
-  --color-fd-primary: hsl(30, 96%, 38%);
+  --color-fd-primary: hsl(28, 96%, 40%);
   --color-fd-primary-foreground: hsl(40, 60%, 98%);
-  --color-fd-ring: hsl(32, 95%, 44%);
+  --color-fd-ring: hsl(30, 95%, 45%);
 
   /* Warm off-white canvas */
-  --color-fd-background: hsl(40, 24%, 96%);
-  --color-fd-card: hsl(40, 22%, 94%);
-  --color-fd-secondary: hsl(40, 20%, 92%);
+  --color-fd-background: hsl(40, 30%, 95%);
+  --color-fd-card: hsl(40, 26%, 92%);
+  --color-fd-secondary: hsl(40, 22%, 90%);
 }
 
 .dark {
@@ -27,10 +27,10 @@
   --color-fd-primary-foreground: hsl(30, 45%, 10%);
   --color-fd-ring: hsl(38, 96%, 56%);
 
-  /* Warm near-black canvas */
-  --color-fd-background: hsl(28, 13%, 7%);
-  --color-fd-card: hsl(28, 12%, 9.5%);
-  --color-fd-secondary: hsl(28, 11%, 13%);
+  /* Warm, clearly-not-black canvas */
+  --color-fd-background: hsl(30, 20%, 8%);
+  --color-fd-card: hsl(30, 16%, 11%);
+  --color-fd-secondary: hsl(30, 13%, 15%);
 }
 
 /* Monospace, terminal-flavoured sidebar navigation */
@@ -42,10 +42,15 @@
 
 /* Comfortable reading measure for the content column */
 #nd-page {
-  max-width: 52rem;
+  max-width: 44rem;
 }
 
-/* Amber links + terminal-style inline code in body copy */
+/* Amber headings, links, and terminal-style inline code */
+#nd-page h1,
+#nd-page h2 {
+  color: var(--color-fd-primary);
+}
+
 #nd-page .prose a {
   color: var(--color-fd-primary);
   font-weight: 500;
@@ -59,4 +64,19 @@
     transparent
   );
   border-color: color-mix(in srgb, var(--color-fd-primary) 28%, transparent);
+}
+
+/* Command palette: no backdrop blur, snappy open/close (blur was causing the jank) */
+.backdrop-blur-xs {
+  backdrop-filter: none;
+}
+
+.animate-fd-dialog-in,
+.animate-fd-fade-in {
+  animation-duration: 120ms;
+}
+
+.animate-fd-dialog-out,
+.animate-fd-fade-out {
+  animation-duration: 90ms;
 }
