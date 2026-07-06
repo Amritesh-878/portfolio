@@ -1,4 +1,4 @@
-import type { Chunk, ChunkOptions } from '@/lib/rag/types';
+import type { Chunk, ChunkOptions } from './types';
 
 const DEFAULT_MAX_TOKENS = 512;
 const DEFAULT_OVERLAP_TOKENS = 64;

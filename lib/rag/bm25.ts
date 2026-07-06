@@ -1,4 +1,4 @@
-import type { Bm25Stats, Chunk } from '@/lib/rag/types';
+import type { Bm25Stats, Chunk } from './types';
 
 // Standard BM25 tuning constants: k1 controls term-frequency saturation,
 // b controls length normalization. 1.5 / 0.75 are the common defaults.

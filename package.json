@@ -9,6 +9,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
+    "build:index": "tsx --env-file=.env scripts/build-rag-index.ts",
     "start": "next start",
     "lint": "eslint . --max-warnings 0",
     "lint:fix": "eslint . --fix --max-warnings 0 && prettier --write . --ignore-path .gitignore --ignore-path .prettierignore --ignore-path .prettierignore.local",
@@ -19,6 +20,7 @@
     "postinstall": "fumadocs-mdx"
   },
   "dependencies": {
+    "@google/genai": "2.10.0",
     "clsx": "2.1.1",
     "fumadocs-core": "16.10.7",
     "fumadocs-mdx": "15.0.13",
@@ -41,6 +43,7 @@
     "postcss": "8.5.16",
     "prettier": "3.9.4",
     "tailwindcss": "4.3.2",
+    "tsx": "4.23.0",
     "typescript": "5.9.3",
     "vitest": "4.1.10"
   }
