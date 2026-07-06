@@ -8,8 +8,9 @@
   },
   "scripts": {
     "dev": "next dev",
+    "prebuild": "tsx scripts/build-rag-index.ts",
     "build": "next build",
-    "build:index": "tsx --env-file=.env scripts/build-rag-index.ts",
+    "build:index": "tsx scripts/build-rag-index.ts",
     "start": "next start",
     "lint": "eslint . --max-warnings 0",
     "lint:fix": "eslint . --fix --max-warnings 0 && prettier --write . --ignore-path .gitignore --ignore-path .prettierignore --ignore-path .prettierignore.local",

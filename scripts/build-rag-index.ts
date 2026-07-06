@@ -4,6 +4,13 @@ import { chunkMarkdown } from '../lib/rag/chunker';
 import { embed, embeddingModel } from '../lib/rag/embeddings';
 import { assembleIndex } from '../lib/rag/build-index';
 
+// Load .env for local runs; on Vercel the vars are already in process.env.
+try {
+  process.loadEnvFile();
+} catch {
+  /* no .env file (e.g. on Vercel) — use the injected environment */
+}
+
 const CORPUS_FILE = join(process.cwd(), 'content', 'ai-twin', 'knowledge.md');
 const OUTPUT_FILE = join(process.cwd(), 'src', 'generated', 'rag-index.json');
 
