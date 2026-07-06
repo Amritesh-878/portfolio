@@ -3,7 +3,29 @@ title: AI Twin
 description: A glass-box RAG chatbot, grounded in a curated corpus.
 ---
 
-_Being written._ My AI twin, a retrieval-augmented chatbot you can interrogate with its
-retrieval trace on display, lands here soon.
+import { TwinChat } from '@/components/site/TwinChat';
 
-Until then, [email the human](/contact).
+Ask my AI twin about my work. It answers only from a small, curated corpus about me, and it
+shows you the exact chunks it pulled for every answer. It is the same hybrid-RAG pattern I build
+professionally, pointed at myself.
+
+<TwinChat />
+
+## How this works
+
+The twin is deliberately over-engineered for a corpus this small, because the pipeline is the
+point.
+
+- **Chunking.** The corpus is plain markdown, one topic per heading. A deterministic chunker
+  splits it into stable, retrievable chunks at build time.
+- **Hybrid retrieval.** Every question runs through two retrievers at once: BM25 over the
+  keywords, and cosine similarity over Gemini embeddings. Reciprocal Rank Fusion merges the two
+  rankings, so exact-term questions and paraphrased ones both land.
+- **Grounded generation.** The top chunks go into the prompt as data, not instructions, and
+  Gemini answers in my voice under strict rules: corpus only, no invented facts, decline what it
+  does not know.
+- **The trace.** The panel under each answer shows the real chunks, their rank in each retriever,
+  and the fused score. No black box.
+
+If a question is not in the corpus, the twin says so and points you to email. That is the honest
+version of a portfolio bot.
