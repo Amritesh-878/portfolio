@@ -1,8 +1,10 @@
 {
   "pages": [
+    "---Explore---",
     "index",
     "twin",
     "projects",
+    "---About---",
     "research",
     "changelog",
     "certifications",
