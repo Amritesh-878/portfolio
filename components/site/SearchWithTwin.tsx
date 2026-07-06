@@ -7,12 +7,12 @@ import {
   SearchDialog,
   SearchDialogClose,
   SearchDialogContent,
-  SearchDialogFooter,
   SearchDialogHeader,
   SearchDialogIcon,
   SearchDialogInput,
   SearchDialogList,
   SearchDialogOverlay,
+  type SearchItemType,
   type SharedProps,
 } from 'fumadocs-ui/components/dialog/search';
 import { useI18n } from 'fumadocs-ui/contexts/i18n';
@@ -24,12 +24,22 @@ export default function SearchWithTwin(props: SharedProps) {
     client: fetchClient({ locale }),
   });
 
-  const askTwin = () => {
-    const trimmed = search.trim();
-    props.onOpenChange(false);
-    router.push(
-      trimmed ? `/twin/chat?q=${encodeURIComponent(trimmed)}` : '/twin/chat',
-    );
+  const trimmed = search.trim();
+  const results = Array.isArray(query.data) ? query.data : [];
+  const askTwin: SearchItemType = {
+    id: 'ask-ai-twin',
+    type: 'action',
+    node: (
+      <span className="flex items-center gap-2 text-fd-primary">
+        {trimmed ? `Ask my AI twin about "${trimmed}"` : 'Ask my AI twin'}
+        <span className="ml-auto font-mono text-xs">→</span>
+      </span>
+    ),
+    onSelect: () => {
+      router.push(
+        trimmed ? `/twin/chat?q=${encodeURIComponent(trimmed)}` : '/twin/chat',
+      );
+    },
   };
 
   return (
@@ -46,22 +56,8 @@ export default function SearchWithTwin(props: SharedProps) {
           <SearchDialogInput />
           <SearchDialogClose />
         </SearchDialogHeader>
-        <SearchDialogList items={query.data !== 'empty' ? query.data : null} />
+        <SearchDialogList items={[...results, askTwin]} />
       </SearchDialogContent>
-      <SearchDialogFooter>
-        <button
-          type="button"
-          onClick={askTwin}
-          className="flex w-full items-center gap-2 rounded-md px-2 py-1.5 text-start text-sm text-fd-muted-foreground transition-colors hover:bg-fd-accent hover:text-fd-accent-foreground"
-        >
-          <span className="truncate">
-            {search.trim()
-              ? `Ask my AI twin about "${search.trim()}"`
-              : 'Ask my AI twin instead'}
-          </span>
-          <span className="ml-auto shrink-0 font-mono text-xs">→</span>
-        </button>
-      </SearchDialogFooter>
     </SearchDialog>
   );
 }
