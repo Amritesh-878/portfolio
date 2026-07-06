@@ -30,10 +30,23 @@ export function TwinChat() {
   const [status, setStatus] = useState<'idle' | 'streaming' | 'error'>('idle');
   const [error, setError] = useState('');
   const threadRef = useRef<HTMLDivElement>(null);
+  const autoSent = useRef(false);
 
   useEffect(() => {
     threadRef.current?.scrollTo({ top: threadRef.current.scrollHeight });
   }, [messages]);
+
+  useEffect(() => {
+    if (autoSent.current) return;
+    const query = new URLSearchParams(window.location.search).get('q');
+    if (query && query.trim()) {
+      autoSent.current = true;
+      // Clear the param so a refresh doesn't re-ask the handed-over query.
+      window.history.replaceState({}, '', window.location.pathname);
+      void send(query);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- mount-only handoff
+  }, []);
 
   async function send(text: string): Promise<void> {
     const message = text.trim();
@@ -66,8 +79,6 @@ export function TwinChat() {
       const decoder = new TextDecoder();
       let full = '';
       let traceParsed = false;
-      // The server sends the retrieval trace as one JSON line, then streams the
-      // answer; everything after the first newline is the answer text.
       for (;;) {
         const { done, value } = await reader.read();
         if (done) break;
@@ -108,24 +119,26 @@ export function TwinChat() {
   };
 
   return (
-    <div className="not-prose my-6 flex flex-col gap-4 rounded-lg border border-fd-border bg-fd-card p-4">
-      <div
-        ref={threadRef}
-        className="flex max-h-96 min-h-40 flex-col gap-3 overflow-y-auto"
-      >
+    <div className="not-prose my-6 flex h-[70vh] min-h-[480px] flex-col overflow-hidden rounded-xl border border-fd-border bg-fd-card">
+      <div ref={threadRef} className="flex-1 overflow-y-auto p-4 sm:p-6">
         {messages.length === 0 ? (
-          <div className="flex flex-1 flex-col justify-center gap-3 py-4 text-center">
-            <p className="text-sm text-fd-muted-foreground">
-              Ask about my work. I answer only from my corpus, and I show you
-              the chunks I used.
-            </p>
-            <div className="flex flex-wrap justify-center gap-2">
+          <div className="flex h-full flex-col items-center justify-center gap-6 text-center">
+            <div>
+              <h2 className="font-mono text-lg font-medium text-fd-foreground">
+                Ask my AI twin
+              </h2>
+              <p className="mt-1 text-sm text-fd-muted-foreground">
+                I answer only from my corpus, and I show you the chunks behind
+                every answer.
+              </p>
+            </div>
+            <div className="flex w-full max-w-md flex-col gap-2">
               {STARTERS.map((question) => (
                 <button
                   key={question}
                   type="button"
                   onClick={() => void send(question)}
-                  className="rounded-full border border-fd-border px-3 py-1 text-xs text-fd-muted-foreground transition-colors hover:border-fd-primary/60 hover:text-fd-primary"
+                  className="rounded-lg border border-fd-border px-4 py-2.5 text-left text-sm text-fd-muted-foreground transition-colors hover:border-fd-primary/60 hover:text-fd-primary"
                 >
                   {question}
                 </button>
@@ -133,68 +146,77 @@ export function TwinChat() {
             </div>
           </div>
         ) : (
-          messages.map((message, i) => (
-            <div
-              key={i}
-              className={
-                message.role === 'user'
-                  ? 'flex justify-end'
-                  : 'flex justify-start'
-              }
-            >
+          <div className="mx-auto flex max-w-2xl flex-col gap-4">
+            {messages.map((message, i) => (
               <div
-                className={`max-w-[85%] whitespace-pre-wrap rounded-lg px-3 py-2 text-sm text-fd-foreground ${
-                  message.role === 'user' ? 'bg-fd-primary/10' : ''
-                }`}
+                key={i}
+                className={
+                  message.role === 'user'
+                    ? 'flex justify-end'
+                    : 'flex flex-col gap-2'
+                }
               >
-                {message.content ||
-                  (status === 'streaming' && i === messages.length - 1 ? (
-                    <span className="text-fd-muted-foreground">thinking…</span>
-                  ) : null)}
-              </div>
-            </div>
-          ))
-        )}
-      </div>
-
-      {error ? <p className="text-sm text-red-500">{error}</p> : null}
-
-      {trace.length > 0 ? (
-        <details className="rounded-md border border-fd-border bg-fd-background/40 text-xs">
-          <summary className="cursor-pointer px-3 py-2 font-mono text-fd-muted-foreground">
-            retrieval trace · {trace.length} chunks
-          </summary>
-          <div className="flex flex-col gap-1 px-3 pb-3 font-mono">
-            {trace.map((entry) => (
-              <div
-                key={entry.id}
-                className="flex items-center justify-between gap-3 text-fd-muted-foreground"
-              >
-                <span className="truncate text-fd-foreground">
-                  {entry.heading}
-                </span>
-                <span className="shrink-0">
-                  vec {entry.vecRank ?? '-'} · bm25 {entry.bm25Rank ?? '-'} ·{' '}
-                  {entry.fusedScore.toFixed(4)}
-                </span>
+                <div
+                  className={`max-w-[85%] whitespace-pre-wrap rounded-lg px-3 py-2 text-sm text-fd-foreground ${
+                    message.role === 'user' ? 'self-end bg-fd-primary/10' : ''
+                  }`}
+                >
+                  {message.content ||
+                    (status === 'streaming' && i === messages.length - 1 ? (
+                      <span className="text-fd-muted-foreground">
+                        thinking…
+                      </span>
+                    ) : null)}
+                </div>
+                {message.role === 'assistant' &&
+                i === messages.length - 1 &&
+                trace.length > 0 ? (
+                  <details className="max-w-[85%] rounded-md border border-fd-border bg-fd-background/40 text-xs">
+                    <summary className="cursor-pointer px-3 py-2 font-mono text-fd-muted-foreground">
+                      retrieval trace · {trace.length} chunks
+                    </summary>
+                    <div className="flex flex-col gap-1 px-3 pb-3 font-mono">
+                      {trace.map((entry) => (
+                        <div
+                          key={entry.id}
+                          className="flex items-center justify-between gap-3 text-fd-muted-foreground"
+                        >
+                          <span className="truncate text-fd-foreground">
+                            {entry.heading}
+                          </span>
+                          <span className="shrink-0">
+                            vec {entry.vecRank ?? '-'} · bm25{' '}
+                            {entry.bm25Rank ?? '-'} ·{' '}
+                            {entry.fusedScore.toFixed(4)}
+                          </span>
+                        </div>
+                      ))}
+                    </div>
+                  </details>
+                ) : null}
               </div>
             ))}
           </div>
-        </details>
-      ) : null}
+        )}
+      </div>
 
-      <form onSubmit={onSubmit} className="flex gap-2">
+      {error ? <p className="px-4 pb-2 text-sm text-red-500">{error}</p> : null}
+
+      <form
+        onSubmit={onSubmit}
+        className="flex gap-2 border-t border-fd-border p-3"
+      >
         <input
           value={input}
           onChange={(event) => setInput(event.target.value)}
           placeholder="Ask the twin…"
           aria-label="Ask the AI twin a question"
-          className="flex-1 rounded-md border border-fd-border bg-fd-background px-3 py-2 text-sm text-fd-foreground outline-none transition-colors placeholder:text-fd-muted-foreground/60 focus:border-fd-primary"
+          className="flex-1 rounded-lg border border-fd-border bg-fd-background px-4 py-2.5 text-sm text-fd-foreground outline-none transition-colors placeholder:text-fd-muted-foreground/60 focus:border-fd-primary"
         />
         <button
           type="submit"
           disabled={status === 'streaming' || input.trim().length === 0}
-          className="rounded-md bg-fd-primary px-4 py-2 font-mono text-sm font-medium text-fd-primary-foreground transition-opacity hover:opacity-90 disabled:opacity-50"
+          className="rounded-lg bg-fd-primary px-5 py-2.5 font-mono text-sm font-medium text-fd-primary-foreground transition-opacity hover:opacity-90 disabled:opacity-50"
         >
           {status === 'streaming' ? '…' : 'ask'}
         </button>
