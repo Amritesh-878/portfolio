@@ -57,26 +57,14 @@
   letter-spacing: -0.01em;
 }
 
-/* Left-align the layout: pin the sidebar/nav/content flush to the left edge,
-   push the empty space to the right (zeroes the notebook grid's left gutter). */
+/* Sidebar flush to the left edge, but the content + TOC stay centered in the
+   space that remains — so neither side is left with a big empty band. */
 #nd-notebook-layout {
-  grid-template-columns:
-    0
-    var(--fd-sidebar-col)
-    minmax(
-      0,
-      calc(
-        var(--fd-layout-width, 97rem) - var(--fd-sidebar-col) -
-          var(--fd-toc-width)
-      )
-    )
-    var(--fd-toc-width)
-    minmax(min-content, 1fr) !important;
-}
-
-/* Comfortable reading measure for the content column */
-#nd-page {
-  max-width: 54rem;
+  grid-template:
+    'header header header header header' auto
+    'sidebar . main toc .' 1fr
+    / var(--fd-sidebar-col) minmax(0, 1fr) minmax(0, 60rem)
+    var(--fd-toc-width) minmax(0, 1fr) !important;
 }
 
 /* Amber headings, links, and inline code */
