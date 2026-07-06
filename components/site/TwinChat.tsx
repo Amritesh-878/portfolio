@@ -119,7 +119,7 @@ export function TwinChat() {
   };
 
   return (
-    <div className="not-prose my-6 flex h-[70vh] min-h-[480px] flex-col overflow-hidden rounded-xl border border-fd-border bg-fd-card">
+    <div className="not-prose my-6 flex h-[70vh] min-h-[480px] flex-col">
       <div ref={threadRef} className="flex-1 overflow-y-auto p-4 sm:p-6">
         {messages.length === 0 ? (
           <div className="flex h-full flex-col items-center justify-center gap-6 text-center">
@@ -211,12 +211,12 @@ export function TwinChat() {
           onChange={(event) => setInput(event.target.value)}
           placeholder="Ask the twin…"
           aria-label="Ask the AI twin a question"
-          className="flex-1 rounded-lg border border-fd-border bg-fd-background px-4 py-2.5 text-sm text-fd-foreground outline-none transition-colors placeholder:text-fd-muted-foreground/60 focus:border-fd-primary"
+          className="flex-1 rounded-full border border-fd-border bg-fd-background px-4 py-2.5 text-sm text-fd-foreground outline-none transition-colors placeholder:text-fd-muted-foreground/60 focus:border-fd-primary"
         />
         <button
           type="submit"
           disabled={status === 'streaming' || input.trim().length === 0}
-          className="rounded-lg bg-fd-primary px-5 py-2.5 font-mono text-sm font-medium text-fd-primary-foreground transition-opacity hover:opacity-90 disabled:opacity-50"
+          className="rounded-full bg-fd-primary px-5 py-2.5 font-mono text-sm font-medium text-fd-primary-foreground transition-opacity hover:opacity-90 disabled:opacity-50"
         >
           {status === 'streaming' ? '…' : 'ask'}
         </button>
