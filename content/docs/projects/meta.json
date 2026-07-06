@@ -1,11 +1,4 @@
 {
   "title": "Projects",
-  "pages": [
-    "index",
-    "hunter-wumpus",
-    "mental-health-rag",
-    "cognizant-rag",
-    "wildfire-smoke",
-    "youtube-trends"
-  ]
+  "pages": ["index", "hunter-wumpus"]
 }

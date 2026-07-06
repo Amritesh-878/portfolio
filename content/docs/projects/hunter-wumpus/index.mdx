@@ -1,9 +1,52 @@
 ---
 title: Hunter Wumpus
-description: An adversarial dungeon game where a trained agent hunts you.
+description: An adversarial dungeon game where a PPO-trained agent hunts you.
 ---
 
-_Being written._ The flagship deep-dive — what it is, the architecture, the paper
-behind it, and the lessons — lands here soon.
+## What it is
 
-Ready now: [play it](/projects/hunter-wumpus/play).
+Hunt the Wumpus, inverted. On a 10×10 grid you search for gold, or the Wumpus itself,
+through fog of war, reading sensory hints: a **Breeze** near pits, a **Stench** near the
+Wumpus, a **Shine** near gold. The twist is the monster. It isn't scripted; it's a
+**PPO-trained reinforcement-learning agent** that hunts _you_, tracking your position from
+stale sensory cues rather than direct sight. Four ways it ends: you find the gold, you shoot
+the Wumpus (one arrow, cardinal directions only), you fall in a pit, or it devours you.
+
+## Architecture
+
+A **React + Vite** frontend talks to a **FastAPI** backend over REST (`/start`, `/move`). The
+backend owns the game engine and delegates the enemy's turn to the PPO agent:
+
+- **Client:** the grid, tiles, HUD, and a `useControls` hook for keyboard input; renders
+  fog-of-war state returned by the server.
+- **Server:** a core engine validates and applies moves, then asks the Wumpus agent for its
+  next action.
+- **Agent:** a `stable-baselines3` PPO policy trained in a Gymnasium-compatible environment,
+  one per difficulty tier.
+
+## The research
+
+This became a published paper, _Reinforcement Learning for Constraint Satisfaction Game
+Agents_, co-authored with Gagan Venkat
+([DOI 10.5281/zenodo.20076630](https://doi.org/10.5281/zenodo.20076630)). It works up from
+tabular methods, through deep Q-networks, to the adversarial PPO agent. More on the
+[research page](/research).
+
+## Design notes
+
+- **Memory-based tracking over line-of-sight.** The Wumpus infers where you are from decaying
+  sensory cues, so it reads as _hunting_ rather than teleporting to your tile.
+- **Reward shaping** to coax genuine pursuit behaviour without degenerate strategies.
+- **Symmetric partial information.** Fog of war on the client keeps the human on the same
+  footing as the agent, so neither side sees the whole board.
+
+## Play it
+
+[Play Hunter Wumpus →](/projects/hunter-wumpus/play). Pick a difficulty (each tier is a
+differently-trained Wumpus) and see how long you last.
+
+## What I'd do differently
+
+Training an agent to be _fun to lose to_ is a different objective than training it to win. The
+interesting work lived in the reward function and the sensory model, not the algorithm, and
+that's where I'd invest more next time.

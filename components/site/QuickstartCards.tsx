@@ -11,7 +11,7 @@ const CARDS: QuickstartCard[] = [
     href: '/twin',
     title: 'Talk to my AI twin',
     description:
-      'A retrieval-augmented chatbot grounded in a curated corpus — with its retrieval trace on display.',
+      'A retrieval-augmented chatbot grounded in a curated corpus, with its retrieval trace on display.',
   },
   {
     href: '/projects/hunter-wumpus/play',
@@ -23,7 +23,7 @@ const CARDS: QuickstartCard[] = [
     href: '/projects',
     title: 'Read the projects',
     description:
-      'RAG systems, applied reinforcement learning, and NLP — with the code and write-ups behind them.',
+      'RAG systems, applied reinforcement learning, and NLP, with the code and write-ups behind them.',
   },
 ];
 
