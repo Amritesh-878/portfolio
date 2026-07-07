@@ -1,9 +1,13 @@
 ---
 title: Play
 description: Hunter Wumpus, playable in the browser.
+full: true
 ---
 
-_Being written._ The playable game, with its difficulty picker, board, and controls,
-embeds here soon.
+import { WumpusGame } from '@/components/site/WumpusGame';
 
-For now, read [the project](/projects/hunter-wumpus).
+<WumpusGame />
+
+The game runs on a FastAPI backend on a free Hugging Face Space, so the very first
+move after a while may pause while the container wakes. Read
+[the project write-up](/projects/hunter-wumpus) for how the PPO Wumpus was trained.
