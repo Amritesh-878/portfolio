@@ -17,7 +17,13 @@ import {
 } from 'fumadocs-ui/components/dialog/search';
 import { useI18n } from 'fumadocs-ui/contexts/i18n';
 
-import { markEgg } from '@/lib/eggs';
+import {
+  markEgg,
+  TRIGGER_KONAMI,
+  TRIGGER_NUDGE,
+  TRIGGER_WARGAMES,
+} from '@/lib/eggs';
+import { useDevMode } from '@/lib/dev-mode';
 
 const COMMANDS = [
   {
@@ -34,9 +40,22 @@ const COMMANDS = [
   },
 ];
 
+// Only surfaced once dev mode is on, so they never spoil the eggs for a casual
+// visitor typing "&gt;".
+const EGG_TRIGGERS = [
+  {
+    keyword: 'wargames',
+    label: 'trigger the game invite',
+    event: TRIGGER_WARGAMES,
+  },
+  { keyword: 'konami', label: 'run the konami wumpus', event: TRIGGER_KONAMI },
+  { keyword: 'nudge', label: 'show a nudge', event: TRIGGER_NUDGE },
+];
+
 export default function SearchWithTwin(props: SharedProps) {
   const { locale } = useI18n();
   const router = useRouter();
+  const devMode = useDevMode();
   const { search, setSearch, query } = useDocsSearch({
     client: fetchClient({ locale }),
   });
@@ -85,7 +104,32 @@ export default function SearchWithTwin(props: SharedProps) {
           },
         }));
 
-  const items = commandQuery !== null ? commandItems : [...results, askTwin];
+  const triggerItems: SearchItemType[] =
+    commandQuery === null || !devMode
+      ? []
+      : EGG_TRIGGERS.filter((trigger) =>
+          trigger.keyword.startsWith(commandQuery),
+        ).map((trigger) => ({
+          id: `egg-${trigger.keyword}`,
+          type: 'action',
+          node: (
+            <span className="flex items-center gap-2">
+              <span className="font-mono text-fd-primary">
+                &gt; {trigger.keyword}
+              </span>
+              <span className="text-fd-muted-foreground">{trigger.label}</span>
+            </span>
+          ),
+          onSelect: () => {
+            markEgg('palette');
+            window.dispatchEvent(new CustomEvent(trigger.event));
+          },
+        }));
+
+  const items =
+    commandQuery !== null
+      ? [...commandItems, ...triggerItems]
+      : [...results, askTwin];
 
   return (
     <SearchDialog

@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 
-import { markEgg } from '@/lib/eggs';
+import { markEgg, TRIGGER_KONAMI } from '@/lib/eggs';
 
 // A shorter, forgiving take on the konami code: up up down down left right.
 const SEQUENCE = [
@@ -34,6 +34,15 @@ export function KonamiEgg() {
     };
     window.addEventListener('keydown', onKey);
     return () => window.removeEventListener('keydown', onKey);
+  }, []);
+
+  useEffect(() => {
+    const onTrigger = () => {
+      setLoose(true);
+      markEgg('konami');
+    };
+    window.addEventListener(TRIGGER_KONAMI, onTrigger);
+    return () => window.removeEventListener(TRIGGER_KONAMI, onTrigger);
   }, []);
 
   useEffect(() => {

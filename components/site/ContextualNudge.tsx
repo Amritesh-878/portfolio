@@ -5,6 +5,7 @@ import { usePathname } from 'next/navigation';
 import { useEffect, useState, type ReactNode } from 'react';
 
 import { alreadyInvited, markInvited } from '@/lib/invite';
+import { TRIGGER_NUDGE } from '@/lib/eggs';
 
 const TARGET = (
   <svg
@@ -112,6 +113,16 @@ export function ContextualNudge() {
       setShown({ nudge: match, path: pathname });
     }, DWELL_MS);
     return () => clearTimeout(timer);
+  }, [pathname]);
+
+  // A dev-mode palette command forces a nudge for the current page on demand.
+  useEffect(() => {
+    const onTrigger = () => {
+      const nudge = NUDGES.find((entry) => entry.match(pathname)) ?? NUDGES[0];
+      setShown({ nudge, path: pathname });
+    };
+    window.addEventListener(TRIGGER_NUDGE, onTrigger);
+    return () => window.removeEventListener(TRIGGER_NUDGE, onTrigger);
   }, [pathname]);
 
   // Rendering by matching path (rather than clearing state in an effect) lets a

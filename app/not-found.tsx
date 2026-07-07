@@ -1,11 +1,8 @@
 import Link from 'next/link';
 
-import { EggMarker } from '@/components/site/EggMarker';
-
 export default function NotFound() {
   return (
     <main className="flex min-h-screen flex-col items-center justify-center gap-4 px-6 text-center">
-      <EggMarker egg="pit" />
       <p className="font-mono text-sm text-fd-muted-foreground">
         error 404: you feel a breeze
       </p>

@@ -11,7 +11,7 @@ import {
 
 import { alreadyInvited, markInvited } from '@/lib/invite';
 import { prewarmGame } from '@/lib/game/prewarm';
-import { markEgg } from '@/lib/eggs';
+import { markEgg, TRIGGER_WARGAMES } from '@/lib/eggs';
 
 const ANSWERED_KEY = 'portfolio-game-invite';
 const PAGES_KEY = 'portfolio-pages';
@@ -51,8 +51,8 @@ export function GameInvite() {
   const yesRef = useRef<HTMLButtonElement>(null);
   const typeTimer = useRef<ReturnType<typeof setInterval> | null>(null);
 
-  const open = useCallback(() => {
-    if (alreadyInvited() || answered()) return;
+  const open = useCallback((force = false) => {
+    if (!force && (alreadyInvited() || answered())) return;
     markInvited();
     markEgg('popup');
     prewarmGame();
@@ -84,9 +84,19 @@ export function GameInvite() {
     }
     // The trigger page shows after a short beat; earlier pages wait out the dwell.
     // Both go through a timer so the state change never lands synchronously here.
-    const timer = setTimeout(open, pages >= PAGES_TO_TRIGGER ? 800 : DWELL_MS);
+    const timer = setTimeout(
+      () => open(),
+      pages >= PAGES_TO_TRIGGER ? 800 : DWELL_MS,
+    );
     return () => clearTimeout(timer);
   }, [pathname, open]);
+
+  // A dev-mode palette command can force the invite open, ignoring the usual guards.
+  useEffect(() => {
+    const onTrigger = () => open(true);
+    window.addEventListener(TRIGGER_WARGAMES, onTrigger);
+    return () => window.removeEventListener(TRIGGER_WARGAMES, onTrigger);
+  }, [open]);
 
   // Pre-warm the sleeping Space the instant a visitor hovers or focuses a play link.
   useEffect(() => {
