@@ -4,7 +4,11 @@ import { VersionBadge } from '@/components/site/VersionBadge';
 export function baseOptions(): BaseLayoutProps {
   return {
     nav: {
-      title: <span data-dev-trigger>Amritesh Praveen</span>,
+      title: (
+        <span data-dev-trigger className="dev-name">
+          Amritesh Praveen
+        </span>
+      ),
     },
     links: [{ type: 'custom', children: <VersionBadge />, secondary: true }],
     githubUrl: 'https://github.com/Amritesh-878',

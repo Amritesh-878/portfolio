@@ -51,6 +51,7 @@ export default function InternalsPage() {
   const [twin, setTwin] = useState<
     TwinResult | 'loading' | { error: string } | null
   >(null);
+  const [showEggs, setShowEggs] = useState(false);
 
   const pingGame = useCallback(async () => {
     setGamePing('…');
@@ -164,11 +165,67 @@ export default function InternalsPage() {
             >
               <dt className="text-sm text-fd-foreground">{term}</dt>
               <dd className="font-mono text-xs text-fd-muted-foreground">
-                {value}
+                {term === 'Chat model' ? (
+                  <button
+                    type="button"
+                    onClick={() => setShowEggs((shown) => !shown)}
+                    className="font-mono text-fd-primary transition-opacity hover:opacity-80"
+                    title="click me"
+                  >
+                    {value}
+                  </button>
+                ) : (
+                  value
+                )}
               </dd>
             </div>
           ))}
         </dl>
+        {showEggs ? (
+          <div className="mt-3 rounded-lg border border-fd-primary/40 bg-fd-primary/5 p-4">
+            <p className="font-mono text-xs uppercase tracking-wide text-fd-primary">
+              Every easter egg, and how to find it
+            </p>
+            <ul className="mt-2 space-y-1.5 text-sm text-fd-muted-foreground">
+              <li>
+                <span className="text-fd-foreground">Developer mode:</span>{' '}
+                click my name in the top-left ten times (you did).
+              </li>
+              <li>
+                <span className="text-fd-foreground">
+                  Wumpus behind the name:
+                </span>{' '}
+                watch the top-left as you click it.
+              </li>
+              <li>
+                <span className="text-fd-foreground">WarGames popup:</span>{' '}
+                explore a few pages and the Wumpus invites you in.
+              </li>
+              <li>
+                <span className="text-fd-foreground">
+                  Prompt-injection twin:
+                </span>{' '}
+                try to jailbreak the AI twin.
+              </li>
+              <li>
+                <span className="text-fd-foreground">Command palette:</span>{' '}
+                type <code>&gt;</code> in the Ctrl/⌘K search.
+              </li>
+              <li>
+                <span className="text-fd-foreground">Konami code:</span> up up
+                down down left right.
+              </li>
+              <li>
+                <span className="text-fd-foreground">404 pit:</span> visit a
+                page that does not exist.
+              </li>
+              <li>
+                <span className="text-fd-foreground">Source comment:</span> view
+                this page&apos;s source.
+              </li>
+            </ul>
+          </div>
+        ) : null}
       </section>
 
       <section className="mt-10">

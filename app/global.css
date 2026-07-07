@@ -88,16 +88,53 @@
   animation: nudge-in 0.35s ease-out;
 }
 
-/* Konami easter egg: the Wumpus runs across the screen once. */
-@keyframes wumpus-run {
-  from {
-    transform: translateX(-20vw);
+/* Konami easter egg: the Wumpus hops across the screen once, slow enough to see. */
+@keyframes wumpus-hop {
+  0% {
+    transform: translate(-15vw, 0);
   }
-  to {
-    transform: translateX(100vw);
+  20% {
+    transform: translate(10vw, -55px);
+  }
+  40% {
+    transform: translate(35vw, 0);
+  }
+  60% {
+    transform: translate(60vw, -55px);
+  }
+  80% {
+    transform: translate(85vw, 0);
+  }
+  100% {
+    transform: translate(115vw, -55px);
   }
 }
 
 .wumpus-run {
-  animation: wumpus-run 2.5s linear;
+  animation: wumpus-hop 4.5s ease-in-out;
+}
+
+/* Developer-mode trigger: the name glows and a Wumpus peeks from behind it as you
+   click toward unlocking dev mode. --dev-progress runs 0 to 1, set per click. */
+.dev-name {
+  position: relative;
+  text-shadow: 0 0 calc(var(--dev-progress, 0) * 12px) var(--color-fd-primary);
+  transition: text-shadow 0.2s ease-out;
+}
+
+.dev-name::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 0;
+  height: 15px;
+  width: 15px;
+  background: url(/wumpus/wumpus.svg) center / contain no-repeat;
+  transform: translate(-50%, calc(6px - var(--dev-progress, 0) * 22px));
+  opacity: calc(var(--dev-progress, 0) * 0.95);
+  transition:
+    transform 0.2s ease-out,
+    opacity 0.2s ease-out;
+  pointer-events: none;
+  z-index: -1;
 }

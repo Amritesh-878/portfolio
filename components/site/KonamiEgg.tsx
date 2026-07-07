@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 
+// A shorter, forgiving take on the konami code: up up down down left right.
 const SEQUENCE = [
   'ArrowUp',
   'ArrowUp',
@@ -9,10 +10,6 @@ const SEQUENCE = [
   'ArrowDown',
   'ArrowLeft',
   'ArrowRight',
-  'ArrowLeft',
-  'ArrowRight',
-  'b',
-  'a',
 ];
 
 export function KonamiEgg() {
@@ -38,7 +35,7 @@ export function KonamiEgg() {
 
   useEffect(() => {
     if (!loose) return;
-    const timer = setTimeout(() => setLoose(false), 2600);
+    const timer = setTimeout(() => setLoose(false), 4800);
     return () => clearTimeout(timer);
   }, [loose]);
 
@@ -47,7 +44,7 @@ export function KonamiEgg() {
   return (
     <div
       aria-hidden
-      className="wumpus-run pointer-events-none fixed bottom-6 left-0 z-[70] h-16 w-16"
+      className="wumpus-run pointer-events-none fixed bottom-10 left-0 z-[70] h-24 w-24"
       style={{
         backgroundImage: 'url(/wumpus/wumpus.svg)',
         backgroundSize: 'contain',

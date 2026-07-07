@@ -14,28 +14,46 @@ export function DevMode() {
   const count = useRef(0);
   const lastClick = useRef(0);
   const toastTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const retreatTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
     const onDocClick = (event: MouseEvent) => {
       const target = event.target as HTMLElement | null;
-      if (!target?.closest('[data-dev-trigger]')) return;
+      const trigger = target?.closest('[data-dev-trigger]');
+      if (!(trigger instanceof HTMLElement)) return;
       const now = event.timeStamp;
       count.current =
         now - lastClick.current < CLICK_WINDOW_MS ? count.current + 1 : 1;
       lastClick.current = now;
+
       if (count.current >= UNLOCK_CLICKS && !isDevMode()) {
         count.current = 0;
+        trigger.style.setProperty('--dev-progress', '0');
         setDevMode(true);
         setToast(true);
         if (toastTimer.current) clearTimeout(toastTimer.current);
         toastTimer.current = setTimeout(() => setToast(false), 4500);
+        return;
       }
+
+      // The name glows and the Wumpus peeks further with each click, then retreats
+      // if the streak stalls so a single stray click leaves no trace.
+      trigger.style.setProperty(
+        '--dev-progress',
+        String(Math.min(count.current, UNLOCK_CLICKS) / UNLOCK_CLICKS),
+      );
+      if (retreatTimer.current) clearTimeout(retreatTimer.current);
+      retreatTimer.current = setTimeout(() => {
+        count.current = 0;
+        trigger.style.setProperty('--dev-progress', '0');
+      }, 2500);
     };
 
     document.addEventListener('click', onDocClick);
     return () => {
       document.removeEventListener('click', onDocClick);
       if (toastTimer.current) clearTimeout(toastTimer.current);
+      if (retreatTimer.current) clearTimeout(retreatTimer.current);
     };
   }, []);
 
