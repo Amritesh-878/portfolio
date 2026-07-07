@@ -1,6 +1,13 @@
 import './global.css';
 import { RootProvider } from 'fumadocs-ui/provider/next';
+import { Space_Grotesk } from 'next/font/google';
 import { Analytics } from '@vercel/analytics/next';
+
+const display = Space_Grotesk({
+  subsets: ['latin'],
+  variable: '--font-space-grotesk',
+  display: 'swap',
+});
 import SearchWithTwin from '@/components/site/SearchWithTwin';
 import { DevMode } from '@/components/site/DevMode';
 import { ContextualNudge } from '@/components/site/ContextualNudge';
@@ -36,7 +43,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="en" suppressHydrationWarning className={display.variable}>
       <body className="flex min-h-screen flex-col">
         <div
           hidden

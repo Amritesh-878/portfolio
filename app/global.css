@@ -16,10 +16,22 @@
   --color-fd-primary-foreground: hsl(40, 30%, 97%);
   --color-fd-ring: hsl(35, 64%, 46%);
 
-  /* Soft, low-saturation off-white */
-  --color-fd-background: hsl(40, 12%, 95%);
-  --color-fd-card: hsl(40, 10%, 92%);
-  --color-fd-secondary: hsl(40, 9%, 90%);
+  /* Warm cream canvas: softer on the eyes than stark white, and the shared base
+     of the neo-brutalist look across the landing and the docs. */
+  --color-fd-background: hsl(41, 34%, 92%);
+  --color-fd-card: hsl(40, 30%, 88%);
+  --color-fd-secondary: hsl(40, 26%, 85%);
+  --color-fd-foreground: hsl(35, 20%, 13%);
+  --color-fd-muted-foreground: hsl(37, 12%, 38%);
+  --color-fd-border: hsl(38, 22%, 76%);
+
+  /* Second accent, drawn from the Wumpus pit; used sparingly. */
+  --color-accent-red: hsl(11, 56%, 44%);
+  /* Neo-brutalist line: hard border + solid offset shadow, no blur. */
+  --nb-line: hsl(35, 24%, 18%);
+  --font-display:
+    var(--font-space-grotesk, 'Space Grotesk'), ui-sans-serif, system-ui,
+    sans-serif;
 
   /* Snappier command palette */
   --animate-fd-dialog-in: fd-dialog-in 0.12s cubic-bezier(0.16, 1, 0.3, 1);
@@ -33,10 +45,16 @@
   --color-fd-primary-foreground: hsl(30, 25%, 11%);
   --color-fd-ring: hsl(42, 68%, 62%);
 
-  /* Soft, low-saturation dark */
-  --color-fd-background: hsl(30, 9%, 9%);
-  --color-fd-card: hsl(30, 8%, 12%);
-  --color-fd-secondary: hsl(30, 7%, 16%);
+  /* Warm, cozy dark: kept close to the old canvas, tuned to sit with the accents */
+  --color-fd-background: hsl(30, 10%, 9%);
+  --color-fd-card: hsl(30, 9%, 12%);
+  --color-fd-secondary: hsl(30, 8%, 16%);
+  --color-fd-foreground: hsl(40, 18%, 90%);
+  --color-fd-muted-foreground: hsl(38, 8%, 60%);
+  --color-fd-border: hsl(34, 10%, 24%);
+
+  --color-accent-red: hsl(13, 62%, 60%);
+  --nb-line: hsl(40, 14%, 66%);
 }
 
 /* Monospace, terminal-flavoured sidebar navigation */
@@ -50,6 +68,40 @@
 #nd-page h1,
 #nd-page h2 {
   color: var(--color-fd-primary);
+  font-family: var(--font-display);
+  letter-spacing: -0.015em;
+}
+
+/* Neo-brutalist card: hard border + solid offset shadow, no blur. Shared by the
+   landing sections and the docs cards so both read as one system. */
+.nb-box {
+  border: 2px solid var(--nb-line);
+  box-shadow: 3px 3px 0 var(--nb-line);
+  border-radius: 4px;
+  background: var(--color-fd-card);
+}
+
+.font-display {
+  font-family: var(--font-display);
+}
+
+/* Interactive neo-brutalist cards lift toward the pointer, then press in on
+   click, so the solid offset shadow reads as physical depth. */
+a.nb-box,
+button.nb-box {
+  transition:
+    transform 0.12s ease,
+    box-shadow 0.12s ease;
+}
+a.nb-box:hover,
+button.nb-box:hover {
+  transform: translate(-1px, -1px);
+  box-shadow: 5px 5px 0 var(--nb-line);
+}
+a.nb-box:active,
+button.nb-box:active {
+  transform: translate(1px, 1px);
+  box-shadow: 1px 1px 0 var(--nb-line);
 }
 
 #nd-page .prose a {
