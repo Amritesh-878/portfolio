@@ -34,12 +34,19 @@ export function FinalEgg() {
     return () => window.removeEventListener(TRIGGER_FINAL, force);
   }, []);
 
-  // The video opens via the anchor below on the visitor's own click, not
-  // automatically — choosing their own fate is the joke. A real link click opens
-  // the tab reliably; window.open with a features string reads as a popup and gets
-  // blocked. reveal only drives the page's own transition to the punchline.
+  // Opens on the visitor's own click, never automatically — choosing their own
+  // fate is the joke. A throwaway anchor click opens the tab reliably (window.open
+  // is rejected by mobile browsers and popup blockers) and leaves the button with
+  // no hoverable href, so the status bar can't spoil the surprise.
   const reveal = () => {
     claimFinal();
+    const link = document.createElement('a');
+    link.href = RICKROLL;
+    link.target = '_blank';
+    link.rel = 'noopener noreferrer';
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
     setPhase('oneLast');
     setTimeout(() => setPhase('final'), 1600);
   };
@@ -65,15 +72,13 @@ export function FinalEgg() {
             I honestly didn&apos;t think anyone would.
           </p>
           <p className="mt-1 text-sm text-fd-muted-foreground">...</p>
-          <a
-            href={RICKROLL}
-            target="_blank"
-            rel="noopener noreferrer"
+          <button
+            type="button"
             onClick={reveal}
-            className="mt-8 inline-block rounded-full border border-fd-primary/60 px-6 py-2.5 text-sm text-fd-primary transition-colors hover:bg-fd-primary/10"
+            className="mt-8 rounded-full border border-fd-primary/60 px-6 py-2.5 text-sm text-fd-primary transition-colors hover:bg-fd-primary/10"
           >
             Reveal the final secret
-          </a>
+          </button>
         </div>
       ) : phase === 'oneLast' ? (
         <p className="text-sm tracking-widest text-neutral-500">
