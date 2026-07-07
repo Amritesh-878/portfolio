@@ -3,6 +3,7 @@ import { join } from 'node:path';
 import { GoogleGenAI } from '@google/genai';
 import { parseChatRequest } from '@/lib/chat/schema';
 import { rateLimit } from '@/lib/chat/rate-limit';
+import { injectionQuip, isInjectionAttempt } from '@/lib/chat/injection';
 import { embed, embeddingModel } from '@/lib/rag/embeddings';
 import { retrieve } from '@/lib/rag/retrieve';
 import { buildSystemPrompt } from '@/lib/rag/prompt';
@@ -53,6 +54,27 @@ function traceOf(results: ScoredChunk[]) {
   }));
 }
 
+// Injection attempts short-circuit here: a canned in-character deflection with an
+// empty trace, so we never spend embedding or model quota answering a jailbreak.
+function injectionResponse(): Response {
+  const encoder = new TextEncoder();
+  const quip = injectionQuip(Math.random());
+  const stream = new ReadableStream<Uint8Array>({
+    start(controller) {
+      controller.enqueue(encoder.encode(`${JSON.stringify({ trace: [] })}\n`));
+      controller.enqueue(encoder.encode(quip));
+      controller.close();
+    },
+  });
+  return new Response(stream, {
+    headers: {
+      'content-type': 'text/plain; charset=utf-8',
+      'cache-control': 'no-store',
+      'x-content-type-options': 'nosniff',
+    },
+  });
+}
+
 export async function POST(request: Request): Promise<Response> {
   if (!rateLimit(clientIp(request), Date.now()).allowed) {
     return jsonError(
@@ -69,6 +91,10 @@ export async function POST(request: Request): Promise<Response> {
   }
   const parsed = parseChatRequest(body);
   if (!parsed.ok) return jsonError(parsed.error, 400);
+
+  if (isInjectionAttempt(parsed.value.message)) {
+    return injectionResponse();
+  }
 
   const apiKey = process.env.GEMINI_API_KEY;
   if (!apiKey) {
