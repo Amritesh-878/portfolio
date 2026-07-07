@@ -94,7 +94,7 @@ const NUDGES: Nudge[] = [
   },
 ];
 
-const DWELL_MS = 50000;
+const DWELL_MS = 75000;
 
 export function ContextualNudge() {
   const pathname = usePathname();

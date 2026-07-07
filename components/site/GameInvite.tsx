@@ -14,7 +14,11 @@ import { prewarmGame } from '@/lib/game/prewarm';
 
 const ANSWERED_KEY = 'portfolio-game-invite';
 const PAGES_KEY = 'portfolio-pages';
-const DWELL_MS = 25000;
+// Generous on purpose: a recruiter skimming a page or two in under a minute never
+// sees this. Only a visitor who explores (a third page, or a minute and a half on
+// one) gets the invite.
+const DWELL_MS = 90000;
+const PAGES_TO_TRIGGER = 3;
 const EXCLUDED = ['/projects/hunter-wumpus/play', '/twin/chat'];
 
 const HEADLINE = 'SHALL WE PLAY A GAME?';
@@ -76,9 +80,9 @@ export function GameInvite() {
     } catch {
       pages = 1;
     }
-    // Second page shows promptly; a lone page waits out the dwell. Both go through
-    // a timer so the state change never lands synchronously inside the effect.
-    const timer = setTimeout(open, pages >= 2 ? 600 : DWELL_MS);
+    // The trigger page shows after a short beat; earlier pages wait out the dwell.
+    // Both go through a timer so the state change never lands synchronously here.
+    const timer = setTimeout(open, pages >= PAGES_TO_TRIGGER ? 800 : DWELL_MS);
     return () => clearTimeout(timer);
   }, [pathname, open]);
 
