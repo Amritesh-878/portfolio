@@ -69,9 +69,11 @@
   font-weight: 600;
 }
 
-/* Narrower toc gives the flexible content column its width back. */
-#nd-notebook-layout {
-  --fd-toc-width: 208px;
+/* Only narrow the toc where it actually shows (xl+); below that it collapses to 0. */
+@media (min-width: 1280px) {
+  #nd-notebook-layout {
+    --fd-toc-width: 208px;
+  }
 }
 #nd-page {
   max-width: 52rem;
