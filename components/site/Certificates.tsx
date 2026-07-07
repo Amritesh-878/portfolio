@@ -130,7 +130,7 @@ export function Certificates() {
         {CERTIFICATES.map((cert) => (
           <div
             key={cert.title}
-            className="flex h-full flex-col rounded-lg border border-fd-border bg-fd-card p-4"
+            className="flex h-full flex-col rounded-lg border border-fd-border bg-fd-card p-4 shadow-sm"
           >
             <span className="font-mono text-sm font-medium text-fd-foreground">
               {cert.title}

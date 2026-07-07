@@ -9,7 +9,7 @@ import { GitHubLink } from '@/components/site/nav-icons';
 export function LandingHeader() {
   return (
     <header
-      className="sticky top-0 z-40 border-b-2 bg-fd-background/85 backdrop-blur"
+      className="sticky top-0 z-40 border-b-2 bg-fd-secondary/85 backdrop-blur"
       style={{ borderColor: 'var(--nb-line)' }}
     >
       <div className="mx-auto flex h-14 max-w-5xl items-center justify-between px-4">

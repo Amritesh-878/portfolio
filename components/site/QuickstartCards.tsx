@@ -35,7 +35,7 @@ export function QuickstartCards() {
           <Link
             key={card.href}
             href={card.href}
-            className="group flex flex-col gap-1.5 rounded-lg border border-fd-border bg-fd-card p-4 transition-colors hover:border-fd-primary/60 hover:bg-fd-primary/5"
+            className="group flex flex-col gap-1.5 rounded-lg border border-fd-border bg-fd-card p-4 shadow-sm transition-all hover:border-fd-primary/60 hover:bg-fd-primary/5 hover:shadow-md"
           >
             <span className="font-mono text-sm font-medium text-fd-foreground transition-colors group-hover:text-fd-primary">
               {card.title}

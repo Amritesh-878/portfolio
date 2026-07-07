@@ -21,9 +21,11 @@
   --color-fd-background: hsl(41, 34%, 92%);
   --color-fd-card: hsl(40, 30%, 88%);
   --color-fd-secondary: hsl(40, 26%, 85%);
-  --color-fd-foreground: hsl(35, 20%, 13%);
-  --color-fd-muted-foreground: hsl(37, 12%, 38%);
-  --color-fd-border: hsl(38, 22%, 76%);
+  --color-fd-foreground: hsl(35, 22%, 11%);
+  /* Body prose and sidebar labels resolve to this; kept darker than a mid gray
+     so long pages read without fatigue. */
+  --color-fd-muted-foreground: hsl(36, 16%, 30%);
+  --color-fd-border: hsl(38, 22%, 74%);
 
   /* Second accent, drawn from the Wumpus pit; used sparingly. */
   --color-accent-red: hsl(11, 56%, 44%);
@@ -62,6 +64,34 @@
   font-family: var(--font-mono);
   font-size: 0.875rem;
   letter-spacing: -0.01em;
+}
+
+/* The top bar sits a step above the page canvas so it reads as a bar rather than
+   blending into the background. */
+#nd-subnav {
+  background-color: var(--color-fd-secondary);
+}
+
+/* Active sidebar item: a clear (not loud) gold tint plus weight so the eye lands
+   on the current page immediately. */
+#nd-sidebar [data-active='true'] {
+  background-color: color-mix(
+    in srgb,
+    var(--color-fd-primary) 18%,
+    transparent
+  );
+  color: var(--color-fd-primary);
+  font-weight: 600;
+}
+
+/* A wider reading column for the docs body: reclaim room from an over-wide
+   table of contents. The notebook grid sizes its toc column from this var, so
+   the flexible content column grows by whatever the toc gives up. */
+#nd-notebook-layout {
+  --fd-toc-width: 208px;
+}
+#nd-page {
+  max-width: 52rem;
 }
 
 /* Gold headings, links, and inline code */

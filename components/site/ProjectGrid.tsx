@@ -113,7 +113,7 @@ function ProjectCard({
   );
 
   const base =
-    'group flex h-full flex-col gap-1.5 rounded-lg border bg-fd-card p-4 transition-colors';
+    'group flex h-full flex-col gap-1.5 rounded-lg border bg-fd-card p-4 shadow-sm transition-all hover:shadow-md';
   const tone = project.href
     ? 'border-fd-border hover:border-fd-primary/60'
     : 'border-fd-border';

@@ -52,7 +52,11 @@ export default function RootLayout({ children }: { children: ReactNode }) {
           }}
         />
         <RootProvider
-          theme={{ disableTransitionOnChange: true }}
+          theme={{
+            defaultTheme: 'light',
+            enableSystem: false,
+            disableTransitionOnChange: true,
+          }}
           search={{ SearchDialog: SearchWithTwin }}
         >
           {children}
