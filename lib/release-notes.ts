@@ -7,12 +7,25 @@ export interface Release {
   fixed?: string[];
 }
 
-export const CURRENT_VERSION = '0.7.1';
+export const CURRENT_VERSION = '1.0.0';
 
 // The site's own version history, newest first, tracking the real commit
 // milestones. Distinct from the career changelog (which frames experience as
 // releases). Easter eggs are hinted at here, never spelled out.
 export const RELEASES: Release[] = [
+  {
+    version: '1.0.0',
+    title: 'A front door',
+    date: 'July 2026',
+    added: [
+      'A landing page that sums up the work in about thirty seconds, then hands you three ways in.',
+      'A guided walkthrough for Hunter Wumpus, so the game can teach itself before it turns on you.',
+    ],
+    changed: [
+      'A warmer, boxier palette across the whole site, with the docs now living behind the landing at /introduction.',
+      'The mark in the corner is a cat now.',
+    ],
+  },
   {
     version: '0.7.1',
     title: 'For the completionists',
