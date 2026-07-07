@@ -92,6 +92,10 @@
 @keyframes wumpus-hop {
   0% {
     transform: translate(-15vw, 0) rotate(0deg);
+    opacity: 0;
+  }
+  8% {
+    opacity: 1;
   }
   20% {
     transform: translate(10vw, -55px) rotate(-6deg);
@@ -104,16 +108,19 @@
   }
   80% {
     transform: translate(85vw, 0) rotate(0deg);
+    opacity: 1;
   }
   100% {
     transform: translate(115vw, -55px) rotate(-6deg);
+    opacity: 0;
   }
 }
 
-/* forwards holds the Wumpus off-screen right at the end; without it the sprite
-   snaps back to its base bottom-left and flashes there before it's removed. */
+/* both: the sprite takes the 0% frame (off-screen left, transparent) from mount,
+   so it never flashes at its base spot, and holds the faded-out end frame until
+   it's removed. Opacity fades it in on entry and out on exit. */
 .wumpus-run {
-  animation: wumpus-hop 4.5s ease-out forwards;
+  animation: wumpus-hop 4.5s ease-out both;
 }
 
 /* Developer-mode trigger: the name glows and grows, and a Wumpus peeks out from
