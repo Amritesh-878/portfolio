@@ -84,7 +84,14 @@
   margin-inline: auto;
 }
 #nd-page > h1 + p {
-  margin-top: -0.5rem;
+  margin-top: -1rem;
+}
+/* With the toc in the right gutter, a mathematically centered column reads
+   right-heavy; nudge it a hair left where there's room to spare. */
+@media (min-width: 1400px) {
+  #nd-page {
+    transform: translateX(-24px);
+  }
 }
 
 #nd-page h1,
