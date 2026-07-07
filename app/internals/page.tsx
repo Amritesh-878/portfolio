@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { useCallback, useState, type CSSProperties } from 'react';
 
 import { useDevMode } from '@/lib/dev-mode';
+import { parseChatTrace, splitChatStream } from '@/lib/chat/stream';
 import { WUMPUS_API_BASE } from '@/lib/wumpus/api';
 
 const MODEL_FACTS: [string, string][] = [
@@ -95,15 +96,9 @@ export default function InternalsPage() {
         if (done) break;
         if (firstByteMs === 0) firstByteMs = performance.now() - start;
         buffer += decoder.decode(value, { stream: true });
-        const newline = buffer.indexOf('\n');
-        if (newline !== -1 && trace.length === 0) {
-          try {
-            trace = (
-              JSON.parse(buffer.slice(0, newline)) as { trace: TraceEntry[] }
-            ).trace;
-          } catch {
-            /* trace is best-effort */
-          }
+        const { headerLine } = splitChatStream(buffer);
+        if (headerLine !== null && trace.length === 0) {
+          trace = parseChatTrace<TraceEntry>(headerLine);
         }
       }
       setTwin({

@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState, type FormEvent } from 'react';
 
 import { isInjectionAttempt } from '@/lib/chat/injection';
+import { parseChatTrace, splitChatStream } from '@/lib/chat/stream';
 import { markEgg } from '@/lib/eggs';
 
 interface TraceEntry {
@@ -34,6 +35,7 @@ export function TwinChat() {
   const [error, setError] = useState('');
   const threadRef = useRef<HTMLDivElement>(null);
   const autoSent = useRef(false);
+  const abortRef = useRef<AbortController | null>(null);
 
   useEffect(() => {
     const el = threadRef.current;
@@ -57,10 +59,20 @@ export function TwinChat() {
     // eslint-disable-next-line react-hooks/exhaustive-deps -- mount-only handoff
   }, []);
 
+  // Cancel a stream in flight when the reader navigates away mid-answer.
+  useEffect(() => () => abortRef.current?.abort(), []);
+
   async function send(text: string): Promise<void> {
     const message = text.trim();
     if (!message || status === 'streaming') return;
     if (isInjectionAttempt(message)) markEgg('injection');
+
+    // Supersede any request still open. The streaming guard covers the common
+    // case; this also handles the URL-handoff auto-send racing a manual ask.
+    abortRef.current?.abort();
+    const controller = new AbortController();
+    abortRef.current = controller;
+
     const history = messages.slice(-8);
     setMessages((prev) => [
       ...prev,
@@ -77,6 +89,7 @@ export function TwinChat() {
         method: 'POST',
         headers: { 'content-type': 'application/json' },
         body: JSON.stringify({ message, history }),
+        signal: controller.signal,
       });
       if (!response.ok || !response.body) {
         const data = (await response.json().catch(() => null)) as {
@@ -93,20 +106,12 @@ export function TwinChat() {
         const { done, value } = await reader.read();
         if (done) break;
         full += decoder.decode(value, { stream: true });
-        const newline = full.indexOf('\n');
-        if (newline === -1) continue;
+        const { headerLine, answer } = splitChatStream(full);
+        if (headerLine === null) continue;
         if (!traceParsed) {
-          try {
-            const head = JSON.parse(full.slice(0, newline)) as {
-              trace: TraceEntry[];
-            };
-            setTrace(head.trace);
-          } catch {
-            /* trace is best-effort; the answer still streams */
-          }
+          setTrace(parseChatTrace<TraceEntry>(headerLine));
           traceParsed = true;
         }
-        const answer = full.slice(newline + 1);
         setMessages((prev) => {
           const next = [...prev];
           next[next.length - 1] = { role: 'assistant', content: answer };
@@ -115,11 +120,15 @@ export function TwinChat() {
       }
       setStatus('idle');
     } catch (caught) {
+      // A deliberate abort (unmount or supersede) is not an error to surface.
+      if (controller.signal.aborted) return;
       setStatus('error');
       setError(
         caught instanceof Error ? caught.message : 'Something went wrong.',
       );
       setMessages((prev) => prev.slice(0, -1));
+    } finally {
+      if (abortRef.current === controller) abortRef.current = null;
     }
   }
 
