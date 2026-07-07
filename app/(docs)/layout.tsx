@@ -11,6 +11,7 @@ export default function Layout({ children }: { children: ReactNode }) {
       {...base}
       nav={{ ...nav, mode: 'top' }}
       sidebar={{ collapsible: false }}
+      themeSwitch={{ enabled: false }}
       tree={source.getPageTree()}
     >
       {children}
