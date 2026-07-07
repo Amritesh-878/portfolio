@@ -6,7 +6,21 @@ description: Experience and education, shipped as release notes, newest first.
 ## v2026.06: AI & ML Associate, Impact Solutions Lab
 
 Converted from intern to a full-time **AI & ML Associate** at Impact Solutions Lab (an AAM
-Foundation initiative) on 1 June 2026, working on the Program and Curriculum vertical.
+Foundation initiative) on 1 June 2026. What I'm building now:
+
+- A **Text-to-SQL survey-intelligence pipeline** that lets nonprofit staff query 3,200+
+  community survey responses in plain English. Groq (Llama 3.3 70B) with schema-aware prompting,
+  read-only SQL validation with auto-repair, and a narration layer that turns query results into
+  concrete program recommendations. The messy multilingual data lives in a hybrid SQLite schema
+  (a shared core table plus an EAV overflow table) so it never needs a migration when new surveys
+  arrive.
+- A **per-student learning chatbot** grounded in each student's own class recordings. A WhisperX
+  Hindi-and-English transcription pipeline with multi-layer hallucination filters feeds a
+  pgvector store of 1,013 chunks across 9 classes; every student gets a RAG bot scoped to what
+  they said, missed, and were taught, with strict per-student isolation. Shipped behind a
+  security audit and a passing 367-test suite.
+- **Rebuilding the entrance-exam portal** into an all-purpose internal assessment platform:
+  teacher content upload (Word to JSON), student and subject assignment, and role-based access.
 
 ## v2026.05: Graduated
 
