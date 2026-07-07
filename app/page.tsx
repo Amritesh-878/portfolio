@@ -10,7 +10,7 @@ import { FeaturedWork } from '@/components/site/landing/FeaturedWork';
 import { DocsDoor } from '@/components/site/landing/DocsDoor';
 
 const DESCRIPTION =
-  'AI/ML engineer building RAG systems, reinforcement-learning agents, and NLP. A documentation-style portfolio with a retrieval-grounded AI twin and a playable PPO game.';
+  'AI/ML engineer building production RAG systems, reinforcement-learning agents, and NLP. Explore the docs, chat with my AI twin, or play against a PPO agent.';
 
 export const metadata: Metadata = {
   title: { absolute: 'Amritesh Praveen: AI/ML Engineer' },

@@ -37,38 +37,13 @@ export default function OpengraphImage() {
         <div
           style={{
             display: 'flex',
-            alignItems: 'center',
-            gap: 18,
+            fontSize: 30,
+            fontWeight: 600,
+            color: INK,
             marginBottom: 40,
           }}
         >
-          <svg width="48" height="48" viewBox="0 0 32 32">
-            <rect
-              width="32"
-              height="32"
-              rx="7"
-              fill="#ffffff"
-              stroke={LINE}
-              strokeWidth="1.5"
-            />
-            <g fill={INK}>
-              <path d="M7 4 L13.5 13 L6.5 12.5 Z" />
-              <path d="M25 4 L18.5 13 L25.5 12.5 Z" />
-              <circle cx="16" cy="17.5" r="9" />
-            </g>
-            <circle cx="12.5" cy="16.5" r="1.9" fill="#ffffff" />
-            <circle cx="19.5" cy="16.5" r="1.9" fill="#ffffff" />
-          </svg>
-          <div
-            style={{
-              display: 'flex',
-              fontSize: 30,
-              fontWeight: 600,
-              color: INK,
-            }}
-          >
-            Amritesh Praveen
-          </div>
+          Amritesh Praveen
         </div>
         <div
           style={{
@@ -98,7 +73,7 @@ export default function OpengraphImage() {
         <div
           style={{ display: 'flex', fontSize: 27, color: MUTED, marginTop: 40 }}
         >
-          Read the docs, play the game, or ask my AI twin.
+          Explore the docs, chat with my AI twin, or play against a PPO agent.
         </div>
       </div>
     </div>,

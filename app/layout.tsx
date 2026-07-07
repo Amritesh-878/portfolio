@@ -18,7 +18,7 @@ import type { Metadata } from 'next';
 import type { ReactNode } from 'react';
 
 const DESCRIPTION =
-  'AI/ML engineer building RAG systems, reinforcement-learning agents, and NLP. A documentation-style portfolio with a retrieval-grounded AI twin and a playable PPO game.';
+  'AI/ML engineer building production RAG systems, reinforcement-learning agents, and NLP. Explore the docs, chat with my AI twin, or play against a PPO agent.';
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://amritesh.net'),
