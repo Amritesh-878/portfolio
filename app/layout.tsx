@@ -4,6 +4,7 @@ import { Analytics } from '@vercel/analytics/next';
 import SearchWithTwin from '@/components/site/SearchWithTwin';
 import { DevMode } from '@/components/site/DevMode';
 import { ContextualNudge } from '@/components/site/ContextualNudge';
+import { GameInvite } from '@/components/site/GameInvite';
 import type { ReactNode } from 'react';
 
 export default function RootLayout({ children }: { children: ReactNode }) {
@@ -18,6 +19,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         </RootProvider>
         <DevMode />
         <ContextualNudge />
+        <GameInvite />
         <Analytics />
       </body>
     </html>

@@ -46,12 +46,3 @@ export async function movePlayer(
   });
   return parseResponse(response);
 }
-
-// The backend sleeps on the free HF tier; a fire-and-forget ping on mount wakes
-// the container so the player's first real request isn't the ~30s cold start.
-export function warmBackend(): void {
-  void fetch(`${WUMPUS_API_BASE}/docs`, {
-    method: 'GET',
-    mode: 'no-cors',
-  }).catch(() => {});
-}

@@ -4,6 +4,8 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useEffect, useState, type ReactNode } from 'react';
 
+import { alreadyInvited, markInvited } from '@/lib/invite';
+
 const TARGET = (
   <svg
     viewBox="0 0 16 16"
@@ -93,7 +95,6 @@ const NUDGES: Nudge[] = [
 ];
 
 const DWELL_MS = 50000;
-const SESSION_KEY = 'portfolio-nudged';
 
 export function ContextualNudge() {
   const pathname = usePathname();
@@ -102,12 +103,12 @@ export function ContextualNudge() {
   );
 
   useEffect(() => {
-    if (sessionStorage.getItem(SESSION_KEY)) return;
+    if (alreadyInvited()) return;
     const match = NUDGES.find((nudge) => nudge.match(pathname));
     if (!match) return;
     const timer = setTimeout(() => {
-      if (sessionStorage.getItem(SESSION_KEY)) return;
-      sessionStorage.setItem(SESSION_KEY, '1');
+      if (alreadyInvited()) return;
+      markInvited();
       setShown({ nudge: match, path: pathname });
     }, DWELL_MS);
     return () => clearTimeout(timer);

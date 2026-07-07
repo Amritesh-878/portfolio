@@ -9,8 +9,11 @@ import {
   type KeyboardEvent as ReactKeyboardEvent,
 } from 'react';
 
+import Link from 'next/link';
+
 import WumpusBoard from './WumpusBoard';
-import { movePlayer, startGame, warmBackend } from '@/lib/wumpus/api';
+import { movePlayer, startGame } from '@/lib/wumpus/api';
+import { prewarmGame } from '@/lib/game/prewarm';
 import {
   initialState,
   wumpusReducer,
@@ -95,7 +98,7 @@ export function WumpusGame() {
   const boardRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    warmBackend();
+    prewarmGame();
   }, []);
 
   const start = useCallback(async () => {
@@ -329,6 +332,18 @@ export function WumpusGame() {
                   Change difficulty
                 </button>
               </div>
+              <p className="mt-1 font-mono text-xs text-fd-muted-foreground">
+                <Link
+                  href="/projects/hunter-wumpus"
+                  className="hover:text-fd-primary"
+                >
+                  how it works
+                </Link>
+                {' · '}
+                <Link href="/research" className="hover:text-fd-primary">
+                  the paper
+                </Link>
+              </p>
             </div>
           ) : null}
         </div>
