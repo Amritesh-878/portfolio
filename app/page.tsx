@@ -37,10 +37,15 @@ export default function LandingPage() {
       </main>
       <footer className="border-t-2" style={{ borderColor: 'var(--nb-line)' }}>
         <div className="mx-auto flex max-w-5xl flex-col items-start justify-between gap-3 px-4 py-6 sm:flex-row sm:items-center">
-          <p className="font-mono text-xs text-fd-muted-foreground">
-            Building retrieval systems, reinforcement-learning agents, and
-            production AI tools.
-          </p>
+          <div className="font-mono text-xs text-fd-muted-foreground">
+            <p>
+              Building retrieval systems, reinforcement-learning agents, and
+              production AI tools.
+            </p>
+            <p className="mt-1.5 text-fd-muted-foreground/70">
+              © 2026 Amritesh Praveen. Built with Next.js, Fumadocs, and Vercel.
+            </p>
+          </div>
           <nav className="flex items-center gap-4 font-mono text-xs">
             <Link
               href="/contact"

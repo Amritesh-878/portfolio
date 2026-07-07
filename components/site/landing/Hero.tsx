@@ -3,12 +3,13 @@ import Link from 'next/link';
 interface Metric {
   label: string;
   value: string;
+  href: string;
 }
 
 const METRICS: Metric[] = [
-  { label: 'Projects', value: '8' },
-  { label: 'Research', value: '1' },
-  { label: 'Deployments', value: '3' },
+  { label: 'Projects', value: '8', href: '/projects' },
+  { label: 'Research', value: '1', href: '/research' },
+  { label: 'Deployments', value: '3', href: '/architecture' },
 ];
 
 interface Door {
@@ -21,23 +22,23 @@ const DOORS: Door[] = [
   {
     verb: 'Read',
     href: '/introduction',
-    blurb: 'Project deep-dives, architecture, and the decisions behind them.',
+    blurb: 'Architecture, design decisions, implementation notes.',
   },
   {
     verb: 'Play',
     href: '/projects/hunter-wumpus/play',
-    blurb: 'Hunter Wumpus: a PPO agent hunts you through fog of war.',
+    blurb: 'Train against the agent from my published paper.',
   },
   {
     verb: 'Ask',
     href: '/twin/chat',
-    blurb: 'An AI twin that answers from a curated corpus of my real work.',
+    blurb: 'Query my work through a retrieval-grounded AI twin.',
   },
 ];
 
 export function Hero() {
   return (
-    <section className="relative mx-auto max-w-5xl px-4 pt-16 pb-10 sm:pt-20">
+    <section className="relative mx-auto max-w-5xl px-4 pt-6 pb-10 sm:pt-8">
       <p className="font-mono text-xs tracking-[0.2em] text-fd-primary uppercase">
         AI / ML Engineer
       </p>
@@ -52,18 +53,22 @@ export function Hero() {
         paper was written about, or ask my AI twin.
       </p>
 
-      <dl className="mt-7 flex flex-wrap items-center gap-x-6 gap-y-3">
+      <div className="mt-7 flex flex-wrap items-center gap-x-6 gap-y-3">
         {METRICS.map((metric) => (
-          <div key={metric.label} className="flex items-baseline gap-2">
-            <dd className="font-display text-2xl font-bold text-fd-foreground">
+          <Link
+            key={metric.label}
+            href={metric.href}
+            className="group flex items-baseline gap-2"
+          >
+            <span className="font-display text-2xl font-bold text-fd-foreground transition-colors group-hover:text-fd-primary">
               {metric.value}
-            </dd>
-            <dt className="font-mono text-xs tracking-wide text-fd-muted-foreground uppercase">
+            </span>
+            <span className="font-mono text-xs tracking-wide text-fd-muted-foreground uppercase underline-offset-4 group-hover:underline">
               {metric.label}
-            </dt>
-          </div>
+            </span>
+          </Link>
         ))}
-      </dl>
+      </div>
 
       <div className="mt-9 grid gap-3 sm:grid-cols-3">
         {DOORS.map((door) => (

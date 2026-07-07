@@ -9,8 +9,7 @@ export function DocsDoor() {
             The rest reads like docs.
           </h2>
           <p className="mt-1.5 text-sm text-fd-muted-foreground">
-            Sidebar, search, and versioned pages. Everything here is tested in
-            production and occasionally hunted by a Wumpus.
+            Everything beyond this point is documentation, not marketing.
           </p>
         </div>
         <Link

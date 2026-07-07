@@ -23,7 +23,7 @@ export function baseOptions(): BaseLayoutProps {
     nav: {
       title: (
         <span className="flex items-center gap-2">
-          <CatMark size={24} />
+          <CatMark size={32} />
           <DevName />
         </span>
       ),

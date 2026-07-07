@@ -29,7 +29,7 @@ export function LandingHeader() {
       <div className="mx-auto flex h-14 max-w-5xl items-center justify-between px-4">
         <div className="flex items-center gap-2">
           <Link href="/" aria-label="Home" className="flex items-center">
-            <CatMark size={26} />
+            <CatMark size={38} />
           </Link>
           <DevName className="font-display text-sm font-semibold text-fd-foreground" />
         </div>
