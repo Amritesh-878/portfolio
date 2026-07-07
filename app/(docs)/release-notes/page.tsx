@@ -33,6 +33,9 @@ export const metadata = {
 };
 
 export default function ReleaseNotesPage() {
+  const ordered = [...RELEASES].sort(
+    (a, b) => Number(b.pinned ?? false) - Number(a.pinned ?? false),
+  );
   return (
     <DocsPage toc={[]}>
       <DocsTitle>Release Notes</DocsTitle>
@@ -53,7 +56,7 @@ export default function ReleaseNotesPage() {
           </p>
 
           <div className="mt-8 space-y-10">
-            {RELEASES.map((release) => (
+            {ordered.map((release) => (
               <section key={release.version}>
                 <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
                   <h2 className="font-mono text-lg font-medium text-fd-primary">
@@ -62,6 +65,11 @@ export default function ReleaseNotesPage() {
                   <span className="text-sm text-fd-foreground">
                     {release.title}
                   </span>
+                  {release.pinned ? (
+                    <span className="rounded-full border border-fd-primary/40 bg-fd-primary/10 px-2 py-0.5 font-mono text-[0.65rem] tracking-wide text-fd-primary uppercase">
+                      Pinned
+                    </span>
+                  ) : null}
                   <span className="ml-auto font-mono text-xs text-fd-muted-foreground">
                     {release.date}
                   </span>

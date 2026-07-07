@@ -2,6 +2,7 @@ export interface Release {
   version: string;
   title: string;
   date: string;
+  pinned?: boolean;
   added?: string[];
   changed?: string[];
   fixed?: string[];
@@ -30,6 +31,7 @@ export const RELEASES: Release[] = [
     version: '0.7.1',
     title: 'For the completionists',
     date: 'July 2026',
+    pinned: true,
     added: ['A final easter egg, for people with far too much free time.'],
   },
   {
