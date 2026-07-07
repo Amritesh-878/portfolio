@@ -2,7 +2,7 @@ import Link from 'next/link';
 
 export default function NotFound() {
   return (
-    <main className="col-span-full flex min-h-[80vh] flex-col items-center justify-center gap-4 px-6 text-center">
+    <main className="fixed inset-0 z-50 flex flex-col items-center justify-center gap-4 bg-fd-background px-6 text-center">
       <p className="font-mono text-sm text-fd-muted-foreground">
         error 404: you feel a breeze
       </p>
