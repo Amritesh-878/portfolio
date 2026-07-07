@@ -78,7 +78,12 @@
   }
 }
 #nd-page {
-  max-width: 72rem;
+  width: 100%;
+  max-width: 84rem;
+  margin-inline: auto;
+}
+#nd-page .prose {
+  max-width: none;
 }
 
 #nd-page h1,
