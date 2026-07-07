@@ -21,7 +21,7 @@ const PROJECTS: Project[] = [
   {
     name: 'Survey Text-to-SQL',
     blurb:
-      'A production pipeline that answers plain-English questions over thousands of messy, multilingual survey responses with exact, guarded SQL. 100% on a 40-question golden set.',
+      'A production pipeline that answers plain-English questions over thousands of messy, multilingual survey responses with exact, guarded SQL. Scores perfectly on a golden-set eval.',
     stack: ['Python', 'SQLite', 'RapidFuzz', 'FastAPI'],
     href: '/projects/text-to-sql',
     badge: '▸ production',

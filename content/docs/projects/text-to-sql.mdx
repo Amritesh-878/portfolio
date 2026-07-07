@@ -7,14 +7,14 @@ import { TextToSqlPipeline } from '@/components/site/ISLDiagrams';
 
 ## What it is
 
-Program staff at Impact Solutions Lab needed answers from thousands of community survey
-responses without writing SQL or waiting on an analyst. This pipeline takes a plain-English
-question, generates a read-only SQL query against a normalized database, runs it behind privacy
-guardrails, and narrates the result in two or three sentences. The answers are exact counts and
-percentages, not approximations, because that is what a nonprofit actually plans on.
+Answering questions across thousands of community survey responses meant writing SQL by hand or
+waiting on an analyst. This pipeline takes a plain-English question, generates a read-only SQL
+query against a normalized database, runs it behind privacy guardrails, and narrates the result in
+two or three sentences. The answers are exact counts and percentages, not approximations, because
+that is what the decisions behind them actually run on.
 
-It runs on **3,210 respondents across five communities**, and scores **40/40 on a golden set**
-of questions with human-authored correct SQL.
+It runs on **several thousand respondents across multiple communities**, and scores **perfectly
+against a golden set** of questions with human-authored SQL.
 
 ## The problem
 
