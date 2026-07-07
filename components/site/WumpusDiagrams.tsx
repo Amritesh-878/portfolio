@@ -3,15 +3,11 @@
 import { Mermaid } from '@/components/site/Mermaid';
 
 const ARCHITECTURE = `graph LR
-    classDef frontend fill:#61dafb,stroke:#333,stroke-width:2px,color:#000;
-    classDef backend fill:#059669,stroke:#333,stroke-width:2px,color:#fff;
-    classDef ai fill:#f59e0b,stroke:#333,stroke-width:2px,color:#000;
-
     subgraph Client [Browser - React and Vite]
         direction TB
-        Input[useControls Hook]:::frontend
-        UI[Game UI and Modals]:::frontend
-        Board[Grid and Tiles]:::frontend
+        Input[useControls Hook]
+        UI[Game UI and Modals]
+        Board[Grid and Tiles]
 
         Input -.->|Triggers Actions| UI
         UI -.->|Renders State| Board
@@ -19,14 +15,14 @@ const ARCHITECTURE = `graph LR
 
     subgraph Server [FastAPI Backend]
         direction TB
-        Endpoints[API Routes<br>/start, /move]:::backend
-        Engine[Core Game Engine]:::backend
+        Endpoints[API Routes<br>/start, /move]
+        Engine[Core Game Engine]
 
         Endpoints <-->|Validates and Routes| Engine
     end
 
     subgraph RL [Reinforcement Learning]
-        Agent{Wumpus Agent<br>PPO Model}:::ai
+        Agent{Wumpus Agent<br>PPO Model}
     end
 
     Client <-->|HTTP REST JSON| Endpoints

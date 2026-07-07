@@ -30,11 +30,45 @@ export function Mermaid({ chart }: { chart: string }) {
     if (!node) return;
     void (async () => {
       const { default: mermaid } = await import('mermaid');
+      // Pull the site's own tokens so diagrams match the theme and flip with it.
+      const css = getComputedStyle(document.documentElement);
+      const v = (name: string, fallback: string) =>
+        css.getPropertyValue(name).trim() || fallback;
+      const primary = v('--color-fd-primary', '#e0a84a');
+      const fg = v('--color-fd-foreground', dark ? '#ece7de' : '#1a1712');
+      const muted = v('--color-fd-muted-foreground', '#8a8175');
+      const card = v('--color-fd-card', dark ? '#211d17' : '#f2eee6');
+      const border = v('--color-fd-border', dark ? '#3a352c' : '#ddd6c8');
+      const bg = v('--color-fd-background', dark ? '#17140f' : '#f7f4ee');
       mermaid.initialize({
         startOnLoad: false,
-        theme: dark ? 'dark' : 'default',
+        theme: 'base',
         securityLevel: 'loose',
         fontFamily: 'inherit',
+        themeVariables: {
+          background: bg,
+          primaryColor: card,
+          primaryTextColor: fg,
+          primaryBorderColor: primary,
+          lineColor: muted,
+          secondaryColor: card,
+          tertiaryColor: bg,
+          clusterBkg: 'transparent',
+          clusterBorder: border,
+          titleColor: primary,
+          actorBkg: card,
+          actorBorder: primary,
+          actorTextColor: fg,
+          signalColor: muted,
+          signalTextColor: fg,
+          labelBoxBkgColor: card,
+          labelBoxBorderColor: border,
+          labelTextColor: fg,
+          loopTextColor: muted,
+          noteBkgColor: bg,
+          noteBorderColor: border,
+          noteTextColor: muted,
+        },
       });
       try {
         const { svg } = await mermaid.render(id, chart);
