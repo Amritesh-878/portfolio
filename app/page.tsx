@@ -38,7 +38,8 @@ export default function LandingPage() {
       <footer className="border-t-2" style={{ borderColor: 'var(--nb-line)' }}>
         <div className="mx-auto flex max-w-5xl flex-col items-start justify-between gap-3 px-4 py-6 sm:flex-row sm:items-center">
           <p className="font-mono text-xs text-fd-muted-foreground">
-            Amritesh Praveen. Built like documentation.
+            Building retrieval systems, reinforcement-learning agents, and
+            production AI tools.
           </p>
           <nav className="flex items-center gap-4 font-mono text-xs">
             <Link

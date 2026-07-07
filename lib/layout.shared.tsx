@@ -1,6 +1,7 @@
 import type { BaseLayoutProps } from 'fumadocs-ui/layouts/shared';
 import { VersionBadge } from '@/components/site/VersionBadge';
 import { SiteMark } from '@/components/site/SiteMark';
+import { DevName } from '@/components/site/DevName';
 
 // Fumadocs' built-in githubUrl renders an svg with role="img" and no accessible
 // name (axe svg-img-alt). A custom icon link lets the button carry the label and
@@ -23,9 +24,7 @@ export function baseOptions(): BaseLayoutProps {
       title: (
         <span className="flex items-center gap-2">
           <SiteMark size={20} />
-          <span data-dev-trigger className="dev-name">
-            Amritesh Praveen
-          </span>
+          <DevName />
         </span>
       ),
     },
