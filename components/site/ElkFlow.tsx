@@ -96,17 +96,48 @@ async function layout(props: ElkFlowProps): Promise<Laid> {
 
   const childrenByGroup = new Map<string, ElkNode[]>();
   const topChildren: ElkNode[] = [];
+  const parentOf = new Map<string, string | null>();
   for (const n of props.nodes) {
     const s = nodeSize(n.label);
     const en: ElkNode = { id: n.id, width: s.width, height: s.height };
-    if (n.parent && groupIds.has(n.parent)) {
-      const arr = childrenByGroup.get(n.parent) ?? [];
+    const parent = n.parent && groupIds.has(n.parent) ? n.parent : null;
+    parentOf.set(n.id, parent);
+    if (parent) {
+      const arr = childrenByGroup.get(parent) ?? [];
       arr.push(en);
-      childrenByGroup.set(n.parent, arr);
+      childrenByGroup.set(parent, arr);
     } else {
       topChildren.push(en);
     }
   }
+
+  // Declare each edge in its least-common-ancestor container: an edge whose
+  // endpoints share a group lives inside that group so ELK routes it within the
+  // group, not by looping across the boundary (which drew stray parallel arrows).
+  const edgeMeta = new Map<string, ElkFlowEdge>();
+  const rootEdges: NonNullable<ElkNode['edges']> = [];
+  const groupEdges = new Map<string, NonNullable<ElkNode['edges']>>();
+  props.edges.forEach((e, i) => {
+    const id = `e${i}`;
+    edgeMeta.set(id, e);
+    const elkEdge = {
+      id,
+      sources: [e.source],
+      targets: [e.target],
+      labels: e.label
+        ? [{ text: e.label, width: e.label.length * 6.2 + 8, height: 16 }]
+        : [],
+    };
+    const ps = parentOf.get(e.source) ?? null;
+    const pt = parentOf.get(e.target) ?? null;
+    if (ps && ps === pt) {
+      const arr = groupEdges.get(ps) ?? [];
+      arr.push(elkEdge);
+      groupEdges.set(ps, arr);
+    } else {
+      rootEdges.push(elkEdge);
+    }
+  });
 
   const groupNodes: ElkNode[] = groups.map((g) => ({
     id: g.id,
@@ -125,21 +156,8 @@ async function layout(props: ElkFlowProps): Promise<Laid> {
       'elk.layered.spacing.nodeNodeBetweenLayers': '46',
     },
     children: childrenByGroup.get(g.id) ?? [],
+    edges: groupEdges.get(g.id) ?? [],
   }));
-
-  const edgeMeta = new Map<string, ElkFlowEdge>();
-  const elkEdges = props.edges.map((e, i) => {
-    const id = `e${i}`;
-    edgeMeta.set(id, e);
-    return {
-      id,
-      sources: [e.source],
-      targets: [e.target],
-      labels: e.label
-        ? [{ text: e.label, width: e.label.length * 6.2 + 8, height: 16 }]
-        : [],
-    };
-  });
 
   const graph: ElkNode = {
     id: 'root',
@@ -156,7 +174,7 @@ async function layout(props: ElkFlowProps): Promise<Laid> {
       'elk.layered.spacing.edgeNodeBetweenLayers': '26',
     },
     children: [...groupNodes, ...topChildren],
-    edges: elkEdges,
+    edges: rootEdges,
   };
 
   const laid = await elk.layout(graph);
