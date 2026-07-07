@@ -6,6 +6,7 @@ interface Project {
   stack: string[];
   href?: string;
   badge?: string;
+  locked?: boolean;
 }
 
 const PROJECTS: Project[] = [
@@ -16,6 +17,28 @@ const PROJECTS: Project[] = [
     stack: ['PyTorch', 'stable-baselines3', 'FastAPI', 'React'],
     href: '/projects/hunter-wumpus',
     badge: '▸ playable',
+  },
+  {
+    name: 'Survey Text-to-SQL',
+    blurb:
+      'A production pipeline that answers plain-English questions over thousands of messy, multilingual survey responses with exact, guarded SQL. 100% on a 40-question golden set.',
+    stack: ['Python', 'SQLite', 'RapidFuzz', 'FastAPI'],
+    href: '/projects/text-to-sql',
+    badge: '▸ production',
+  },
+  {
+    name: 'Class-Recording RAG',
+    blurb:
+      'A production RAG assistant that grounds each student in their own class recordings. It handles student audio, so the deep write-up is shared on request.',
+    stack: ['WhisperX', 'pgvector', 'Groq'],
+    href: '/projects/class-recording-rag',
+    locked: true,
+  },
+  {
+    name: 'Exam Portal',
+    blurb:
+      'An online entrance-exam portal with in-browser proctoring: face verification, gaze monitoring, and heartbeat liveness, used by 300+ students. Answers and incidents queue asynchronously to a results store.',
+    stack: ['FastAPI', 'OpenCV', 'MediaPipe', 'React'],
   },
   {
     name: 'Mental Health RAG Chatbot',
@@ -84,7 +107,23 @@ function ProjectCard({
           className={`flex items-center gap-2 font-mono font-medium text-fd-foreground ${featured ? 'text-base' : 'text-sm'}`}
         >
           {project.name}
-          {project.badge ? (
+          {project.locked ? (
+            <span className="flex items-center gap-1 text-xs text-fd-muted-foreground">
+              <svg
+                width="11"
+                height="11"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2.5"
+                aria-hidden
+              >
+                <rect x="4.5" y="10.5" width="15" height="10" rx="2" />
+                <path d="M8 10.5V7a4 4 0 0 1 8 0v3.5" />
+              </svg>
+              on request
+            </span>
+          ) : project.badge ? (
             <span className="text-xs text-fd-primary">{project.badge}</span>
           ) : null}
         </span>
@@ -108,9 +147,11 @@ function ProjectCard({
 
   const base =
     'group flex h-full flex-col gap-1.5 rounded-lg border bg-fd-card p-4 shadow-sm transition-all hover:shadow-md';
-  const tone = project.href
-    ? 'border-fd-border hover:border-fd-primary/60'
-    : 'border-fd-border';
+  const tone = project.locked
+    ? 'border-dashed border-fd-border hover:border-fd-primary/50'
+    : project.href
+      ? 'border-fd-border hover:border-fd-primary/60'
+      : 'border-fd-border';
   const accent = featured ? 'border-fd-primary/30 sm:p-5' : '';
   const className = `${base} ${tone} ${accent}`;
 

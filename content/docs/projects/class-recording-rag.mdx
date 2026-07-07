@@ -1,0 +1,34 @@
+---
+title: Class-Recording RAG
+description: A production RAG assistant that grounds each student in their own class recordings. Handling student audio, so the deep write-up is shared on request.
+---
+
+import { ClassRecordingPipeline } from '@/components/site/ISLDiagrams';
+
+## What it is
+
+A production retrieval assistant at Impact Solutions Lab that gives each student a chatbot grounded
+in **their own class recordings**. Recordings come in daily, are transcribed, indexed per student,
+and answered from, so a student can ask what a class covered and get a grounded reply drawn only
+from their own sessions.
+
+Because this system handles students' audio, this page shows the system design in the abstract and
+nothing else. No recordings, no transcripts, no student data.
+
+## System design
+
+<ClassRecordingPipeline />
+
+- **Dual-language transcription.** Class audio is transcribed with WhisperX, choosing the stronger
+  of two languages per segment, with silence filtered to avoid hallucinated text.
+- **Per-student isolation.** Each student's content is indexed under their own scope, and retrieval
+  is gated so an answer can only ever draw from that student's own recordings. This boundary is
+  enforced in the pipeline, not left to a prompt.
+- **Automated ingestion.** New recordings are picked up on a schedule and processed idempotently, so
+  the same session is never indexed twice.
+
+## The rest is on request
+
+The full technical write-up, the ingestion and identity model, the retrieval design, the tradeoffs,
+and the lessons, is kept private because of the data involved. If you'd like to walk through it,
+[reach out](/contact) and I'm happy to share it selectively.
