@@ -77,13 +77,14 @@
     --fd-toc-width: 208px;
   }
 }
+/* One centered documentation column: text, cards, and components share a width. */
 #nd-page {
   width: 100%;
-  max-width: 84rem;
+  max-width: 54rem;
   margin-inline: auto;
 }
-#nd-page .prose {
-  max-width: none;
+#nd-page > h1 + p {
+  margin-top: -0.5rem;
 }
 
 #nd-page h1,
