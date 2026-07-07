@@ -23,9 +23,44 @@ export const metadata: Metadata = {
   },
 };
 
+const JSON_LD = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'Person',
+      '@id': 'https://amritesh.net/#person',
+      name: 'Amritesh Praveen',
+      url: 'https://amritesh.net',
+      jobTitle: 'AI/ML Engineer',
+      description: DESCRIPTION,
+      sameAs: [
+        'https://github.com/Amritesh-878',
+        'https://linkedin.com/in/amritesh-praveen',
+      ],
+      knowsAbout: [
+        'Retrieval-Augmented Generation',
+        'Reinforcement Learning',
+        'Natural Language Processing',
+        'Machine Learning',
+      ],
+    },
+    {
+      '@type': 'WebSite',
+      '@id': 'https://amritesh.net/#website',
+      name: 'Amritesh Praveen',
+      url: 'https://amritesh.net',
+      publisher: { '@id': 'https://amritesh.net/#person' },
+    },
+  ],
+};
+
 export default function LandingPage() {
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(JSON_LD) }}
+      />
       <LandingHeader />
       <main>
         <Hero />
