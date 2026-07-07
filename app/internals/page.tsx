@@ -211,14 +211,19 @@ export default function InternalsPage() {
                 down down left right.
               </li>
               <li>
+                <span className="text-fd-foreground">404 pit:</span> hit any dead
+                link, or <code>&gt; pit</code> in dev mode.
+              </li>
+              <li>
                 <span className="text-fd-foreground">Source comment:</span> view
                 this page&apos;s source.
               </li>
             </ul>
             <p className="mt-3 text-xs text-fd-muted-foreground">
               Shortcut: with dev mode on, type <code>&gt;</code> in the Ctrl/⌘K
-              search for <code>&gt; wargames</code>, <code>&gt; konami</code>,
-              and <code>&gt; nudge</code> to fire the timed ones on demand.
+              search for <code>&gt; wargames</code>, <code>&gt; konami</code>,{' '}
+              <code>&gt; nudge</code>, <code>&gt; jailbreak</code>, and{' '}
+              <code>&gt; pit</code> to fire every egg on demand.
             </p>
           </div>
         ) : null}
