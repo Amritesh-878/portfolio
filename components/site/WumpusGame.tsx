@@ -14,12 +14,15 @@ import Link from 'next/link';
 import WumpusBoard from './WumpusBoard';
 import { movePlayer, startGame } from '@/lib/wumpus/api';
 import { prewarmGame } from '@/lib/game/prewarm';
+import { initialState, wumpusReducer } from '@/lib/wumpus/reducer';
 import {
-  initialState,
-  wumpusReducer,
-  type WumpusState,
-} from '@/lib/wumpus/reducer';
-import type { ActionType, Difficulty, Direction } from '@/lib/wumpus/types';
+  canMove,
+  canToggleAim,
+  directionAction,
+  isTerminal,
+  resolveKey,
+} from '@/lib/wumpus/controls';
+import type { Difficulty, Direction } from '@/lib/wumpus/types';
 
 interface DifficultyOption {
   value: Difficulty;
@@ -54,17 +57,6 @@ const GRID_SIZES: { label: string; value: number }[] = [
   { label: 'Large', value: 10 },
 ];
 
-const CODE_TO_DIRECTION: Record<string, Direction> = {
-  KeyW: 'NORTH',
-  ArrowUp: 'NORTH',
-  KeyS: 'SOUTH',
-  ArrowDown: 'SOUTH',
-  KeyD: 'EAST',
-  ArrowRight: 'EAST',
-  KeyA: 'WEST',
-  ArrowLeft: 'WEST',
-};
-
 const TERMINAL: Record<string, { title: string; body: string }> = {
   PlayerWon: {
     title: 'You found the gold',
@@ -83,10 +75,6 @@ const TERMINAL: Record<string, { title: string; body: string }> = {
     body: 'The Wumpus found you in the dark.',
   },
 };
-
-function isTerminal(status: WumpusState['status']): boolean {
-  return status !== 'idle' && status !== 'Ongoing';
-}
 
 export function WumpusGame() {
   const [state, dispatch] = useReducer(wumpusReducer, initialState);
@@ -124,16 +112,17 @@ export function WumpusGame() {
     async (direction: Direction) => {
       if (
         !state.gameId ||
-        state.status !== 'Ongoing' ||
-        state.isLoading ||
-        inFlight.current
+        !canMove({
+          gameId: state.gameId,
+          status: state.status,
+          isLoading: state.isLoading,
+          inFlight: inFlight.current,
+        })
       ) {
         return;
       }
       inFlight.current = true;
-      const action: ActionType = state.isAiming
-        ? `SHOOT_${direction}`
-        : direction;
+      const action = directionAction(direction, state.isAiming);
       try {
         const next = await movePlayer(state.gameId, action);
         dispatch({ type: 'UPDATE_STATE', payload: next });
@@ -149,9 +138,11 @@ export function WumpusGame() {
 
   const toggleAim = useCallback(() => {
     if (
-      state.isLoading ||
-      state.status !== 'Ongoing' ||
-      state.arrowsRemaining <= 0
+      !canToggleAim({
+        status: state.status,
+        isLoading: state.isLoading,
+        arrowsRemaining: state.arrowsRemaining,
+      })
     ) {
       return;
     }
@@ -166,15 +157,11 @@ export function WumpusGame() {
 
   const onKeyDown = (event: ReactKeyboardEvent<HTMLDivElement>) => {
     if (state.status !== 'Ongoing' || state.isLoading) return;
-    if (event.code === 'Space') {
-      event.preventDefault();
-      toggleAim();
-      return;
-    }
-    const direction = CODE_TO_DIRECTION[event.code];
-    if (!direction) return;
+    const intent = resolveKey(event.code);
+    if (!intent) return;
     event.preventDefault();
-    void move(direction);
+    if (intent.kind === 'aim') toggleAim();
+    else void move(intent.direction);
   };
 
   if (screen === 'select') {
