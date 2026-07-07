@@ -4,15 +4,15 @@ interface Proof {
 }
 
 const PROOF: Proof[] = [
-  { headline: '300+ students', detail: 'ran exams on tooling I shipped' },
-  { headline: 'Published paper', detail: 'on the Hunter Wumpus RL agent' },
-  { headline: 'Patent application', detail: 'filed from the same work' },
   { headline: 'RAG systems', detail: 'grounded, cited, in production' },
   { headline: 'RL agents', detail: 'PPO, trained from scratch' },
   {
     headline: 'Production automation',
     detail: 'pipelines that still run daily',
   },
+  { headline: '300+ students', detail: 'ran exams on tooling I shipped' },
+  { headline: 'Published paper', detail: 'on the Hunter Wumpus RL agent' },
+  { headline: 'Patent application', detail: 'filed from the same work' },
 ];
 
 export function Evidence() {
