@@ -33,7 +33,13 @@ export function TwinChat() {
   const autoSent = useRef(false);
 
   useEffect(() => {
-    threadRef.current?.scrollTo({ top: threadRef.current.scrollHeight });
+    const el = threadRef.current;
+    if (!el) return;
+    // Only follow the stream when the reader is already near the bottom; never yank
+    // them down while they have scrolled up to re-read an earlier answer.
+    if (el.scrollHeight - el.scrollTop - el.clientHeight < 120) {
+      el.scrollTo({ top: el.scrollHeight });
+    }
   }, [messages]);
 
   useEffect(() => {
@@ -120,7 +126,13 @@ export function TwinChat() {
 
   return (
     <div className="not-prose my-6 flex h-[70vh] min-h-[480px] flex-col">
-      <div ref={threadRef} className="flex-1 overflow-y-auto p-4 sm:p-6">
+      <div
+        ref={threadRef}
+        role="log"
+        aria-live="polite"
+        aria-label="Conversation with the AI twin"
+        className="flex-1 overflow-y-auto p-4 sm:p-6"
+      >
         {messages.length === 0 ? (
           <div className="flex h-full flex-col items-center justify-center gap-6 text-center">
             <div>
