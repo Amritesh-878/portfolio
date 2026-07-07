@@ -1,92 +1,105 @@
 'use client';
 
-import { Mermaid } from '@/components/site/Mermaid';
+import { ElkFlow, type ElkFlowProps } from '@/components/site/ElkFlow';
+import { Sequence, type SequenceProps } from '@/components/site/Sequence';
 
-const SYSTEM = `graph TB
-    Browser([Your browser])
+const SYSTEM: ElkFlowProps = {
+  direction: 'DOWN',
+  groups: [
+    { id: 'Vercel', label: 'Vercel' },
+    { id: 'Gemini', label: 'Google Gemini' },
+    { id: 'Space', label: 'Hugging Face Space' },
+  ],
+  nodes: [
+    { id: 'Browser', label: 'Your browser' },
+    { id: 'Pages', label: 'Static MDX pages', parent: 'Vercel' },
+    { id: 'Twin', label: 'Twin chat API\nNode serverless', parent: 'Vercel' },
+    { id: 'Index', label: 'RAG index\nbuilt at deploy', parent: 'Vercel' },
+    { id: 'Embed', label: 'Embeddings', parent: 'Gemini' },
+    { id: 'Chat', label: 'Chat model', parent: 'Gemini' },
+    { id: 'Game', label: 'FastAPI + PPO\nDocker on CPU', parent: 'Space' },
+  ],
+  edges: [
+    { source: 'Twin', target: 'Index' },
+    { source: 'Browser', target: 'Pages', label: 'read' },
+    { source: 'Browser', target: 'Twin', label: 'ask' },
+    { source: 'Browser', target: 'Game', label: 'play' },
+    { source: 'Twin', target: 'Embed', label: 'embed + generate' },
+    { source: 'Twin', target: 'Chat' },
+  ],
+};
 
-    subgraph Vercel [Vercel]
-        direction TB
-        Pages[Static MDX pages]
-        Twin[Twin chat API<br>Node serverless]
-        Index[(RAG index<br>built at deploy)]
-        Twin --> Index
-    end
+const TWIN: ElkFlowProps = {
+  direction: 'DOWN',
+  groups: [
+    { id: 'Deploy', label: 'At deploy time' },
+    { id: 'Ask', label: 'Per question' },
+  ],
+  nodes: [
+    { id: 'Corpus', label: 'Knowledge corpus', parent: 'Deploy' },
+    { id: 'Chunk', label: 'Deterministic chunker', parent: 'Deploy' },
+    { id: 'BM25', label: 'BM25 index', parent: 'Deploy' },
+    { id: 'Vec', label: 'Embeddings\n768-dim', parent: 'Deploy' },
+    { id: 'Q', label: 'Your question', parent: 'Ask' },
+    { id: 'Eq', label: 'Embed query', parent: 'Ask' },
+    { id: 'Lex', label: 'BM25 search', parent: 'Ask' },
+    { id: 'RRF', label: 'Rank fusion\nRRF', parent: 'Ask' },
+    { id: 'Top', label: 'Top k chunks', parent: 'Ask' },
+    { id: 'Gen', label: 'Grounded answer\nGemini', parent: 'Ask' },
+    { id: 'Trace', label: 'Retrieval trace\nshown to you', parent: 'Ask' },
+  ],
+  edges: [
+    { source: 'Corpus', target: 'Chunk' },
+    { source: 'Chunk', target: 'BM25' },
+    { source: 'Chunk', target: 'Vec' },
+    { source: 'Q', target: 'Eq' },
+    { source: 'Q', target: 'Lex' },
+    { source: 'Eq', target: 'RRF' },
+    { source: 'Lex', target: 'RRF' },
+    { source: 'RRF', target: 'Top' },
+    { source: 'Top', target: 'Gen' },
+    { source: 'Top', target: 'Trace' },
+    { source: 'Vec', target: 'RRF', dashed: true },
+    { source: 'BM25', target: 'RRF', dashed: true },
+  ],
+};
 
-    subgraph Gemini [Google Gemini]
-        direction TB
-        Embed[Embeddings]
-        Chat[Chat model]
-    end
-
-    subgraph Space [Hugging Face Space]
-        Game[FastAPI + PPO<br>Docker on CPU]
-    end
-
-    Browser -->|read| Pages
-    Browser -->|ask| Twin
-    Browser -->|play| Game
-    Twin -->|embed + generate| Embed
-    Twin --> Chat`;
-
-const TWIN = `graph LR
-    subgraph Deploy [At deploy time]
-        direction TB
-        Corpus[(Knowledge corpus)]
-        Chunk[Deterministic chunker]
-        BM25[(BM25 index)]
-        Vec[(Embeddings<br>768-dim)]
-        Corpus --> Chunk
-        Chunk --> BM25
-        Chunk --> Vec
-    end
-
-    subgraph Ask [Per question]
-        direction TB
-        Q[Your question]
-        Eq[Embed query]
-        Lex[BM25 search]
-        RRF{Rank fusion<br>RRF}
-        Top[(Top k chunks)]
-        Gen[Grounded answer<br>Gemini]
-        Trace[Retrieval trace<br>shown to you]
-        Q --> Eq
-        Q --> Lex
-        Eq --> RRF
-        Lex --> RRF
-        RRF --> Top
-        Top --> Gen
-        Top --> Trace
-    end
-
-    Vec -.->|vector search| RRF
-    BM25 -.->|keyword search| RRF`;
-
-const GAME = `sequenceDiagram
-    autonumber
-    participant P as Player (browser)
-    participant API as FastAPI (HF Space)
-    participant E as Game engine
-    participant M as PPO policy
-
-    P->>API: POST /game/move (direction)
-    API->>E: apply move, recompute senses
-    alt game still ongoing
-        E->>M: observation (scent, positions)
-        M-->>E: Wumpus move
-        E->>E: resolve pits, gold, capture
-    end
-    API-->>P: new state, senses, message
-    Note over P,API: One arrow per game, fired straight down a corridor`;
+const GAME: SequenceProps = {
+  autonumber: true,
+  participants: [
+    { id: 'P', label: 'Player (browser)' },
+    { id: 'API', label: 'FastAPI (HF Space)' },
+    { id: 'E', label: 'Game engine' },
+    { id: 'M', label: 'PPO policy' },
+  ],
+  steps: [
+    { msg: ['P', 'API'], text: 'POST /game/move (direction)' },
+    { msg: ['API', 'E'], text: 'apply move, recompute senses' },
+    {
+      frame: 'alt',
+      label: 'game still ongoing',
+      steps: [
+        { msg: ['E', 'M'], text: 'observation (scent, positions)' },
+        { msg: ['M', 'E'], text: 'Wumpus move', dashed: true },
+        { msg: ['E', 'E'], text: 'resolve pits, gold, capture' },
+      ],
+    },
+    { msg: ['API', 'P'], text: 'new state, senses, message', dashed: true },
+    {
+      note: ['P', 'API'],
+      text: 'One arrow per game, fired straight down a corridor',
+    },
+  ],
+};
 
 export function SystemOverview() {
-  return <Mermaid chart={SYSTEM} />;
+  return <ElkFlow {...SYSTEM} />;
 }
 
 export function TwinPipeline() {
-  return <Mermaid chart={TWIN} />;
+  return <ElkFlow {...TWIN} />;
 }
 
 export function GameRuntime() {
-  return <Mermaid chart={GAME} />;
+  return <Sequence {...GAME} />;
 }

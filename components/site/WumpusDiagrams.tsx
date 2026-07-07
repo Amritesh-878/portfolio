@@ -1,67 +1,73 @@
 'use client';
 
-import { Mermaid } from '@/components/site/Mermaid';
+import { ElkFlow, type ElkFlowProps } from '@/components/site/ElkFlow';
+import { Sequence, type SequenceProps } from '@/components/site/Sequence';
 
-const ARCHITECTURE = `graph LR
-    subgraph Client [Browser - React and Vite]
-        direction TB
-        Input[useControls Hook]
-        UI[Game UI and Modals]
-        Board[Grid and Tiles]
+const ARCHITECTURE: ElkFlowProps = {
+  direction: 'DOWN',
+  groups: [
+    { id: 'Client', label: 'Browser (React + Vite)' },
+    { id: 'Server', label: 'FastAPI backend' },
+    { id: 'RL', label: 'Reinforcement learning' },
+  ],
+  nodes: [
+    { id: 'Input', label: 'useControls hook', parent: 'Client' },
+    { id: 'UI', label: 'Game UI and modals', parent: 'Client' },
+    { id: 'Board', label: 'Grid and tiles', parent: 'Client' },
+    { id: 'Endpoints', label: 'API routes\n/start, /move', parent: 'Server' },
+    { id: 'Engine', label: 'Core game engine', parent: 'Server' },
+    { id: 'Agent', label: 'Wumpus agent\nPPO model', parent: 'RL' },
+  ],
+  edges: [
+    { source: 'Input', target: 'UI', label: 'triggers actions', dashed: true },
+    { source: 'UI', target: 'Board', label: 'renders state', dashed: true },
+    { source: 'UI', target: 'Endpoints', label: 'HTTP REST JSON' },
+    { source: 'Endpoints', target: 'Engine' },
+    { source: 'Engine', target: 'Agent', label: 'observation, move' },
+  ],
+};
 
-        Input -.->|Triggers Actions| UI
-        UI -.->|Renders State| Board
-    end
-
-    subgraph Server [FastAPI Backend]
-        direction TB
-        Endpoints[API Routes<br>/start, /move]
-        Engine[Core Game Engine]
-
-        Endpoints <-->|Validates and Routes| Engine
-    end
-
-    subgraph RL [Reinforcement Learning]
-        Agent{Wumpus Agent<br>PPO Model}
-    end
-
-    Client <-->|HTTP REST JSON| Endpoints
-    Engine <-->|Observations and Next Move| Agent`;
-
-const TRAINING = `sequenceDiagram
-    autonumber
-    participant Env as Gymnasium Env<br>(HunterWumpus 4x4)
-    participant PPO as PPO Agent<br>(Stable-Baselines3)
-    participant Eval as EvalCallback<br>(Monitor)
-    participant Disk as File System<br>(Checkpoints)
-
-    Note over Env, PPO: Phase 1: Experience Collection
-
-    loop Rollout Buffer (2048 steps)
-        Env->>PPO: 9D Observation Vector (Scent, Pos)
-        PPO->>Env: Discrete Action (N, S, E, W)
-        Env->>PPO: Reward, Done Flag, Info Dict
-    end
-
-    Note over PPO, Disk: Phase 2: Policy Optimization and Callbacks
-
-    PPO->>PPO: Compute Advantages (GAE)
-    PPO->>PPO: Update Actor-Critic Networks<br>(10 Epochs, Batch Size 64)
-
-    opt Every 10,000 Timesteps
-        PPO->>Eval: Trigger Periodic Evaluation
-        Eval->>Env: Run Deterministic Test Episodes
-        Env-->>Eval: Return Mean Reward
-        Eval->>Disk: Save best_model.zip (If Improved)
-    end
-
-    Note over PPO, Disk: End of Training (1,000,000 Timesteps)
-    PPO->>Disk: Save final_wumpus_model.zip`;
+const TRAINING: SequenceProps = {
+  autonumber: true,
+  participants: [
+    { id: 'Env', label: 'Gymnasium Env\n(HunterWumpus)' },
+    { id: 'PPO', label: 'PPO Agent\n(SB3)' },
+    { id: 'Eval', label: 'EvalCallback' },
+    { id: 'Disk', label: 'Checkpoints' },
+  ],
+  steps: [
+    { note: ['Env', 'PPO'], text: 'Phase 1: Experience Collection' },
+    {
+      frame: 'loop',
+      label: 'Rollout Buffer (2048 steps)',
+      steps: [
+        { msg: ['Env', 'PPO'], text: '9D observation (scent, pos)' },
+        { msg: ['PPO', 'Env'], text: 'discrete action (N/S/E/W)' },
+        { msg: ['Env', 'PPO'], text: 'reward, done, info' },
+      ],
+    },
+    { note: ['PPO', 'Disk'], text: 'Phase 2: Policy Optimization' },
+    { msg: ['PPO', 'PPO'], text: 'compute advantages (GAE)' },
+    { msg: ['PPO', 'PPO'], text: 'update actor-critic net' },
+    {
+      frame: 'opt',
+      label: 'Every 10,000 timesteps',
+      steps: [
+        { msg: ['PPO', 'Eval'], text: 'trigger evaluation' },
+        { msg: ['Eval', 'Env'], text: 'run test episodes' },
+        { msg: ['Env', 'Eval'], text: 'return mean reward', dashed: true },
+        { msg: ['Eval', 'Disk'], text: 'save best_model.zip' },
+      ],
+    },
+    { note: ['PPO', 'Disk'], text: 'End of training (1M timesteps)' },
+    { msg: ['PPO', 'Disk'], text: 'save final_model.zip' },
+  ],
+};
 
 export function WumpusArchitecture() {
-  return <Mermaid chart={ARCHITECTURE} />;
+  return <ElkFlow {...ARCHITECTURE} />;
 }
 
 export function WumpusTraining() {
-  return <Mermaid chart={TRAINING} />;
+  return <Sequence {...TRAINING} />;
 }
