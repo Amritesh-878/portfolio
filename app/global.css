@@ -91,27 +91,29 @@
 /* Konami easter egg: the Wumpus hops across the screen once, slow enough to see. */
 @keyframes wumpus-hop {
   0% {
-    transform: translate(-15vw, 0);
+    transform: translate(-15vw, 0) rotate(0deg);
   }
   20% {
-    transform: translate(10vw, -55px);
+    transform: translate(10vw, -55px) rotate(-6deg);
   }
   40% {
-    transform: translate(35vw, 0);
+    transform: translate(35vw, 0) rotate(0deg);
   }
   60% {
-    transform: translate(60vw, -55px);
+    transform: translate(60vw, -55px) rotate(-6deg);
   }
   80% {
-    transform: translate(85vw, 0);
+    transform: translate(85vw, 0) rotate(0deg);
   }
   100% {
-    transform: translate(115vw, -55px);
+    transform: translate(115vw, -55px) rotate(-6deg);
   }
 }
 
+/* forwards holds the Wumpus off-screen right at the end; without it the sprite
+   snaps back to its base bottom-left and flashes there before it's removed. */
 .wumpus-run {
-  animation: wumpus-hop 4.5s ease-in-out;
+  animation: wumpus-hop 4.5s ease-out forwards;
 }
 
 /* Developer-mode trigger: the name glows and grows, and a Wumpus peeks out from
