@@ -8,6 +8,7 @@ export function assembleIndex(
   vectors: number[][],
   model: string,
   builtAt: string,
+  corpusHash?: string,
 ): RagIndex {
   if (chunks.length !== vectors.length) {
     throw new Error(
@@ -18,6 +19,7 @@ export function assembleIndex(
     schemaVersion: SCHEMA_VERSION,
     model,
     builtAt,
+    ...(corpusHash ? { corpusHash } : {}),
     chunks,
     vectors,
     bm25: buildBm25(chunks),

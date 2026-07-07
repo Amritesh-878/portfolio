@@ -13,8 +13,10 @@ next-env.d.ts
 .vercel/
 .turbo/
 
-# Generated RAG index (rebuilt by `npm run build:index` and the deploy prebuild)
-src/generated/
+# Generated RAG index: committed so code/asset deploys don't re-embed (and hit the
+# free-tier embedding quota); rebuilt by `npm run build:index` when the corpus changes.
+src/generated/*
+!src/generated/rag-index.json
 
 # Fumadocs MDX generated source (rebuilt by the postinstall/build hook)
 .source/
