@@ -87,3 +87,17 @@
 .nudge-in {
   animation: nudge-in 0.35s ease-out;
 }
+
+/* Konami easter egg: the Wumpus runs across the screen once. */
+@keyframes wumpus-run {
+  from {
+    transform: translateX(-20vw);
+  }
+  to {
+    transform: translateX(100vw);
+  }
+}
+
+.wumpus-run {
+  animation: wumpus-run 2.5s linear;
+}
