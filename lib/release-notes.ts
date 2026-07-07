@@ -7,12 +7,25 @@ export interface Release {
   fixed?: string[];
 }
 
-export const CURRENT_VERSION = '0.6.1';
+export const CURRENT_VERSION = '0.7.0';
 
 // The site's own version history, newest first, tracking the real commit
 // milestones. Distinct from the career changelog (which frames experience as
 // releases). Easter eggs are hinted at here, never spelled out.
 export const RELEASES: Release[] = [
+  {
+    version: '0.7.0',
+    title: 'Findable, and a little more hidden',
+    date: 'July 2026',
+    added: [
+      'Proper link previews: an Open Graph card, a sitemap, and a robots file, so the site looks right when shared or searched.',
+      'More things tucked away for people who look. Still, on principle, not listed here.',
+    ],
+    changed: [
+      "The diagrams now follow the site's own palette instead of stock colors.",
+      'The Uses page is now Toolkit, and the version badge moved up to the top bar.',
+    ],
+  },
   {
     version: '0.6.1',
     title: 'Polish',
