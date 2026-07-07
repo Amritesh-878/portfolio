@@ -38,7 +38,7 @@ const DOORS: Door[] = [
 
 export function Hero() {
   return (
-    <section className="relative mx-auto max-w-5xl px-4 pt-2 pb-10">
+    <section className="relative mx-auto max-w-5xl px-4 pt-5 pb-10">
       <p className="font-mono text-xs tracking-[0.2em] text-fd-primary uppercase">
         AI / ML Engineer
       </p>
