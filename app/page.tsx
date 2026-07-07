@@ -102,6 +102,14 @@ export default function LandingPage() {
             >
               GitHub
             </a>
+            <a
+              href="https://linkedin.com/in/amritesh-praveen"
+              target="_blank"
+              rel="noreferrer noopener"
+              className="text-fd-muted-foreground transition-colors hover:text-fd-primary"
+            >
+              LinkedIn
+            </a>
           </nav>
         </div>
       </footer>
