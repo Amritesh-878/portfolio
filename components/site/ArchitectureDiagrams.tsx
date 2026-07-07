@@ -71,29 +71,22 @@ const TWIN = `graph LR
     Vec -.->|vector search| RRF
     BM25 -.->|keyword search| RRF`;
 
-const GAME = `graph LR
-    classDef client fill:#61dafb,stroke:#1f2937,stroke-width:2px,color:#000;
-    classDef backend fill:#059669,stroke:#1f2937,stroke-width:2px,color:#fff;
-    classDef ai fill:#f59e0b,stroke:#1f2937,stroke-width:2px,color:#000;
+const GAME = `sequenceDiagram
+    autonumber
+    participant P as Player (browser)
+    participant API as FastAPI (HF Space)
+    participant E as Game engine
+    participant M as PPO policy
 
-    subgraph Page [In the page, no iframe]
-        direction TB
-        Ctl[Keyboard + D-pad]:::client
-        Board[Board + HUD<br>React]:::client
-        Ctl --> Board
+    P->>API: POST /game/move (direction)
+    API->>E: apply move, recompute senses
+    alt game still ongoing
+        E->>M: observation (scent, positions)
+        M-->>E: Wumpus move
+        E->>E: resolve pits, gold, capture
     end
-
-    subgraph Space [Hugging Face Space]
-        direction TB
-        API[FastAPI<br>start and move]:::backend
-        Engine[Game engine<br>senses, pits, gold]:::backend
-        Policy[PPO policy<br>per difficulty]:::ai
-        API --> Engine
-        Engine -->|observation| Policy
-        Policy -->|wumpus move| Engine
-    end
-
-    Board <-->|HTTP JSON| API`;
+    API-->>P: new state, senses, message
+    Note over P,API: One arrow per game, fired straight down a corridor`;
 
 export function SystemOverview() {
   return <Mermaid chart={SYSTEM} />;
