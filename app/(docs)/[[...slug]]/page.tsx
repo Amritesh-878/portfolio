@@ -23,7 +23,7 @@ export default async function Page({ params }: DocsPageProps) {
   const isHome = !slug || slug.length === 0;
 
   return (
-    <DocsPage toc={page.data.toc} full={page.data.full}>
+    <DocsPage toc={page.data.toc} full={page.data.full} role="main">
       {!isHome && <DocsTitle>{page.data.title}</DocsTitle>}
       {!isHome && <DocsDescription>{page.data.description}</DocsDescription>}
       <DocsBody>
