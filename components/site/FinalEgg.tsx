@@ -2,7 +2,13 @@
 
 import { useEffect, useState } from 'react';
 
-import { allEggsFound, claimFinal, EGGS_EVENT, finalClaimed } from '@/lib/eggs';
+import {
+  allEggsFound,
+  claimFinal,
+  EGGS_EVENT,
+  finalClaimed,
+  TRIGGER_FINAL,
+} from '@/lib/eggs';
 
 const RICKROLL = 'https://www.youtube.com/watch?v=dQw4w9WgXcQ';
 
@@ -18,6 +24,14 @@ export function FinalEgg() {
     check();
     window.addEventListener(EGGS_EVENT, check);
     return () => window.removeEventListener(EGGS_EVENT, check);
+  }, []);
+
+  // Dev-palette shortcut: force the payoff regardless of progress, so it can be
+  // demoed without hunting every egg first.
+  useEffect(() => {
+    const force = () => setPhase('achievement');
+    window.addEventListener(TRIGGER_FINAL, force);
+    return () => window.removeEventListener(TRIGGER_FINAL, force);
   }, []);
 
   // The video opens on the visitor's own click (a user gesture, so it isn't

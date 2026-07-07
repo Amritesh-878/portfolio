@@ -21,6 +21,7 @@ export const EGGS_EVENT = 'portfolio-eggs-change';
 export const TRIGGER_WARGAMES = 'portfolio-trigger-wargames';
 export const TRIGGER_KONAMI = 'portfolio-trigger-konami';
 export const TRIGGER_NUDGE = 'portfolio-trigger-nudge';
+export const TRIGGER_FINAL = 'portfolio-trigger-final';
 
 export function foundEggs(): EggKey[] {
   if (typeof window === 'undefined') return [];

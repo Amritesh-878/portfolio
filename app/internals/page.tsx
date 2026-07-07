@@ -222,8 +222,10 @@ export default function InternalsPage() {
             <p className="mt-3 text-xs text-fd-muted-foreground">
               Shortcut: with dev mode on, type <code>&gt;</code> in the Ctrl/⌘K
               search for <code>&gt; wargames</code>, <code>&gt; konami</code>,{' '}
-              <code>&gt; nudge</code>, <code>&gt; jailbreak</code>, and{' '}
-              <code>&gt; pit</code> to fire every egg on demand.
+              <code>&gt; nudge</code>, <code>&gt; jailbreak</code>,{' '}
+              <code>&gt; pit</code>, and <code>&gt; final</code> to fire every
+              egg (and the payoff) on demand. <code>&gt; devoff</code> leaves dev
+              mode.
             </p>
           </div>
         ) : null}
