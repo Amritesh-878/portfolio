@@ -4,4 +4,4 @@ My personal site, built like a documentation site (think [fumadocs](https://fuma
 
 **Stack:** TypeScript · Next.js (App Router) · Fumadocs · Tailwind CSS · Gemini API. The site runs on Vercel; the game's FastAPI + PPO backend runs on a Hugging Face Space ([hunter-wumpus](https://github.com/Amritesh-878/hunter-wumpus)).
 
-**Status:** live at [portfolio-amritesh-praveen.vercel.app](https://portfolio-amritesh-praveen.vercel.app).
+**Status:** live at [amritesh.net](https://amritesh.net).

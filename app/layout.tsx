@@ -14,7 +14,7 @@ const DESCRIPTION =
   'AI/ML engineer building RAG systems, reinforcement-learning agents, and NLP. A documentation-style portfolio with a retrieval-grounded AI twin and a playable PPO game.';
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://portfolio-amritesh-praveen.vercel.app'),
+  metadataBase: new URL('https://amritesh.net'),
   title: {
     default: 'Amritesh Praveen',
     template: '%s · Amritesh Praveen',
