@@ -34,11 +34,12 @@ export function FinalEgg() {
     return () => window.removeEventListener(TRIGGER_FINAL, force);
   }, []);
 
-  // The video opens on the visitor's own click (a user gesture, so it isn't
-  // blocked) rather than automatically; choosing their own fate is the joke.
+  // The video opens via the anchor below on the visitor's own click, not
+  // automatically — choosing their own fate is the joke. A real link click opens
+  // the tab reliably; window.open with a features string reads as a popup and gets
+  // blocked. reveal only drives the page's own transition to the punchline.
   const reveal = () => {
     claimFinal();
-    window.open(RICKROLL, '_blank', 'noopener,noreferrer');
     setPhase('oneLast');
     setTimeout(() => setPhase('final'), 1600);
   };
@@ -64,13 +65,15 @@ export function FinalEgg() {
             I honestly didn&apos;t think anyone would.
           </p>
           <p className="mt-1 text-sm text-fd-muted-foreground">...</p>
-          <button
-            type="button"
+          <a
+            href={RICKROLL}
+            target="_blank"
+            rel="noopener noreferrer"
             onClick={reveal}
-            className="mt-8 rounded-full border border-fd-primary/60 px-6 py-2.5 text-sm text-fd-primary transition-colors hover:bg-fd-primary/10"
+            className="mt-8 inline-block rounded-full border border-fd-primary/60 px-6 py-2.5 text-sm text-fd-primary transition-colors hover:bg-fd-primary/10"
           >
             Reveal the final secret
-          </button>
+          </a>
         </div>
       ) : phase === 'oneLast' ? (
         <p className="text-sm tracking-widest text-neutral-500">
