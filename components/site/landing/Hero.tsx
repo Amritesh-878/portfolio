@@ -8,8 +8,8 @@ interface Metric {
 
 const METRICS: Metric[] = [
   { label: 'Projects', value: '8', href: '/projects' },
-  { label: 'Research', value: '1', href: '/research' },
-  { label: 'Deployments', value: '3', href: '/architecture' },
+  { label: 'Publication', value: '1', href: '/research' },
+  { label: 'Live systems', value: '3', href: '/architecture' },
 ];
 
 interface Door {
@@ -27,7 +27,7 @@ const DOORS: Door[] = [
   {
     verb: 'Play',
     href: '/projects/hunter-wumpus/play',
-    blurb: 'Train against the agent from my published paper.',
+    blurb: 'Play against the PPO agent from my published paper.',
   },
   {
     verb: 'Ask',
@@ -38,19 +38,19 @@ const DOORS: Door[] = [
 
 export function Hero() {
   return (
-    <section className="relative mx-auto max-w-5xl px-4 pt-6 pb-10 sm:pt-8">
+    <section className="relative mx-auto max-w-5xl px-4 pt-2 pb-10">
       <p className="font-mono text-xs tracking-[0.2em] text-fd-primary uppercase">
         AI / ML Engineer
       </p>
-      <h1 className="mt-3 font-display text-4xl leading-[1.05] font-bold tracking-tight text-fd-foreground sm:text-5xl md:text-6xl">
+      <h1 className="mt-2 font-display text-4xl leading-[1.05] font-bold tracking-tight text-fd-foreground sm:text-5xl md:text-6xl">
         Documented
         <br />
         <span className="text-fd-primary">like a system.</span>
       </h1>
       <p className="mt-5 max-w-2xl text-base leading-relaxed text-fd-muted-foreground sm:text-lg">
-        I build RAG systems, train reinforcement-learning agents, and ship NLP.
-        This whole site is my documentation: read the write-ups, play the game a
-        paper was written about, or ask my AI twin.
+        I build RAG systems, reinforcement-learning agents, and production NLP.
+        This site is the documentation: read the write-ups, play the game behind
+        the paper, or ask my AI twin.
       </p>
 
       <div className="mt-7 flex flex-wrap items-center gap-x-6 gap-y-3">

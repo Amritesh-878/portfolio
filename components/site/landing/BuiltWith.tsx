@@ -1,10 +1,10 @@
 const STACK = [
   'Hybrid Retrieval',
-  'PPO',
-  'FastAPI',
+  'pgvector',
   'Gemini',
   'WhisperX',
-  'pgvector',
+  'FastAPI',
+  'PPO',
 ];
 
 export function BuiltWith() {

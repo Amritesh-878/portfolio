@@ -15,13 +15,22 @@ export function baseOptions(): BaseLayoutProps {
         </span>
       ),
     },
-    // GitHub and the theme toggle are rendered as custom links sharing one icon
-    // style so they stay even in size and shape; Fumadocs' own theme switch is
-    // disabled in the docs layout so it isn't drawn twice.
+    // One custom link holds the whole action cluster so its spacing is ours, not
+    // Fumadocs' wide gap-6 between separate nav items. GitHub and the toggle
+    // share one icon style; Fumadocs' own theme switch is disabled in the docs
+    // layout so it isn't drawn twice.
     links: [
-      { type: 'custom', children: <VersionBadge />, secondary: true },
-      { type: 'custom', children: <GitHubLink />, secondary: true },
-      { type: 'custom', children: <ThemeToggle />, secondary: true },
+      {
+        type: 'custom',
+        secondary: true,
+        children: (
+          <div className="flex items-center gap-2">
+            <VersionBadge />
+            <GitHubLink />
+            <ThemeToggle />
+          </div>
+        ),
+      },
     ],
   };
 }
