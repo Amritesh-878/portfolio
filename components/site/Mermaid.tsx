@@ -2,9 +2,6 @@
 
 import { useEffect, useId, useRef, useState } from 'react';
 
-// The ELK layout loaders register once; guarded so re-renders don't re-register.
-let elkRegistered = false;
-
 function useIsDark(): boolean {
   const [dark, setDark] = useState(false);
   useEffect(() => {
@@ -33,11 +30,6 @@ export function Mermaid({ chart }: { chart: string }) {
     if (!node) return;
     void (async () => {
       const { default: mermaid } = await import('mermaid');
-      if (!elkRegistered) {
-        const { default: elkLayouts } = await import('@mermaid-js/layout-elk');
-        mermaid.registerLayoutLoaders(elkLayouts);
-        elkRegistered = true;
-      }
       // Pull the site's own tokens so diagrams match the theme and flip with it.
       const css = getComputedStyle(document.documentElement);
       const v = (name: string, fallback: string) =>
@@ -51,7 +43,6 @@ export function Mermaid({ chart }: { chart: string }) {
       mermaid.initialize({
         startOnLoad: false,
         theme: 'base',
-        layout: 'elk',
         securityLevel: 'loose',
         fontFamily: 'inherit',
         themeVariables: {
@@ -82,7 +73,8 @@ export function Mermaid({ chart }: { chart: string }) {
       try {
         const { svg } = await mermaid.render(id, chart);
         if (!cancelled && node) node.innerHTML = svg;
-      } catch {
+      } catch (err) {
+        console.error('Mermaid failed to render diagram:', err);
         if (!cancelled && node) {
           node.textContent = 'Diagram failed to render.';
         }
