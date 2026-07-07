@@ -3,7 +3,7 @@ import { VersionBadge } from '@/components/site/VersionBadge';
 import { CatMark } from '@/components/site/CatMark';
 import { DevName } from '@/components/site/DevName';
 import { ThemeToggle } from '@/components/site/ThemeToggle';
-import { GitHubLink } from '@/components/site/nav-icons';
+import { GitHubLink, LinkedInLink } from '@/components/site/nav-icons';
 
 export function baseOptions(): BaseLayoutProps {
   return {
@@ -24,6 +24,7 @@ export function baseOptions(): BaseLayoutProps {
           <div className="flex items-center gap-2">
             <VersionBadge />
             <GitHubLink />
+            <LinkedInLink />
             <ThemeToggle />
           </div>
         ),

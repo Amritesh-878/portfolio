@@ -4,7 +4,7 @@ import { CatMark } from '@/components/site/CatMark';
 import { DevName } from '@/components/site/DevName';
 import { VersionBadge } from '@/components/site/VersionBadge';
 import { ThemeToggle } from '@/components/site/ThemeToggle';
-import { GitHubLink } from '@/components/site/nav-icons';
+import { GitHubLink, LinkedInLink } from '@/components/site/nav-icons';
 
 export function LandingHeader() {
   return (
@@ -25,6 +25,7 @@ export function LandingHeader() {
             <VersionBadge />
           </div>
           <GitHubLink />
+          <LinkedInLink />
           <ThemeToggle />
           <Link
             href="/introduction"
