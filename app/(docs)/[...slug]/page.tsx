@@ -11,7 +11,7 @@ import type { Metadata } from 'next';
 import { getMDXComponents } from '@/components/mdx';
 
 interface DocsPageProps {
-  params: Promise<{ slug?: string[] }>;
+  params: Promise<{ slug: string[] }>;
 }
 
 export default async function Page({ params }: DocsPageProps) {
@@ -20,12 +20,11 @@ export default async function Page({ params }: DocsPageProps) {
   if (!page) notFound();
 
   const MDX = page.data.body;
-  const isHome = !slug || slug.length === 0;
 
   return (
     <DocsPage toc={page.data.toc} full={page.data.full} role="main">
-      {!isHome && <DocsTitle>{page.data.title}</DocsTitle>}
-      {!isHome && <DocsDescription>{page.data.description}</DocsDescription>}
+      <DocsTitle>{page.data.title}</DocsTitle>
+      <DocsDescription>{page.data.description}</DocsDescription>
       <DocsBody>
         <MDX
           components={getMDXComponents({
@@ -48,18 +47,17 @@ export async function generateMetadata({
   const page = source.getPage(slug);
   if (!page) notFound();
 
-  const isHome = !slug || slug.length === 0;
   const description = page.data.description;
+  const path = `/${slug.join('/')}`;
 
   return {
-    title: isHome
-      ? { absolute: 'Amritesh Praveen: AI/ML Engineer' }
-      : page.data.title,
+    title: page.data.title,
     description,
+    alternates: { canonical: path },
     openGraph: {
-      title: isHome ? 'Amritesh Praveen' : page.data.title,
+      title: page.data.title,
       description,
-      url: isHome ? '/' : `/${(slug ?? []).join('/')}`,
+      url: path,
     },
   };
 }
