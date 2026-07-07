@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { useCallback, useState, type CSSProperties } from 'react';
 
 import { useDevMode } from '@/lib/dev-mode';
+import { WUMPUS_API_BASE } from '@/lib/wumpus/api';
 
 const MODEL_FACTS: [string, string][] = [
   ['Chat model', 'gemini-2.5-flash'],
@@ -52,15 +53,10 @@ export default function InternalsPage() {
   >(null);
 
   const pingGame = useCallback(async () => {
-    const base = process.env.NEXT_PUBLIC_WUMPUS_API;
-    if (!base) {
-      setGamePing('NEXT_PUBLIC_WUMPUS_API is not configured');
-      return;
-    }
     setGamePing('…');
     const start = performance.now();
     try {
-      const res = await fetch(`${base}/game/start`, {
+      const res = await fetch(`${WUMPUS_API_BASE}/game/start`, {
         method: 'POST',
         headers: { 'content-type': 'application/json' },
         body: JSON.stringify({ grid_size: 4, difficulty: 'easy' }),
@@ -218,7 +214,8 @@ export default function InternalsPage() {
             <div>
               <p className="text-sm text-fd-foreground">Twin round-trip</p>
               <p className="text-xs text-fd-muted-foreground">
-                Sends one real question and times it. Uses Gemini quota.
+                Times one real question end to end. This one spends Gemini
+                quota, so it only runs on a click.
               </p>
             </div>
             <button
@@ -242,16 +239,22 @@ export default function InternalsPage() {
                 first byte {twin.firstByteMs} ms · full answer {twin.totalMs} ms
               </p>
               {twin.trace.length > 0 ? (
-                <ul className="mt-1 space-y-0.5">
-                  {twin.trace.map((entry, i) => (
-                    <li key={i} className="flex justify-between gap-3">
-                      <span className="truncate text-fd-foreground">
-                        {entry.heading}
-                      </span>
-                      <span>{entry.fusedScore.toFixed(4)}</span>
-                    </li>
-                  ))}
-                </ul>
+                <div className="mt-2">
+                  <p className="text-fd-muted-foreground/80">
+                    Corpus chunks it retrieved for that question, by fused score
+                    (higher is a stronger match):
+                  </p>
+                  <ul className="mt-1 space-y-0.5">
+                    {twin.trace.map((entry, i) => (
+                      <li key={i} className="flex justify-between gap-3">
+                        <span className="truncate text-fd-foreground">
+                          {entry.heading}
+                        </span>
+                        <span>{entry.fusedScore.toFixed(4)}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
               ) : null}
             </div>
           ) : null}
