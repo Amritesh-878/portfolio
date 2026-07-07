@@ -179,8 +179,8 @@ export function WumpusGame() {
       <div className="not-prose my-6">
         <div className="mx-auto max-w-2xl">
           <p className="text-sm text-fd-muted-foreground">
-            Find the gold and escape. Pits and the Wumpus both end the hunt —
-            you have one arrow to fire straight down a corridor.
+            Find the gold and escape. Pits and the Wumpus both end the hunt. You
+            have one arrow to fire straight down a corridor.
           </p>
           <div className="mt-4 grid grid-cols-1 gap-2 sm:grid-cols-2 lg:grid-cols-3">
             {DIFFICULTIES.map((option) => (
@@ -263,8 +263,8 @@ export function WumpusGame() {
 
   return (
     <div className="not-prose my-6">
-      <div className="flex flex-col gap-5 lg:flex-row lg:items-start">
-        <div className="relative w-full lg:max-w-[min(58vh,520px)]">
+      <div className="flex flex-col gap-6 lg:flex-row lg:items-start lg:justify-center">
+        <div className="relative w-full lg:w-[min(72vh,600px)] lg:shrink-0">
           <div
             ref={boardRef}
             tabIndex={0}
@@ -333,7 +333,7 @@ export function WumpusGame() {
           ) : null}
         </div>
 
-        <aside className="flex w-full flex-col gap-4 lg:max-w-xs">
+        <aside className="flex w-full flex-col gap-4 lg:w-72">
           <div className="rounded-lg border border-fd-border p-3">
             <div className="flex items-center justify-between font-mono text-xs text-fd-muted-foreground">
               <span>Turn {state.turn}</span>
@@ -385,7 +385,7 @@ export function WumpusGame() {
             </div>
             <p className="mt-2 text-center font-mono text-xs text-fd-muted-foreground">
               {state.isAiming
-                ? 'Aim mode — fire down a corridor'
+                ? 'Aim mode: fire down a corridor'
                 : 'Move with the pad, WASD, or arrows'}
             </p>
           </div>

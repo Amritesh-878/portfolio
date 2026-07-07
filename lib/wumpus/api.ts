@@ -1,6 +1,10 @@
 import type { ActionType, Difficulty, GameStateResponse } from './types';
 
-const BASE_URL = process.env.NEXT_PUBLIC_WUMPUS_API;
+// Public, not a secret: default to the deployed Space so the game works even when
+// NEXT_PUBLIC_WUMPUS_API is not set in the environment.
+export const WUMPUS_API_BASE =
+  process.env.NEXT_PUBLIC_WUMPUS_API ??
+  'https://percy80-hunter-wumpus-api.hf.space';
 
 async function parseResponse(response: Response): Promise<GameStateResponse> {
   if (response.ok) {
@@ -23,8 +27,7 @@ export async function startGame(
   gridSize: number,
   difficulty: Difficulty,
 ): Promise<GameStateResponse> {
-  if (!BASE_URL) throw new Error('The game backend is not configured.');
-  const response = await fetch(`${BASE_URL}/game/start`, {
+  const response = await fetch(`${WUMPUS_API_BASE}/game/start`, {
     method: 'POST',
     headers: { 'content-type': 'application/json' },
     body: JSON.stringify({ grid_size: gridSize, difficulty }),
@@ -36,8 +39,7 @@ export async function movePlayer(
   gameId: string,
   action: ActionType,
 ): Promise<GameStateResponse> {
-  if (!BASE_URL) throw new Error('The game backend is not configured.');
-  const response = await fetch(`${BASE_URL}/game/move`, {
+  const response = await fetch(`${WUMPUS_API_BASE}/game/move`, {
     method: 'POST',
     headers: { 'content-type': 'application/json' },
     body: JSON.stringify({ game_id: gameId, player_action: action }),
@@ -48,8 +50,8 @@ export async function movePlayer(
 // The backend sleeps on the free HF tier; a fire-and-forget ping on mount wakes
 // the container so the player's first real request isn't the ~30s cold start.
 export function warmBackend(): void {
-  if (!BASE_URL) return;
-  void fetch(`${BASE_URL}/docs`, { method: 'GET', mode: 'no-cors' }).catch(
-    () => {},
-  );
+  void fetch(`${WUMPUS_API_BASE}/docs`, {
+    method: 'GET',
+    mode: 'no-cors',
+  }).catch(() => {});
 }
