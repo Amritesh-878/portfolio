@@ -2,6 +2,7 @@ import './global.css';
 import { RootProvider } from 'fumadocs-ui/provider/next';
 import { Analytics } from '@vercel/analytics/next';
 import SearchWithTwin from '@/components/site/SearchWithTwin';
+import { DevMode } from '@/components/site/DevMode';
 import type { ReactNode } from 'react';
 
 export default function RootLayout({ children }: { children: ReactNode }) {
@@ -14,6 +15,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         >
           {children}
         </RootProvider>
+        <DevMode />
         <Analytics />
       </body>
     </html>
