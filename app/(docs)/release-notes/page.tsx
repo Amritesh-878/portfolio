@@ -26,6 +26,12 @@ const SECTIONS: {
   { key: 'fixed', label: 'Fixed', color: 'text-sky-600 dark:text-sky-400' },
 ];
 
+export const metadata = {
+  title: 'Release Notes',
+  description:
+    'The version history of this site, versioned like the software it is.',
+};
+
 export default function ReleaseNotesPage() {
   return (
     <DocsPage toc={[]}>

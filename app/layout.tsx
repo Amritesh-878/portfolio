@@ -6,7 +6,32 @@ import { DevMode } from '@/components/site/DevMode';
 import { ContextualNudge } from '@/components/site/ContextualNudge';
 import { GameInvite } from '@/components/site/GameInvite';
 import { KonamiEgg } from '@/components/site/KonamiEgg';
+import type { Metadata } from 'next';
 import type { ReactNode } from 'react';
+
+const DESCRIPTION =
+  'AI/ML engineer building RAG systems, reinforcement-learning agents, and NLP. A documentation-style portfolio with a retrieval-grounded AI twin and a playable PPO game.';
+
+export const metadata: Metadata = {
+  metadataBase: new URL('https://portfolio-amritesh-praveen.vercel.app'),
+  title: {
+    default: 'Amritesh Praveen',
+    template: '%s · Amritesh Praveen',
+  },
+  description: DESCRIPTION,
+  openGraph: {
+    title: 'Amritesh Praveen',
+    description: DESCRIPTION,
+    url: '/',
+    siteName: 'Amritesh Praveen',
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Amritesh Praveen',
+    description: 'AI/ML engineer. RAG, reinforcement learning, NLP.',
+  },
+};
 
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (

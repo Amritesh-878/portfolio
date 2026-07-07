@@ -49,9 +49,17 @@ export async function generateMetadata({
   if (!page) notFound();
 
   const isHome = !slug || slug.length === 0;
+  const description = page.data.description;
 
   return {
-    title: isHome ? 'Amritesh Praveen' : page.data.title,
-    description: page.data.description,
+    title: isHome
+      ? { absolute: 'Amritesh Praveen: AI/ML Engineer' }
+      : page.data.title,
+    description,
+    openGraph: {
+      title: isHome ? 'Amritesh Praveen' : page.data.title,
+      description,
+      url: isHome ? '/' : `/${(slug ?? []).join('/')}`,
+    },
   };
 }
