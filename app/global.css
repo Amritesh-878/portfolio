@@ -8,7 +8,9 @@
   --font-mono:
     ui-monospace, 'Cascadia Code', 'JetBrains Mono', 'Fira Code', Consolas,
     'Liberation Mono', Menlo, monospace;
-  --fd-layout-width: 88rem;
+  /* Wide enough that the docs shell fills the screen instead of sitting in a
+     centered box; the reading column is capped separately on #nd-page. */
+  --fd-layout-width: 132rem;
 
   --color-fd-primary: hsl(35, 64%, 43%);
   --color-fd-primary-foreground: hsl(40, 30%, 97%);
@@ -76,7 +78,7 @@
   }
 }
 #nd-page {
-  max-width: 52rem;
+  max-width: 72rem;
 }
 
 #nd-page h1,
