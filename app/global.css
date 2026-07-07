@@ -114,24 +114,32 @@
   animation: wumpus-hop 4.5s ease-in-out;
 }
 
-/* Developer-mode trigger: the name glows and a Wumpus peeks from behind it as you
-   click toward unlocking dev mode. --dev-progress runs 0 to 1, set per click. */
+/* Developer-mode trigger: the name glows and grows, and a Wumpus peeks out from
+   behind its edge as you click toward unlocking dev mode. --dev-progress runs 0
+   to 1, set per click. z-index:0 gives the name its own stacking context so the
+   peeking Wumpus (z-index:-1) sits above the nav background rather than behind it. */
 .dev-name {
   position: relative;
-  text-shadow: 0 0 calc(var(--dev-progress, 0) * 12px) var(--color-fd-primary);
+  z-index: 0;
+  display: inline-block;
+  /* The var drives the glow's alpha directly (a fixed blur that fades in) rather
+     than a calc against a length, which Tailwind's CSS engine bakes to a constant. */
+  text-shadow: 0 0 14px rgba(224, 184, 92, var(--dev-progress, 0));
   transition: text-shadow 0.2s ease-out;
 }
 
 .dev-name::after {
   content: '';
   position: absolute;
-  left: 50%;
-  top: 0;
-  height: 15px;
-  width: 15px;
+  left: 100%;
+  top: 50%;
+  margin-left: -4px;
+  height: 20px;
+  width: 20px;
   background: url(/wumpus/wumpus.svg) center / contain no-repeat;
-  transform: translate(-50%, calc(6px - var(--dev-progress, 0) * 22px));
-  opacity: calc(var(--dev-progress, 0) * 0.95);
+  transform-origin: left center;
+  transform: translateY(-50%) scale(var(--dev-progress, 0));
+  opacity: var(--dev-progress, 0);
   transition:
     transform 0.2s ease-out,
     opacity 0.2s ease-out;
