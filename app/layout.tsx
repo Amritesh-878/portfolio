@@ -14,6 +14,7 @@ import { ContextualNudge } from '@/components/site/ContextualNudge';
 import { GameInvite } from '@/components/site/GameInvite';
 import { KonamiEgg } from '@/components/site/KonamiEgg';
 import { FinalEgg } from '@/components/site/FinalEgg';
+import { Toaster } from 'sonner';
 import type { Metadata } from 'next';
 import type { ReactNode } from 'react';
 
@@ -77,6 +78,11 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         <GameInvite />
         <KonamiEgg />
         <FinalEgg />
+        <Toaster
+          position="top-center"
+          offset={72}
+          toastOptions={{ unstyled: true }}
+        />
         <Analytics />
       </body>
     </html>
