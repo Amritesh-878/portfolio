@@ -41,12 +41,12 @@ export const metadata: Metadata = {
   },
   icons: {
     icon: [
-      { url: '/icon.svg', type: 'image/svg+xml' },
-      { url: '/icons/icon-8.png', sizes: '8x8', type: 'image/png' },
-      { url: '/icons/icon-16.png', sizes: '16x16', type: 'image/png' },
-      { url: '/icons/icon-32.png', sizes: '32x32', type: 'image/png' },
-      { url: '/icons/icon-64.png', sizes: '64x64', type: 'image/png' },
-      { url: '/icons/icon-128.png', sizes: '128x128', type: 'image/png' },
+      { url: '/cat.svg', type: 'image/svg+xml' },
+      { url: '/icons/cat-8.png', sizes: '8x8', type: 'image/png' },
+      { url: '/icons/cat-16.png', sizes: '16x16', type: 'image/png' },
+      { url: '/icons/cat-32.png', sizes: '32x32', type: 'image/png' },
+      { url: '/icons/cat-64.png', sizes: '64x64', type: 'image/png' },
+      { url: '/icons/cat-128.png', sizes: '128x128', type: 'image/png' },
     ],
   },
 };
