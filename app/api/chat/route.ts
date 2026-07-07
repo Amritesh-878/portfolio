@@ -4,6 +4,11 @@ import { GoogleGenAI } from '@google/genai';
 import { parseChatRequest } from '@/lib/chat/schema';
 import { rateLimit } from '@/lib/chat/rate-limit';
 import { injectionQuip, isInjectionAttempt } from '@/lib/chat/injection';
+import {
+  CHAT_MODELS,
+  isQuotaError,
+  streamWithFallback,
+} from '@/lib/chat/generate';
 import { embed, embeddingModel } from '@/lib/rag/embeddings';
 import { retrieve } from '@/lib/rag/retrieve';
 import { buildSystemPrompt } from '@/lib/rag/prompt';
@@ -11,7 +16,6 @@ import type { RagIndex, ScoredChunk } from '@/lib/rag/types';
 
 export const runtime = 'nodejs';
 
-const CHAT_MODEL = 'gemini-2.5-flash';
 const EMAIL = 'amritesh.praveen@gmail.com';
 
 let indexCache: RagIndex | null | undefined;
@@ -140,28 +144,28 @@ export async function POST(request: Request): Promise<Response> {
   const ai = new GoogleGenAI({ apiKey });
   const encoder = new TextEncoder();
   const trace = traceOf(results);
+  const systemInstruction = buildSystemPrompt(results);
 
   const stream = new ReadableStream<Uint8Array>({
     async start(controller) {
       controller.enqueue(encoder.encode(`${JSON.stringify({ trace })}\n`));
-      try {
-        const response = await ai.models.generateContentStream({
-          model: CHAT_MODEL,
-          contents,
-          config: { systemInstruction: buildSystemPrompt(results) },
-        });
-        for await (const chunk of response) {
-          if (chunk.text) controller.enqueue(encoder.encode(chunk.text));
-        }
-      } catch {
-        controller.enqueue(
-          encoder.encode(
-            `\n\n(My model dropped mid-thought, likely quota or a hiccup. Try again, or email ${EMAIL}.)`,
-          ),
-        );
-      } finally {
-        controller.close();
+      const result = await streamWithFallback(
+        CHAT_MODELS,
+        (model) =>
+          ai.models.generateContentStream({
+            model,
+            contents,
+            config: { systemInstruction },
+          }),
+        (text) => controller.enqueue(encoder.encode(text)),
+      );
+      if (result.error) {
+        const tail = isQuotaError(result.error)
+          ? `\n\n(I've hit today's free-tier limit on my language model, which resets at midnight Pacific. Email ${EMAIL} and the human will reply.)`
+          : `\n\n(My model dropped mid-thought, likely a hiccup. Try again, or email ${EMAIL}.)`;
+        controller.enqueue(encoder.encode(tail));
       }
+      controller.close();
     },
   });
 
