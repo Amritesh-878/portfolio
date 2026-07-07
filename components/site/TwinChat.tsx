@@ -2,6 +2,9 @@
 
 import { useEffect, useRef, useState, type FormEvent } from 'react';
 
+import { isInjectionAttempt } from '@/lib/chat/injection';
+import { markEgg } from '@/lib/eggs';
+
 interface TraceEntry {
   id: string;
   heading: string;
@@ -57,6 +60,7 @@ export function TwinChat() {
   async function send(text: string): Promise<void> {
     const message = text.trim();
     if (!message || status === 'streaming') return;
+    if (isInjectionAttempt(message)) markEgg('injection');
     const history = messages.slice(-8);
     setMessages((prev) => [
       ...prev,

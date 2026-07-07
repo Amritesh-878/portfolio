@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { useEffect, useRef, useState } from 'react';
 
 import { isDevMode, setDevMode, useDevMode } from '@/lib/dev-mode';
+import { markEgg } from '@/lib/eggs';
 
 const UNLOCK_CLICKS = 10;
 const CLICK_WINDOW_MS = 2000;
@@ -30,6 +31,7 @@ export function DevMode() {
         count.current = 0;
         trigger.style.setProperty('--dev-progress', '0');
         setDevMode(true);
+        markEgg('devmode');
         setToast(true);
         if (toastTimer.current) clearTimeout(toastTimer.current);
         toastTimer.current = setTimeout(() => setToast(false), 4500);

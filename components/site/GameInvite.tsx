@@ -11,6 +11,7 @@ import {
 
 import { alreadyInvited, markInvited } from '@/lib/invite';
 import { prewarmGame } from '@/lib/game/prewarm';
+import { markEgg } from '@/lib/eggs';
 
 const ANSWERED_KEY = 'portfolio-game-invite';
 const PAGES_KEY = 'portfolio-pages';
@@ -53,6 +54,7 @@ export function GameInvite() {
   const open = useCallback(() => {
     if (alreadyInvited() || answered()) return;
     markInvited();
+    markEgg('popup');
     prewarmGame();
     setShow(true);
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {

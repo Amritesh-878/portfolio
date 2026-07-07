@@ -2,6 +2,8 @@
 
 import { useEffect, useState } from 'react';
 
+import { markEgg } from '@/lib/eggs';
+
 // A shorter, forgiving take on the konami code: up up down down left right.
 const SEQUENCE = [
   'ArrowUp',
@@ -27,6 +29,7 @@ export function KonamiEgg() {
       if (progress === SEQUENCE.length) {
         progress = 0;
         setLoose(true);
+        markEgg('konami');
       }
     };
     window.addEventListener('keydown', onKey);

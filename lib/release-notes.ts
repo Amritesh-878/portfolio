@@ -7,12 +7,18 @@ export interface Release {
   fixed?: string[];
 }
 
-export const CURRENT_VERSION = '0.7.0';
+export const CURRENT_VERSION = '0.7.1';
 
 // The site's own version history, newest first, tracking the real commit
 // milestones. Distinct from the career changelog (which frames experience as
 // releases). Easter eggs are hinted at here, never spelled out.
 export const RELEASES: Release[] = [
+  {
+    version: '0.7.1',
+    title: 'For the completionists',
+    date: 'July 2026',
+    added: ['A final easter egg, for people with far too much free time.'],
+  },
   {
     version: '0.7.0',
     title: 'Findable, and a little more hidden',

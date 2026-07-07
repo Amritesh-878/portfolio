@@ -6,6 +6,7 @@ import { DevMode } from '@/components/site/DevMode';
 import { ContextualNudge } from '@/components/site/ContextualNudge';
 import { GameInvite } from '@/components/site/GameInvite';
 import { KonamiEgg } from '@/components/site/KonamiEgg';
+import { FinalEgg } from '@/components/site/FinalEgg';
 import type { Metadata } from 'next';
 import type { ReactNode } from 'react';
 
@@ -53,6 +54,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         <ContextualNudge />
         <GameInvite />
         <KonamiEgg />
+        <FinalEgg />
         <Analytics />
       </body>
     </html>

@@ -17,6 +17,8 @@ import {
 } from 'fumadocs-ui/components/dialog/search';
 import { useI18n } from 'fumadocs-ui/contexts/i18n';
 
+import { markEgg } from '@/lib/eggs';
+
 const COMMANDS = [
   {
     keyword: 'play',
@@ -77,7 +79,10 @@ export default function SearchWithTwin(props: SharedProps) {
               <span className="text-fd-muted-foreground">{command.label}</span>
             </span>
           ),
-          onSelect: () => router.push(command.href),
+          onSelect: () => {
+            markEgg('palette');
+            router.push(command.href);
+          },
         }));
 
   const items = commandQuery !== null ? commandItems : [...results, askTwin];
