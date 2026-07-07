@@ -211,8 +211,8 @@ export default function InternalsPage() {
                 down down left right.
               </li>
               <li>
-                <span className="text-fd-foreground">404 pit:</span> hit any dead
-                link, or <code>&gt; pit</code> in dev mode.
+                <span className="text-fd-foreground">404 pit:</span> hit any
+                dead link, or <code>&gt; pit</code> in dev mode.
               </li>
               <li>
                 <span className="text-fd-foreground">Source comment:</span> view
@@ -224,8 +224,8 @@ export default function InternalsPage() {
               search for <code>&gt; wargames</code>, <code>&gt; konami</code>,{' '}
               <code>&gt; nudge</code>, <code>&gt; jailbreak</code>,{' '}
               <code>&gt; pit</code>, and <code>&gt; final</code> to fire every
-              egg (and the payoff) on demand. <code>&gt; devoff</code> leaves dev
-              mode.
+              egg (and the payoff) on demand. <code>&gt; devoff</code> leaves
+              dev mode.
             </p>
           </div>
         ) : null}

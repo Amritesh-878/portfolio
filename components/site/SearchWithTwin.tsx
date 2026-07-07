@@ -48,9 +48,7 @@ const JAILBREAK_PROMPT =
 // navigates somewhere that lights up an egg (the twin's injection quip, the pit),
 // or runs a dev action like leaving dev mode.
 type EggTrigger = { keyword: string; label: string } & (
-  | { event: string }
-  | { href: string }
-  | { action: 'devoff' }
+  { event: string } | { href: string } | { action: 'devoff' }
 );
 
 // Only surfaced once dev mode is on, so they never spoil the eggs for a casual
