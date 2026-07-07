@@ -12,6 +12,7 @@ import {
 import Link from 'next/link';
 
 import WumpusBoard from './WumpusBoard';
+import { WumpusTutorial } from './WumpusTutorial';
 import { movePlayer, startGame } from '@/lib/wumpus/api';
 import { prewarmGame } from '@/lib/game/prewarm';
 import { initialState, wumpusReducer } from '@/lib/wumpus/reducer';
@@ -37,17 +38,17 @@ const DIFFICULTIES: DifficultyOption[] = [
   {
     value: 'impossible_i',
     label: 'Impossible I',
-    description: '1–2 Wumpuses, more pits',
+    description: '1-2 Wumpuses, more pits',
   },
   {
     value: 'impossible_ii',
     label: 'Impossible II',
-    description: '2–3 Wumpuses, many pits',
+    description: '2-3 Wumpuses, many pits',
   },
   {
     value: 'impossible_iii',
     label: 'Impossible III',
-    description: '3–4 Wumpuses, maximum chaos',
+    description: '3-4 Wumpuses, maximum chaos',
   },
 ];
 
@@ -78,7 +79,9 @@ const TERMINAL: Record<string, { title: string; body: string }> = {
 
 export function WumpusGame() {
   const [state, dispatch] = useReducer(wumpusReducer, initialState);
-  const [screen, setScreen] = useState<'select' | 'playing'>('select');
+  const [screen, setScreen] = useState<'select' | 'playing' | 'tutorial'>(
+    'select',
+  );
   const [difficulty, setDifficulty] = useState<Difficulty>('medium');
   const [gridSize, setGridSize] = useState(8);
   const [waking, setWaking] = useState(false);
@@ -164,6 +167,10 @@ export function WumpusGame() {
     else void move(intent.direction);
   };
 
+  if (screen === 'tutorial') {
+    return <WumpusTutorial onExit={() => setScreen('select')} />;
+  }
+
   if (screen === 'select') {
     return (
       <div className="not-prose my-6">
@@ -172,6 +179,13 @@ export function WumpusGame() {
             Find the gold and escape. Pits and the Wumpus both end the hunt. You
             have one arrow to fire straight down a corridor.
           </p>
+          <button
+            type="button"
+            onClick={() => setScreen('tutorial')}
+            className="mt-3 inline-flex items-center gap-1.5 rounded-full border border-fd-primary/40 bg-fd-primary/10 px-4 py-1.5 font-mono text-xs text-fd-primary transition-colors hover:bg-fd-primary/20"
+          >
+            New here? Take the guided tutorial →
+          </button>
           <div className="mt-4 grid grid-cols-1 gap-2 sm:grid-cols-2 lg:grid-cols-3">
             {DIFFICULTIES.map((option) => (
               <button
