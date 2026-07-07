@@ -1,7 +1,5 @@
 import Link from 'next/link';
 
-import { SiteMark } from '@/components/site/SiteMark';
-
 interface Metric {
   label: string;
   value: string;
@@ -40,13 +38,6 @@ const DOORS: Door[] = [
 export function Hero() {
   return (
     <section className="relative mx-auto max-w-5xl px-4 pt-16 pb-10 sm:pt-20">
-      <span
-        aria-hidden
-        className="pointer-events-none absolute top-8 right-4 hidden opacity-[0.08] lg:block"
-      >
-        <SiteMark size={168} />
-      </span>
-
       <p className="font-mono text-xs tracking-[0.2em] text-fd-primary uppercase">
         AI / ML Engineer
       </p>

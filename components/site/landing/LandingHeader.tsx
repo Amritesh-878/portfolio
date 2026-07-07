@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import { ThemeSwitch } from 'fumadocs-ui/layouts/shared/slots/theme-switch';
 
-import { SiteMark } from '@/components/site/SiteMark';
+import { CatMark } from '@/components/site/CatMark';
 import { DevName } from '@/components/site/DevName';
 import { VersionBadge } from '@/components/site/VersionBadge';
 
@@ -29,7 +29,7 @@ export function LandingHeader() {
       <div className="mx-auto flex h-14 max-w-5xl items-center justify-between px-4">
         <div className="flex items-center gap-2">
           <Link href="/" aria-label="Home" className="flex items-center">
-            <SiteMark size={22} />
+            <CatMark size={26} />
           </Link>
           <DevName className="font-display text-sm font-semibold text-fd-foreground" />
         </div>

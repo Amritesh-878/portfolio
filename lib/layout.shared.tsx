@@ -1,6 +1,6 @@
 import type { BaseLayoutProps } from 'fumadocs-ui/layouts/shared';
 import { VersionBadge } from '@/components/site/VersionBadge';
-import { SiteMark } from '@/components/site/SiteMark';
+import { CatMark } from '@/components/site/CatMark';
 import { DevName } from '@/components/site/DevName';
 
 // Fumadocs' built-in githubUrl renders an svg with role="img" and no accessible
@@ -23,7 +23,7 @@ export function baseOptions(): BaseLayoutProps {
     nav: {
       title: (
         <span className="flex items-center gap-2">
-          <SiteMark size={20} />
+          <CatMark size={24} />
           <DevName />
         </span>
       ),
