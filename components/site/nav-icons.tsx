@@ -1,12 +1,8 @@
-// Shared sizing/shape for the nav action icons (theme toggle, GitHub) so they
-// read as one even set rather than a bare icon beside a wider control.
 export const NAV_ICON_CLASS =
   'flex size-8 items-center justify-center rounded-md text-fd-muted-foreground transition-colors hover:bg-fd-primary/10 hover:text-fd-primary';
 
 const GITHUB_URL = 'https://github.com/Amritesh-878';
 
-// Placeholder GitHub glyph until the user supplies the SVG they want. A custom
-// link (not Fumadocs' githubUrl) lets the button carry an accessible name.
 export function GitHubLink() {
   return (
     <a

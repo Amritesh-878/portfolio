@@ -5,8 +5,7 @@ import { useTheme } from 'next-themes';
 
 import { NAV_ICON_CLASS } from '@/components/site/nav-icons';
 
-// Hydration-safe mount flag without setState-in-effect: the server snapshot is
-// false, the client snapshot true, so the icon settles after hydration.
+// Hydration-safe mount flag (no setState-in-effect).
 const noopSubscribe = () => () => {};
 function useMounted(): boolean {
   return useSyncExternalStore(

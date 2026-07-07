@@ -1,6 +1,4 @@
-// The site mark is Amritesh's GitHub avatar (a black cat). A rounded square keeps
-// the ears from clipping the way a circle would; the hard border ties it to the
-// neo-brutalist chrome and gives the light avatar an edge in dark mode.
+// Rounded square, not a circle: a circle crops the cat's ears.
 export function CatMark({ size = 26 }: { size?: number }) {
   return (
     <span

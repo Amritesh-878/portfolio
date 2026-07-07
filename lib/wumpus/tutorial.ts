@@ -101,8 +101,6 @@ export function canHitWumpus(player: Coord, direction: Direction): boolean {
   return false;
 }
 
-// After a teaching death the player is stepped back, so the run resumes at the
-// phase it would have reached had the fatal step been a safe one.
 export function resolvePostDeathPhase(phase: TutorialPhase): TutorialPhase {
   if (phase === 'welcome' || phase === 'move') return 'exploring';
   if (phase === 'stench') return 'aim';

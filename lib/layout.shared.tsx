@@ -15,10 +15,7 @@ export function baseOptions(): BaseLayoutProps {
         </span>
       ),
     },
-    // One custom link holds the whole action cluster so its spacing is ours, not
-    // Fumadocs' wide gap-6 between separate nav items. GitHub and the toggle
-    // share one icon style; Fumadocs' own theme switch is disabled in the docs
-    // layout so it isn't drawn twice.
+    // Grouped in one custom link so the icon spacing is ours, not Fumadocs' gap-6.
     links: [
       {
         type: 'custom',
