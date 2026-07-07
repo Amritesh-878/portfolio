@@ -13,7 +13,7 @@ const CLICK_WINDOW_MS = 2000;
 function unlockedToast() {
   toast.custom(
     () => (
-      <div className="nb-box flex items-start gap-3 rounded-md bg-fd-background px-4 py-3 font-mono">
+      <div className="flex items-start gap-3 rounded-lg border border-fd-border bg-fd-background/95 px-4 py-3 font-mono shadow-lg backdrop-blur">
         <span className="mt-px select-none text-fd-primary" aria-hidden>
           {'>_'}
         </span>
