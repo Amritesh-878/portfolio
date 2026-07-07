@@ -27,7 +27,7 @@ const PROJECTS: Project[] = [
   {
     name: 'Cognizant Hackathon RAG',
     blurb:
-      'Document-intelligence RAG built under hackathon constraints, with source attribution on every answer.',
+      'Document-intelligence RAG built for a Cognizant hackathon under tight time constraints. It ingests mixed-format documents into a vector store and answers questions with a citation on every response, so every claim traces back to its source. The emphasis was reliability over cleverness: grounded, verifiable answers rather than open-ended generation.',
     stack: ['LangChain', 'Groq', 'ChromaDB'],
     href: 'https://github.com/Amritesh-878/rag-application',
   },
@@ -51,12 +51,6 @@ const PROJECTS: Project[] = [
       'Trending-video analysis across the US and India, delivered as an interactive dashboard.',
     stack: ['Pandas', 'Plotly', 'Streamlit'],
     href: 'https://github.com/Amritesh-878/youtube-trending-analysis',
-  },
-  {
-    name: 'Wildfire Smoke Detection',
-    blurb:
-      'Early wildfire-smoke detection with the SmokeyNet architecture (CNN + LSTM + ViT) on FigLib.',
-    stack: ['PyTorch', 'SmokeyNet', 'FigLib'],
   },
 ];
 
