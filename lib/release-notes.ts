@@ -7,19 +7,33 @@ export interface Release {
   fixed?: string[];
 }
 
-export const CURRENT_VERSION = '0.6.0';
+export const CURRENT_VERSION = '0.6.1';
 
-// The site's own version history, newest first. This is the portfolio evolving,
-// distinct from the career changelog (which frames experience as releases).
+// The site's own version history, newest first, tracking the real commit
+// milestones. Distinct from the career changelog (which frames experience as
+// releases). Easter eggs are hinted at here, never spelled out.
 export const RELEASES: Release[] = [
   {
-    version: '0.6.0',
-    title: 'Developer mode and architecture',
+    version: '0.6.1',
+    title: 'Polish',
     date: 'July 2026',
     added: [
-      'A hidden developer mode, unlocked by clicking my name ten times, with an internals dashboard of live latency, model params, and training charts.',
-      'An architecture page with whole-system diagrams.',
-      'The twin now deflects prompt-injection attempts in character.',
+      'A fuller account of what I build full-time, and a line on what I actually believe.',
+    ],
+    changed: [
+      'The architecture diagrams now use the right shape for each idea, the game board has room to breathe, and the on-page nudges are calmer and rarer.',
+    ],
+    fixed: [
+      'The game now finds its backend by default, so it plays even without extra configuration.',
+    ],
+  },
+  {
+    version: '0.6.0',
+    title: 'Architecture, and a few secrets',
+    date: 'July 2026',
+    added: [
+      'An architecture page with whole-system diagrams of how the site, the twin, and the game fit together.',
+      'A handful of things for the curious, left where they belong and deliberately not listed here. Poke around.',
     ],
     fixed: ['Duplicated subtitles on the changelog and chat pages.'],
   },
@@ -40,13 +54,19 @@ export const RELEASES: Release[] = [
       'A retrieval-grounded chatbot with a visible retrieval trace for every answer.',
       'Search hands unanswered queries to the twin from the command palette.',
     ],
+    changed: [
+      'Chat moved to its own full-page view, with a starter-question landing.',
+    ],
   },
   {
     version: '0.3.0',
     title: 'Content',
     date: 'July 2026',
     added: [
-      'Project deep-dives, certifications, uses, research, and a working contact form.',
+      'Project deep-dives, a certifications wall, uses, research, and a working contact form.',
+    ],
+    changed: [
+      'Projects and Hunter Wumpus are clickable from the breadcrumb and sidebar; certificates ordered by theme.',
     ],
   },
   {
@@ -54,7 +74,7 @@ export const RELEASES: Release[] = [
     title: 'Design system',
     date: 'July 2026',
     added: [
-      'The documentation-style shell: notebook layout, a muted-gold accent, and first-class light and dark modes.',
+      'The documentation-style shell: notebook layout, a muted-gold accent, and first-class light and dark modes with a seamless switch.',
     ],
   },
   {
