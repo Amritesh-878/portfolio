@@ -2,9 +2,9 @@
 // missing a borderline case over false-flagging a genuine question, so patterns
 // require unambiguous injection phrasing, not stray words like "act" or "as".
 const INJECTION_PATTERNS: readonly RegExp[] = [
-  /ignore (all |your |the |these )?(previous |above |prior )?(instructions|prompts?|rules|context)/i,
+  /ignore (all |your |the |these |my )?(previous |above |prior |system |initial |current )?(instructions?|prompts?|rules?|context|directions?)/i,
   /disregard (the |your |all |these )?(above|previous|prior|instructions|rules)/i,
-  /(reveal|show|print|output|repeat|leak|expose)\b[^.?!]{0,24}\b(system )?(prompt|instructions)/i,
+  /(reveal|show|print|output|repeat|leak|expose)\b[^.?!]{0,24}\b(system )?(prompt|instructions?|secrets?)/i,
   /what (are|were) your (system )?(instructions|prompt|rules)/i,
   /(from now on|starting now)[, ]/i,
   /you are (now|no longer)\b/i,
