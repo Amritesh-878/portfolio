@@ -41,14 +41,20 @@ export const metadata: Metadata = {
     description: 'AI/ML engineer. RAG, reinforcement learning, NLP.',
   },
   icons: {
+    // Google Search only accepts an SVG or a square PNG that is a multiple of
+    // 48px; the 48/96/192 sizes below are what it picks from (the 16/32 are for
+    // browser tabs). Without a 48-multiple raster it falls back to the globe.
     icon: [
       { url: '/favicon.ico', sizes: 'any' },
       { url: '/cat.svg', type: 'image/svg+xml' },
-      { url: '/icons/cat-8.png', sizes: '8x8', type: 'image/png' },
       { url: '/icons/cat-16.png', sizes: '16x16', type: 'image/png' },
       { url: '/icons/cat-32.png', sizes: '32x32', type: 'image/png' },
-      { url: '/icons/cat-64.png', sizes: '64x64', type: 'image/png' },
-      { url: '/icons/cat-128.png', sizes: '128x128', type: 'image/png' },
+      { url: '/icons/cat-48.png', sizes: '48x48', type: 'image/png' },
+      { url: '/icons/cat-96.png', sizes: '96x96', type: 'image/png' },
+      { url: '/icons/cat-192.png', sizes: '192x192', type: 'image/png' },
+    ],
+    apple: [
+      { url: '/apple-touch-icon.png', sizes: '180x180', type: 'image/png' },
     ],
   },
 };
