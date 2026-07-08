@@ -26,7 +26,7 @@ describe('knowledge corpus', () => {
 
   it('retains anchor facts so accidental deletion fails a test', () => {
     const text = chunks.map((c) => c.text).join('\n');
-    expect(text).toContain('amritesh.praveen@gmail.com');
+    expect(text).toContain('contact@amritesh.net');
     expect(text).toContain('10.5281/zenodo.20076630');
   });
 });

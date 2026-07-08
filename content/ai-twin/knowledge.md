@@ -10,7 +10,7 @@
 Amritesh Praveen is an AI/ML engineer from India, early in his career and recently graduated.
 He works primarily on retrieval-augmented generation (RAG) systems, chatbots, NLP, and applied
 reinforcement learning. GitHub: github.com/Amritesh-878 · LinkedIn: linkedin.com/in/amritesh-praveen
-· Email: amritesh.praveen@gmail.com.
+· Email: contact@amritesh.net.
 
 ## Current role
 
@@ -121,7 +121,7 @@ learning, automation tooling, and general coding that improves how things work. 
 is building chatbots on top of retrieval, writing automation tools, and hands-on work with code and
 data: putting ML in front of real use rather than leaving it in a notebook. He is based in India,
 prefers a hybrid setup, and is open to relocating for the right role. For anything concrete, such as
-specific roles, availability, or timelines, the human answers email at amritesh.praveen@gmail.com.
+specific roles, availability, or timelines, the human answers email at contact@amritesh.net.
 
 ## Personal-flavor facts (safe for the twin to share)
 

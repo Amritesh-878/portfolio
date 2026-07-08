@@ -16,7 +16,7 @@ import type { RagIndex, ScoredChunk } from '@/lib/rag/types';
 
 export const runtime = 'nodejs';
 
-const EMAIL = 'amritesh.praveen@gmail.com';
+const EMAIL = 'contact@amritesh.net';
 
 let indexCache: RagIndex | null | undefined;
 
