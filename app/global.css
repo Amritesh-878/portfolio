@@ -225,3 +225,27 @@ button.nb-box:active {
   pointer-events: none;
   z-index: -1;
 }
+
+/* Dark mode: the white rim floats on a near-black core, reading as a hole in the
+   dark ground. Light mode can't reuse a white rim, so it masks the same pit shape
+   in a soft dark tone: a clean pit-mouth outline on the page, present but not heavy. */
+.pit-art {
+  -webkit-mask: url(/wumpus/pit.svg) center / 56% no-repeat;
+  mask: url(/wumpus/pit.svg) center / 56% no-repeat;
+  background-color: color-mix(
+    in srgb,
+    var(--color-fd-foreground) 58%,
+    transparent
+  );
+}
+
+.dark .pit-art {
+  -webkit-mask: none;
+  mask: none;
+  background-color: transparent;
+  background-image:
+    url(/wumpus/pit.svg), radial-gradient(circle, #0b0b0b 46%, transparent 78%);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 56%, 100%;
+}

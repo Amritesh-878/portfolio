@@ -65,13 +65,13 @@ export function FinalEgg() {
           <p className="text-sm uppercase tracking-widest text-fd-primary">
             Achievement unlocked
           </p>
-          <p className="mt-4 text-xl text-fd-foreground">
+          <p className="mt-4 text-xl text-neutral-100">
             You found every easter egg.
           </p>
-          <p className="mt-3 text-sm text-fd-muted-foreground">
+          <p className="mt-3 text-sm text-neutral-400">
             I honestly didn&apos;t think anyone would.
           </p>
-          <p className="mt-1 text-sm text-fd-muted-foreground">...</p>
+          <p className="mt-1 text-sm text-neutral-400">...</p>
           <button
             type="button"
             onClick={reveal}

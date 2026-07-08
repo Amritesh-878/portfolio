@@ -337,7 +337,7 @@ export default function InternalsPage() {
                 className="aspect-video w-full"
                 style={chartStyle(chart.src)}
               />
-              <figcaption className="border-t border-fd-border px-3 py-2 font-mono text-xs text-fd-muted-foreground">
+              <figcaption className="border-t border-white/10 px-3 py-2 font-mono text-xs text-neutral-400">
                 {chart.label}
               </figcaption>
             </figure>

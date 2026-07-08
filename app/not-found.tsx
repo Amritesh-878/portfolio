@@ -6,16 +6,7 @@ export default function NotFound() {
       <p className="font-mono text-sm text-fd-muted-foreground">
         error 404: you feel a breeze
       </p>
-      <div
-        aria-hidden
-        className="h-24 w-24 rounded-lg bg-neutral-900 shadow-inner"
-        style={{
-          backgroundImage: 'url(/wumpus/pit.svg)',
-          backgroundSize: '68%',
-          backgroundRepeat: 'no-repeat',
-          backgroundPosition: 'center',
-        }}
-      />
+      <div aria-hidden className="pit-art h-24 w-24" />
       <h1 className="text-3xl font-semibold text-fd-primary">
         You fell into a pit.
       </h1>
