@@ -54,8 +54,7 @@ export function canToggleAim(params: {
 export type KeyIntent =
   { kind: 'aim' } | { kind: 'move'; direction: Direction };
 
-// Space toggles aim; WASD/arrows move; any other key yields null so the caller
-// leaves the event untouched (no preventDefault).
+// Space toggles aim; WASD/arrows move; any other key yields null
 export function resolveKey(code: string): KeyIntent | null {
   if (code === 'Space') return { kind: 'aim' };
   const direction = CODE_TO_DIRECTION[code];

@@ -1,0 +1,32 @@
+---
+title: Architecture
+description: How this site is built, thinks, and plays, in diagrams.
+---
+
+import { SystemOverview } from '@/components/site/ArchitectureDiagrams';
+
+This site is four systems wearing one documentation skin: a set of static pages,
+a retrieval-grounded chatbot, a reinforcement-learning game, and a self-hosted
+contact pipeline. All of it runs on free tiers.
+
+## The whole system
+
+<SystemOverview />
+
+The pages are static MDX, built and served by Next.js on Vercel. The AI twin is a
+Node serverless function on the same deployment; it reads a search index that is
+built once at deploy time and bundled into the function, so there is no database to
+run. The game talks to a separate FastAPI service on a Hugging Face Space. Your
+browser only ever talks to this site and, for the game, that Space: Gemini is
+called server-side, and its key never ships to the client.
+
+## The parts
+
+Each system has its own page now:
+
+- [The AI twin](/architecture/ai-twin): hybrid retrieval, a fallback chain of
+  models, and honest failure modes.
+- [The game backend](/architecture/game): a PPO policy on CPU, one per difficulty,
+  on a Space warmed before you notice.
+- [The contact pipeline](/architecture/contact): a self-hosted form with a human
+  check, one email out, and nothing stored.

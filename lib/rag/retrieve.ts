@@ -4,13 +4,12 @@ import type { RagIndex, ScoredChunk } from './types';
 const RRF_K = 60;
 const PER_RETRIEVER_K = 8;
 
+// Index and query vectors are unit-normalized, so cosine similarity is a dot product.
 function dot(a: number[], b: number[]): number {
   let sum = 0;
   for (let i = 0; i < a.length; i++) sum += a[i] * b[i];
   return sum;
 }
-
-// Index and query vectors are unit-normalized, so cosine similarity is a dot product.
 function cosineRanking(
   queryVector: number[],
   vectors: number[][],
@@ -23,8 +22,7 @@ function cosineRanking(
     .map((entry) => entry.index);
 }
 
-// Reciprocal Rank Fusion: score(doc) = Σ 1/(RRF_K + rank). It fuses the two
-// rankings without having to calibrate the retrievers' incomparable raw scores.
+// Reciprocal Rank Fusion: score(doc) = Σ 1/(RRF_K + rank). It fuses the two rankings
 export function reciprocalRankFusion(
   rankings: number[][],
 ): Map<number, number> {

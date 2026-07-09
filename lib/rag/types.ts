@@ -30,8 +30,7 @@ export interface RagIndex {
   schemaVersion: number;
   model: string;
   builtAt: string;
-  // sha256 of the corpus at build time; lets the deploy skip re-embedding (and the
-  // embedding quota) when the corpus is unchanged. Absent in pre-hash indexes.
+  // sha256 of the corpus; a match lets deploys reuse the index. Absent in pre-hash indexes.
   corpusHash?: string;
   chunks: Chunk[];
   vectors: number[][];

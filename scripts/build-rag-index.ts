@@ -10,7 +10,7 @@ import type { RagIndex } from '../lib/rag/types';
 try {
   process.loadEnvFile();
 } catch {
-  /* no .env file (e.g. on Vercel) — use the injected environment */
+  /* no .env file (e.g. on Vercel); use the injected environment */
 }
 
 const CORPUS_FILE = join(process.cwd(), 'content', 'ai-twin', 'knowledge.md');
@@ -31,9 +31,8 @@ async function main(): Promise<void> {
   const model = embeddingModel();
   const existing = readExistingIndex();
 
-  // The index is a pure function of the corpus, so a committed, matching index
-  // lets code/asset deploys skip embedding entirely — the free-tier embedding
-  // quota is a hard daily cap, so re-embedding on every deploy is what breaks it.
+  // A matching committed index lets deploys skip embedding entirely; the daily
+  // embed cap cannot fund re-embedding on every deploy.
   if (existing?.model === model && existing.corpusHash === corpusHash) {
     console.log('RAG index is current; reusing the committed index.');
     return;
@@ -59,8 +58,6 @@ async function main(): Promise<void> {
       corpusHash,
     );
   } catch (error) {
-    // Embedding is down (quota or outage). If a prior index exists, ship with it
-    // rather than fail the deploy; only a first-ever build with no index is fatal.
     if (existing) {
       const message = error instanceof Error ? error.message : String(error);
       console.warn(
@@ -75,7 +72,7 @@ async function main(): Promise<void> {
   mkdirSync(dirname(OUTPUT_FILE), { recursive: true });
   writeFileSync(OUTPUT_FILE, JSON.stringify(index));
   console.log(
-    `Wrote ${OUTPUT_FILE} — ${chunks.length} chunks, ${index.vectors[0].length}-dim vectors.`,
+    `Wrote ${OUTPUT_FILE}: ${chunks.length} chunks, ${index.vectors[0].length}-dim vectors.`,
   );
 }
 

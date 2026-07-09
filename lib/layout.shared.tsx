@@ -15,7 +15,6 @@ export function baseOptions(): BaseLayoutProps {
         </span>
       ),
     },
-    // Grouped in one custom link so the icon spacing is ours, not Fumadocs' gap-6.
     links: [
       {
         type: 'custom',

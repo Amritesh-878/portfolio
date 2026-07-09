@@ -1,7 +1,4 @@
 import type { ActionType, Difficulty, GameStateResponse } from './types';
-
-// Public, not a secret: default to the deployed Space so the game works even when
-// NEXT_PUBLIC_WUMPUS_API is not set in the environment.
 export const WUMPUS_API_BASE =
   process.env.NEXT_PUBLIC_WUMPUS_API ??
   'https://percy80-hunter-wumpus-api.hf.space';

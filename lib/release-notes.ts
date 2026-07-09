@@ -8,12 +8,21 @@ export interface Release {
   fixed?: string[];
 }
 
-export const CURRENT_VERSION = '1.0.0';
+export const CURRENT_VERSION = '1.1.0';
 
-// The site's own version history, newest first, tracking the real commit
-// milestones. Distinct from the career changelog (which frames experience as
-// releases). Easter eggs are hinted at here, never spelled out.
 export const RELEASES: Release[] = [
+  {
+    version: '1.1.0',
+    title: 'Harder to kill',
+    date: 'July 2026',
+    added: [
+      'Architecture grew from one page into four: the site, the twin, the game backend, and the contact pipeline each get their own.',
+      'The twin is wired for a self-hosted fallback model, for the day every free tier runs dry at once.',
+    ],
+    changed: [
+      'Newer Gemini models behind the chat, and keyword-only retrieval keeps answers coming even when embeddings are down.',
+    ],
+  },
   {
     version: '1.0.0',
     title: 'A front door',
@@ -108,7 +117,7 @@ export const RELEASES: Release[] = [
     title: 'Design system',
     date: 'July 2026',
     added: [
-      'The documentation-style shell: notebook layout, a muted-gold accent, and first-class light and dark modes with a seamless switch.',
+      'The documentation-style shell: notebook layout, a muted-gold accent, and first-class light and dark modes with an instant switch.',
     ],
   },
   {

@@ -5,9 +5,8 @@ export interface RateLimitResult {
 
 export type RateLimiter = (ip: string, now: number) => RateLimitResult;
 
-// Per-IP hit timestamps kept in-memory per serverless instance rather than
-// globally, so the effective limit loosens under scale-out; fine at portfolio
-// traffic, and Upstash is the documented upgrade path if it ever isn't.
+// Per-instance memory: the effective limit loosens under serverless scale-out;
+// acceptable at portfolio traffic.
 export function createRateLimiter(windowMs: number, max: number): RateLimiter {
   const hits = new Map<string, number[]>();
   return (ip, now) => {

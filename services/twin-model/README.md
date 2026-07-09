@@ -18,15 +18,15 @@ option.
 
 ## API
 
-- `POST /v1/chat/completions` — OpenAI-compatible chat completions with streaming. Requires
+- `POST /v1/chat/completions`: OpenAI-compatible chat completions with streaming. Requires
   `Authorization: Bearer <key>`, where the key comes from the `TWIN_MODEL_API_KEY` Space
   secret. Thinking is disabled server-side; callers may also send
   `chat_template_kwargs: {"enable_thinking": false}`.
-- `GET /health` — unauthenticated readiness probe, used to wake the Space before a visitor
+- `GET /health`: unauthenticated readiness probe, used to wake the Space before a visitor
   sends their first message.
 
 ## Fine-tuning
 
-The served model can be tuned on a curated voice dataset without touching this Space's code —
+The served model can be tuned on a curated voice dataset without touching this Space's code;
 the swap is a filename change in the Dockerfile. `finetune.ipynb` runs the QLoRA fine-tune on
 a free Colab GPU and exports a drop-in GGUF.

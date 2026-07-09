@@ -1,10 +1,3 @@
-// The chat endpoint streams a single JSON header line, one newline, then the
-// answer text (which may itself contain newlines). Both the twin UI and the
-// diagnostics page consume this shape, so the split lives here once.
-
-// Split the accumulated buffer on the FIRST newline: everything before is the
-// header line, everything after is the answer so far. headerLine stays null
-// until that newline has arrived, so callers keep buffering.
 export function splitChatStream(buffer: string): {
   headerLine: string | null;
   answer: string;
@@ -17,8 +10,6 @@ export function splitChatStream(buffer: string): {
   };
 }
 
-// Parse the header's trace, best-effort: a malformed or partial header must not
-// break the answer stream, so any failure yields an empty trace.
 export function parseChatTrace<T>(headerLine: string): T[] {
   try {
     const head = JSON.parse(headerLine) as { trace?: T[] };

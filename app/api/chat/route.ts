@@ -24,7 +24,7 @@ export const runtime = 'nodejs';
 export const maxDuration = 60;
 
 const TWIN_TAIL_NOTE =
-  "\n\n(Gemini's free tier is spent for today, so my own self-hosted model answered this one — slower, but always awake.)";
+  "\n\n(Gemini's free tier is spent for today, so my own self-hosted model answered this one. Slower, but always awake.)";
 
 const EMAIL = 'contact@amritesh.net';
 

@@ -3,8 +3,6 @@ import type { Chunk, ChunkOptions } from './types';
 const DEFAULT_MAX_TOKENS = 512;
 const DEFAULT_OVERLAP_TOKENS = 64;
 
-// Cheap heuristic (~4 chars per token). Size limits here are soft, so a real
-// tokenizer would be false precision and a dependency lib/rag deliberately avoids.
 function estimateTokens(text: string): number {
   return Math.ceil(text.length / 4);
 }
@@ -26,12 +24,10 @@ interface Section {
 function parseSections(source: string): Section[] {
   const sections: Section[] = [];
   let current: Section | null = null;
-  // Normalize CRLF/CR: the heading regex's $ anchor won't match before a stray
-  // \r, which would silently yield zero chunks on Windows-authored files.
+  // CRLF breaks the heading regex on Windows-authored files and yields zero chunks.
   const lines = source.replace(/\r\n?/g, '\n').split('\n');
-  // Only H2 sections become chunks; content before the first H2 (the doc title
-  // and the review-note blockquote) is dropped so the note is never indexed.
   for (const line of lines) {
+    // Anything before the first H2 (doc title, review note) never becomes a chunk.
     const heading = /^##\s+(.+)$/.exec(line);
     if (heading) {
       if (current) sections.push(current);

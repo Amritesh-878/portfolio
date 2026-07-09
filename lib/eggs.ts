@@ -1,7 +1,4 @@
-// Tracks which easter eggs a visitor has found. When every trackable one is
-// discovered, FinalEgg fires the completionist payoff. The source-view comment and
-// the 404 pit are excluded here: a page can't observe someone reading its source,
-// and there is no obvious path to a made-up URL, so neither should gate completion.
+// The source-view comment and the 404 pit are untrackable, so they never gate completion.
 export const EGG_KEYS = [
   'devmode',
   'popup',
@@ -16,8 +13,7 @@ const FOUND_KEY = 'portfolio-eggs-found';
 const CLAIMED_KEY = 'portfolio-eggs-claimed';
 export const EGGS_EVENT = 'portfolio-eggs-change';
 
-// Dev-mode palette commands dispatch these so the timed eggs can be fired on
-// demand instead of waiting for their organic triggers.
+// Dev-mode palette commands dispatch these so the timed eggs can be fired on demand
 export const TRIGGER_WARGAMES = 'portfolio-trigger-wargames';
 export const TRIGGER_KONAMI = 'portfolio-trigger-konami';
 export const TRIGGER_NUDGE = 'portfolio-trigger-nudge';
@@ -42,9 +38,7 @@ export function markEgg(key: EggKey): void {
     found.add(key);
     window.localStorage.setItem(FOUND_KEY, [...found].join(','));
     window.dispatchEvent(new CustomEvent(EGGS_EVENT));
-  } catch {
-    // localStorage can be blocked; egg tracking is best-effort.
-  }
+  } catch {}
 }
 
 export function allEggsFound(): boolean {
@@ -64,7 +58,5 @@ export function claimFinal(): void {
   if (typeof window === 'undefined') return;
   try {
     window.localStorage.setItem(CLAIMED_KEY, '1');
-  } catch {
-    // best-effort
-  }
+  } catch {}
 }

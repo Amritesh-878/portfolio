@@ -41,8 +41,7 @@ export function buildBm25(chunks: Chunk[]): Bm25Stats {
 
 function idf(term: string, stats: Bm25Stats): number {
   const n = stats.df[term] ?? 0;
-  // Smoothed BM25 idf; the outer 1 + keeps it strictly positive for a curated
-  // corpus where no term appears in every document.
+  // Smoothed idf; the outer 1 + keeps it strictly positive.
   return Math.log(1 + (stats.docCount - n + 0.5) / (n + 0.5));
 }
 

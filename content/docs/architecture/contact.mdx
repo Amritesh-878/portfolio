@@ -1,0 +1,30 @@
+---
+title: Contact pipeline
+description: A self-hosted form with a human check, one email out, and nothing stored.
+---
+
+The contact form is its own small system rather than a third-party embed: the page
+never hands your message to anyone but this site's API, and the API's only job is
+to turn it into a single email.
+
+## The path
+
+The form posts to a serverless function on this site. A hidden honeypot field
+catches naive bots first: fill it and the submission is silently accepted and
+dropped, so the bot learns nothing. Real submissions are checked with Cloudflare
+Turnstile, verified server-side, then sent through Resend as one email with
+reply-to set to your address. The receiving inbox is configured server-side and
+never rendered anywhere.
+
+## What gets kept
+
+Nothing. There is no database; the email is the only artifact. The function logs
+one structured line per submission for debugging, with a hashed IP, timing, and
+pass or fail outcomes. The message body and your address are never logged.
+
+## When it breaks
+
+Submissions are rate-limited per IP. If the human check fails, or the mail service
+is down or unconfigured, the form says so plainly and gives the direct address
+instead of spinning. The direct address always works:
+[contact@amritesh.net](mailto:contact@amritesh.net).

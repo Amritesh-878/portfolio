@@ -11,8 +11,6 @@ export type ContactParseResult =
 
 const LIMITS = { name: 100, email: 200, subject: 200, message: 5000 } as const;
 
-// Pragmatic shape check, not RFC 5322: the real proof an address works is that a
-// reply reaches it. Turnstile, verified server-side, is the actual spam gate.
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 function str(value: unknown): string {

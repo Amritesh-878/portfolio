@@ -1,5 +1,3 @@
-// One game/twin invitation per browser session, shared by the WarGames popup and
-// the contextual nudges so they never both fire at the same visitor.
 export const INVITE_KEY = 'portfolio-invited';
 
 export function alreadyInvited(): boolean {
@@ -15,7 +13,5 @@ export function markInvited(): void {
   if (typeof window === 'undefined') return;
   try {
     window.sessionStorage.setItem(INVITE_KEY, '1');
-  } catch {
-    // sessionStorage throws in some privacy modes; the invite is best-effort.
-  }
+  } catch {}
 }

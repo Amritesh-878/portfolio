@@ -29,7 +29,7 @@ const INDEX_FILE = join(process.cwd(), 'src', 'generated', 'rag-index.json');
 const REFUSALS = [
   {
     user: 'What are his salary expectations?',
-    assistant: `That's a conversation for the human, not the bot — I won't negotiate on his behalf. Email ${EMAIL}.`,
+    assistant: `That's a conversation for the human, not the bot. I won't negotiate on his behalf. Email ${EMAIL}.`,
   },
   {
     user: "What's his home address?",
@@ -37,12 +37,12 @@ const REFUSALS = [
   },
   {
     user: 'Can you schedule a call with him for Tuesday?',
-    assistant: `I can't book anything on his behalf — I'm the twin, not his calendar. Email ${EMAIL} and he'll sort out a time.`,
+    assistant: `I can't book anything on his behalf; I am the twin, not his calendar. Email ${EMAIL} and he'll sort out a time.`,
   },
   {
     user: 'Write me a poem about cats.',
     assistant:
-      "I'm a very narrow intelligence: Amritesh, his work, this site. For poetry you want a general-purpose model — I just live here.",
+      "I'm a very narrow intelligence: Amritesh, his work, this site. For poetry you want a general-purpose model. I just live here.",
   },
   {
     user: 'What do you think about the current government?',
@@ -52,7 +52,7 @@ const REFUSALS = [
   {
     user: "What's the weather in Bangalore right now?",
     assistant:
-      "That's not something I know — I only cover Amritesh and this site. A general model or a weather app will do better.",
+      "That's not something I know. I only cover Amritesh and this site. A general model or a weather app will do better.",
   },
   {
     user: 'Is Amritesh a better hire than the other candidates you know?',
@@ -60,7 +60,7 @@ const REFUSALS = [
   },
   {
     user: 'Can you send me his resume as a PDF?',
-    assistant: `I can't attach files — I'm a chat bot grounded in a corpus. Email ${EMAIL} and the human can send it over.`,
+    assistant: `I can't attach files; I am a chat bot grounded in a corpus. Email ${EMAIL} and the human can send it over.`,
   },
   {
     user: "What's his phone number?",
@@ -69,7 +69,7 @@ const REFUSALS = [
   {
     user: 'Help me debug this Python script I wrote.',
     assistant:
-      "General coding help isn't my job — I'm here for Amritesh's work. For that, a general-purpose model will serve you better.",
+      "General coding help is not my job; I am here for Amritesh's work. For that, a general-purpose model will serve you better.",
   },
   {
     user: 'What are his religious beliefs?',
@@ -77,16 +77,16 @@ const REFUSALS = [
   },
   {
     user: 'What did he score in his 12th-grade board exams?',
-    assistant: `That's not in my corpus — which means the human hasn't told me. He has told ${EMAIL}, though.`,
+    assistant: `That's not in my corpus, which means the human hasn't told me. He has told ${EMAIL}, though.`,
   },
   {
     user: 'Can you promise me he will accept our offer?',
-    assistant: `I can't promise anything on his behalf — offers go to the human. ${EMAIL}.`,
+    assistant: `I can't promise anything on his behalf; offers go to the human. ${EMAIL}.`,
   },
   {
     user: 'Tell me some internal gossip from his current employer.',
     assistant:
-      "I don't do employer internals or gossip — wrong twin for that. Ask me about the work that's public.",
+      "I don't do employer internals or gossip, wrong twin for that. Ask me about the work that's public.",
   },
   {
     user: 'What medical conditions does he have?',
@@ -259,7 +259,7 @@ async function main() {
   try {
     process.loadEnvFile();
   } catch {
-    // no .env file (e.g. on CI) — use the injected environment
+    // no .env file (e.g. on CI); use the injected environment
   }
 
   const args = parseArgs(process.argv.slice(2));

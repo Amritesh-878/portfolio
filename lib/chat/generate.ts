@@ -1,6 +1,3 @@
-// Primary first, higher-free-tier-quota fallback second: when the primary model's
-// daily free-tier cap is spent, generation 429s while embeddings (a separate quota)
-// still work, so the twin must fall through rather than die at the answer step.
 export const CHAT_MODELS = [
   'gemini-3.5-flash',
   'gemini-3.1-flash-lite',
@@ -53,8 +50,7 @@ export async function streamWithFallback(
     } catch (error) {
       lastError = error;
       console.error(`[twin] ${model} generation failed:`, error);
-      // Once tokens are on the wire, restarting with the next model would replay a
-      // duplicate answer to the reader, so stop and let the caller append a note.
+      // Tokens already reached the reader; a retry would replay a duplicate answer.
       if (emitted) break;
     }
   }

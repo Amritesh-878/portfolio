@@ -1,0 +1,55 @@
+---
+title: AI twin
+description: Hybrid retrieval, a fallback chain of models, and honest failure modes.
+---
+
+import { TwinPipeline } from '@/components/site/ArchitectureDiagrams';
+
+The twin is a retrieval-grounded chatbot, not a model that memorized a biography.
+Everything it can say comes from a curated corpus; the models only provide the
+language.
+
+## How an answer is made
+
+<TwinPipeline />
+
+At deploy time the corpus is chunked along headings, indexed for keyword search
+with BM25, and embedded into 768-dimensional vectors. The result is one JSON file,
+committed to the repo, so deploys are deterministic and there is no vector database
+to run or pay for. At this corpus size, brute-force cosine over the vectors costs
+microseconds.
+
+Per question, both retrievers run: the query is embedded for semantic search while
+BM25 handles exact tokens like a patent number. Their rankings are fused with
+Reciprocal Rank Fusion, which only compares ranks, so the two scoring scales never
+need calibration. The top chunks go to the model with one instruction: answer from
+these or decline. The same chunks are shown to you as a retrieval trace, so every
+answer is auditable rather than a black box.
+
+## The model chain
+
+Generation walks a fallback chain: gemini-3.5-flash first, gemini-3.1-flash-lite
+when the primary's daily free tier is spent, and a third, self-hosted model behind
+an OpenAI-compatible endpoint, wired in and dormant until its host is configured.
+When that last tier answers, the reply says so. The chain exists because free
+quotas are real: the twin should degrade, not die.
+
+## Failing honestly
+
+- Every model quota spent: the twin says so and points to email, instead of
+  pretending to think.
+- Embeddings unavailable: retrieval degrades to keyword-only against the local
+  index, and the trace panel marks it. The request path can survive a total
+  Gemini outage.
+- Thin retrieval: when nothing ranks near the top of either retriever, the twin
+  prefers "I'm not sure" over a confident guess.
+
+## Keeping it contained
+
+The Gemini key lives server-side only and never reaches your browser. Messages are
+capped at 1000 characters and 8 turns of history, rate-limited per IP, and screened
+for jailbreak phrasing before any model or quota is touched. Retrieved context is
+framed as data, never as instructions. The prompt and the corpus are public in the
+repo on purpose: anything a public chatbot knows is extractable by chatting anyway,
+so the real boundaries are what goes into the corpus and a key that never leaves
+the server.

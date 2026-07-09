@@ -87,7 +87,7 @@ export async function openTwinModelStream(
       authorization: `Bearer ${key}`,
     },
     // Single-model servers (llama-server) ignore `model`; gateway hosts
-    // (e.g. Workers AI) require it — send it only when configured.
+    // (e.g. Workers AI) require it, so send it only when configured.
     body: JSON.stringify({
       ...(process.env.TWIN_MODEL_NAME
         ? { model: process.env.TWIN_MODEL_NAME }

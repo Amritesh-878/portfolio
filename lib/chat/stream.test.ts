@@ -40,8 +40,6 @@ describe('splitChatStream', () => {
   });
 
   it('keeps newlines that appear inside the answer body', () => {
-    // The model's own error fallback begins with two newlines; those belong to
-    // the answer, not the header split.
     const buffer = `${header([])}\n\n(My model dropped mid-thought.)`;
     const { headerLine, answer } = splitChatStream(buffer);
     expect(headerLine).toBe('{"trace":[]}');
@@ -79,7 +77,6 @@ describe('parseChatTrace', () => {
   });
 
   it('falls back to an empty trace on malformed JSON', () => {
-    // A header split from a still-partial buffer can be invalid JSON.
     expect(parseChatTrace<TraceEntry>('{"trace":[{"id"')).toEqual([]);
   });
 

@@ -1,0 +1,36 @@
+---
+title: Game backend
+description: A PPO policy on CPU, one per difficulty, on a Space warmed before you notice.
+---
+
+import { GameRuntime } from '@/components/site/ArchitectureDiagrams';
+
+The board is a native React component, not an iframe. The intelligence lives on a
+separate FastAPI service in a Hugging Face Docker Space.
+
+## Per move
+
+<GameRuntime />
+
+Each move posts to the service, which advances the game engine and asks a PPO
+policy where the Wumpus should move. There is one trained policy per difficulty
+tier, resolved through a model registry; the impossible tiers run more than one
+Wumpus. The policies were trained offline with Stable-Baselines3, so the Space only
+runs inference, on CPU, which a grid game this size never strains.
+
+## Cold starts
+
+The free Space sleeps when idle. The "shall we play a game?" popup fires a health
+check the moment it renders, so the wake-up cost is paid while you read the prompt,
+and that same check warms every difficulty's model cache. By the time you pick a
+tier, the first move is fast.
+
+## Keeping the door narrow
+
+The game API is public infrastructure with no accounts and nothing to steal, but it
+should still only serve this site. CORS headers could not be the fence: the Space's
+edge injects its own permissive ones. So the fence is in the app itself: any
+request carrying a foreign Origin gets a 403 before it reaches a route.
+
+For the reinforcement learning itself, the reward shaping, and the scent-memory
+observation, read the [Hunter Wumpus deep-dive](/projects/hunter-wumpus).
