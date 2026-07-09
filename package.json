@@ -11,6 +11,7 @@
     "prebuild": "tsx scripts/build-rag-index.ts",
     "build": "next build",
     "build:index": "tsx scripts/build-rag-index.ts",
+    "twin:dataset": "tsx scripts/twin-dataset.mjs",
     "start": "next start",
     "lint": "eslint . --max-warnings 0",
     "lint:fix": "eslint . --fix --max-warnings 0 && prettier --write . --ignore-path .gitignore --ignore-path .prettierignore --ignore-path .prettierignore.local",
