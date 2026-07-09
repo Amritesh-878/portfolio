@@ -215,12 +215,36 @@ function requireKey() {
   return key;
 }
 
+const RETRY_DELAYS_MS = [5_000, 20_000, 45_000];
+
+// Covers Gemini's transient overload (503 UNAVAILABLE / "high demand") and
+// per-minute rate limits; a spent daily cap also matches, and after the last
+// retry it surfaces as the graceful stop in main().
+export function isTransientModelError(error) {
+  return /\b(429|500|503)\b|UNAVAILABLE|RESOURCE_EXHAUSTED|INTERNAL|quota|high demand|overloaded/i.test(
+    error instanceof Error ? error.message : String(error),
+  );
+}
+
 async function draft(client, chunk) {
-  const response = await client.models.generateContent({
-    model: DRAFT_MODEL,
-    contents: draftPrompt(chunk),
-  });
-  return response.text ?? '';
+  for (let attempt = 0; ; attempt++) {
+    try {
+      const response = await client.models.generateContent({
+        model: DRAFT_MODEL,
+        contents: draftPrompt(chunk),
+      });
+      return response.text ?? '';
+    } catch (error) {
+      if (attempt >= RETRY_DELAYS_MS.length || !isTransientModelError(error)) {
+        throw error;
+      }
+      const wait = RETRY_DELAYS_MS[attempt];
+      console.log(
+        `  ${chunk.id}: model busy, retrying in ${wait / 1000}s (attempt ${attempt + 1}/${RETRY_DELAYS_MS.length})`,
+      );
+      await new Promise((resolve) => setTimeout(resolve, wait));
+    }
+  }
 }
 
 function finalNote() {
@@ -265,20 +289,30 @@ async function main() {
   const client = new GoogleGenAI({ apiKey: requireKey() });
 
   let processed = 0;
-  for (const chunk of index.chunks) {
-    if (processed >= args.limit) break;
-    if (done.has(chunk.id)) continue;
-    const pairs = parseQaPairs(await draft(client, chunk));
-    if (pairs.length > 0) {
-      appendFileSync(
-        DRAFT_FILE,
-        serializeJsonl(answerableSamples(chunk, pairs)),
-      );
+  try {
+    for (const chunk of index.chunks) {
+      if (processed >= args.limit) break;
+      if (done.has(chunk.id)) continue;
+      const pairs = parseQaPairs(await draft(client, chunk));
+      if (pairs.length > 0) {
+        appendFileSync(
+          DRAFT_FILE,
+          serializeJsonl(answerableSamples(chunk, pairs)),
+        );
+      }
+      done.add(chunk.id);
+      saveProgress(done);
+      processed++;
+      console.log(`  ${chunk.id}: ${pairs.length} pairs`);
     }
-    done.add(chunk.id);
-    saveProgress(done);
-    processed++;
-    console.log(`  ${chunk.id}: ${pairs.length} pairs`);
+  } catch (error) {
+    if (!isTransientModelError(error)) throw error;
+    const drafted = done.size - 1;
+    console.log('');
+    console.log(
+      `Gemini is unavailable right now (overloaded or quota spent). Progress is saved: ${drafted} of ${index.chunks.length} sections drafted. Re-run npm run twin:dataset later to continue from where this stopped.`,
+    );
+    return;
   }
 
   finalNote();

@@ -3,6 +3,7 @@ import { describe, it, expect } from 'vitest';
 import {
   answerableSamples,
   injectionSamples,
+  isTransientModelError,
   parseQaPairs,
   refusalSamples,
   serializeJsonl,
@@ -113,5 +114,28 @@ describe('serializeJsonl', () => {
     const lines = jsonl.trimEnd().split('\n');
     expect(lines).toHaveLength(1);
     expect(JSON.parse(lines[0])).toEqual(samples[0]);
+  });
+});
+
+describe('isTransientModelError', () => {
+  it('flags overload, rate-limit, and quota shapes', () => {
+    expect(
+      isTransientModelError(
+        new Error(
+          '{"error":{"code":503,"message":"This model is currently experiencing high demand.","status":"UNAVAILABLE"}}',
+        ),
+      ),
+    ).toBe(true);
+    expect(isTransientModelError(new Error('got a 429 back'))).toBe(true);
+    expect(isTransientModelError('RESOURCE_EXHAUSTED: quota')).toBe(true);
+  });
+
+  it('does not flag programming errors', () => {
+    expect(isTransientModelError(new TypeError('x is not a function'))).toBe(
+      false,
+    );
+    expect(isTransientModelError(new Error('GEMINI_API_KEY is not set.'))).toBe(
+      false,
+    );
   });
 });
