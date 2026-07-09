@@ -9,12 +9,22 @@ import {
   isQuotaError,
   streamWithFallback,
 } from '@/lib/chat/generate';
+import {
+  TWIN_MODEL,
+  openTwinModelStream,
+  twinModelConfigured,
+} from '@/lib/chat/twin-model';
 import { embed, embeddingModel } from '@/lib/rag/embeddings';
-import { retrieve } from '@/lib/rag/retrieve';
+import { retrieve, retrieveBm25Only } from '@/lib/rag/retrieve';
 import { buildSystemPrompt } from '@/lib/rag/prompt';
 import type { RagIndex, ScoredChunk } from '@/lib/rag/types';
 
 export const runtime = 'nodejs';
+// Raised for the self-hosted tier, which can run ~30s on CPU.
+export const maxDuration = 60;
+
+const TWIN_TAIL_NOTE =
+  "\n\n(Gemini's free tier is spent for today, so my own self-hosted model answered this one — slower, but always awake.)";
 
 const EMAIL = 'contact@amritesh.net';
 
@@ -123,12 +133,21 @@ export async function POST(request: Request): Promise<Response> {
   }
 
   let results: ScoredChunk[];
+  let retrievalMode: 'hybrid' | 'bm25-only' = 'hybrid';
   try {
-    const queryVector = await embed(parsed.value.message, 'RETRIEVAL_QUERY');
-    results = retrieve(queryVector, parsed.value.message, index, 4);
+    let queryVector: number[] | null = null;
+    try {
+      queryVector = await embed(parsed.value.message, 'RETRIEVAL_QUERY');
+    } catch {
+      retrievalMode = 'bm25-only';
+    }
+    results =
+      queryVector === null
+        ? retrieveBm25Only(parsed.value.message, index, 4)
+        : retrieve(queryVector, parsed.value.message, index, 4);
   } catch {
     return jsonError(
-      `I can't reach my language model right now (quota or outage). Email ${EMAIL}.`,
+      `My knowledge index is unreadable right now. Email ${EMAIL} and the human will answer.`,
       503,
     );
   }
@@ -144,19 +163,34 @@ export async function POST(request: Request): Promise<Response> {
   const ai = new GoogleGenAI({ apiKey });
   const encoder = new TextEncoder();
   const trace = traceOf(results);
+  const header =
+    retrievalMode === 'bm25-only'
+      ? { trace, retrieval: retrievalMode }
+      : { trace };
   const systemInstruction = buildSystemPrompt(results);
+
+  const models = [
+    ...CHAT_MODELS,
+    ...(twinModelConfigured() ? [TWIN_MODEL] : []),
+  ];
 
   const stream = new ReadableStream<Uint8Array>({
     async start(controller) {
-      controller.enqueue(encoder.encode(`${JSON.stringify({ trace })}\n`));
+      controller.enqueue(encoder.encode(`${JSON.stringify(header)}\n`));
       const result = await streamWithFallback(
-        CHAT_MODELS,
+        models,
         (model) =>
-          ai.models.generateContentStream({
-            model,
-            contents,
-            config: { systemInstruction },
-          }),
+          model === TWIN_MODEL
+            ? openTwinModelStream(
+                systemInstruction,
+                parsed.value.history,
+                parsed.value.message,
+              )
+            : ai.models.generateContentStream({
+                model,
+                contents,
+                config: { systemInstruction },
+              }),
         (text) => controller.enqueue(encoder.encode(text)),
       );
       if (result.error) {
@@ -164,6 +198,8 @@ export async function POST(request: Request): Promise<Response> {
           ? `\n\n(I've hit today's free-tier limit on my language model, which resets at midnight Pacific. Email ${EMAIL} and the human will reply.)`
           : `\n\n(My model dropped mid-thought, likely a hiccup. Try again, or email ${EMAIL}.)`;
         controller.enqueue(encoder.encode(tail));
+      } else if (result.model === TWIN_MODEL) {
+        controller.enqueue(encoder.encode(TWIN_TAIL_NOTE));
       }
       controller.close();
     },

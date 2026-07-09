@@ -64,7 +64,11 @@ describe('streamWithFallback', () => {
     );
     expect(out.join('')).toBe('hello world');
     expect(opened).toEqual(['primary']);
-    expect(result).toEqual({ emitted: true, error: undefined });
+    expect(result).toEqual({
+      emitted: true,
+      error: undefined,
+      model: 'primary',
+    });
   });
 
   it('falls back when the primary fails before emitting', async () => {
@@ -83,6 +87,7 @@ describe('streamWithFallback', () => {
     expect(opened).toEqual(['primary', 'fallback']);
     expect(result.emitted).toBe(true);
     expect(result.error).toBeUndefined();
+    expect(result.model).toBe('fallback');
   });
 
   it('does not restart after tokens are emitted', async () => {
@@ -102,6 +107,7 @@ describe('streamWithFallback', () => {
     expect(opened).toEqual(['primary']);
     expect(result.emitted).toBe(true);
     expect(result.error).toEqual({ status: 500 });
+    expect(result.model).toBe('primary');
   });
 
   it('reports the last error when every model is exhausted', async () => {
@@ -112,5 +118,6 @@ describe('streamWithFallback', () => {
     );
     expect(result.emitted).toBe(false);
     expect(isQuotaError(result.error)).toBe(true);
+    expect(result.model).toBeNull();
   });
 });

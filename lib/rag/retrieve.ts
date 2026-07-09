@@ -71,3 +71,21 @@ export function retrieve(
       fusedScore,
     }));
 }
+
+// Degraded retrieval when query embedding is unavailable; BM25 is fully local.
+export function retrieveBm25Only(
+  query: string,
+  index: RagIndex,
+  k = 4,
+): ScoredChunk[] {
+  const bm25Ranking = bm25TopK(query, index.bm25, PER_RETRIEVER_K).map(
+    (entry) => entry.index,
+  );
+  const fused = reciprocalRankFusion([bm25Ranking]);
+  return bm25Ranking.slice(0, k).map((docIndex, position) => ({
+    chunk: index.chunks[docIndex],
+    vecRank: null,
+    bm25Rank: position + 1,
+    fusedScore: fused.get(docIndex) ?? 0,
+  }));
+}

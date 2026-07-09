@@ -28,6 +28,7 @@ export type StreamFactory = (
 export interface StreamResult {
   emitted: boolean;
   error: unknown;
+  model: string | null;
 }
 
 export async function streamWithFallback(
@@ -36,6 +37,7 @@ export async function streamWithFallback(
   onText: (text: string) => void,
 ): Promise<StreamResult> {
   let emitted = false;
+  let emittingModel: string | null = null;
   let lastError: unknown;
   for (const model of models) {
     try {
@@ -44,9 +46,10 @@ export async function streamWithFallback(
         if (chunk.text) {
           onText(chunk.text);
           emitted = true;
+          emittingModel = model;
         }
       }
-      return { emitted, error: undefined };
+      return { emitted, error: undefined, model: emittingModel };
     } catch (error) {
       lastError = error;
       console.error(`[twin] ${model} generation failed:`, error);
@@ -55,5 +58,5 @@ export async function streamWithFallback(
       if (emitted) break;
     }
   }
-  return { emitted, error: lastError };
+  return { emitted, error: lastError, model: emittingModel };
 }

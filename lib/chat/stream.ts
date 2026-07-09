@@ -27,3 +27,12 @@ export function parseChatTrace<T>(headerLine: string): T[] {
     return [];
   }
 }
+
+export function parseRetrievalMode(headerLine: string): string | null {
+  try {
+    const head = JSON.parse(headerLine) as { retrieval?: unknown };
+    return typeof head.retrieval === 'string' ? head.retrieval : null;
+  } catch {
+    return null;
+  }
+}

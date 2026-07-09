@@ -5,6 +5,13 @@ import type { ScoredChunk } from './types';
 // Fused RRF scores below this read as thin context (nothing ranked near the top
 // of either retriever), which flips the twin into its honest "not sure" mode.
 const WEAK_RETRIEVAL_THRESHOLD = 0.02;
+const FUSION_RETRIEVER_COUNT = 2;
+
+function contributingRankings(results: ScoredChunk[]): number {
+  const vector = results.some((r) => r.vecRank !== null) ? 1 : 0;
+  const bm25 = results.some((r) => r.bm25Rank !== null) ? 1 : 0;
+  return vector + bm25;
+}
 
 let personaCache: string | null = null;
 
@@ -20,9 +27,11 @@ function loadPersona(): string {
 
 export function isWeakRetrieval(results: ScoredChunk[]): boolean {
   if (results.length === 0) return true;
-  return (
-    Math.max(...results.map((r) => r.fusedScore)) < WEAK_RETRIEVAL_THRESHOLD
-  );
+  // Scale by active rankings so BM25-only mode is judged against its own ceiling.
+  const rankings = contributingRankings(results) || FUSION_RETRIEVER_COUNT;
+  const threshold =
+    (WEAK_RETRIEVAL_THRESHOLD * rankings) / FUSION_RETRIEVER_COUNT;
+  return Math.max(...results.map((r) => r.fusedScore)) < threshold;
 }
 
 export function buildSystemPrompt(results: ScoredChunk[]): string {

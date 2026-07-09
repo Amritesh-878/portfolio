@@ -3,7 +3,11 @@
 import { useEffect, useRef, useState, type FormEvent } from 'react';
 
 import { isInjectionAttempt } from '@/lib/chat/injection';
-import { parseChatTrace, splitChatStream } from '@/lib/chat/stream';
+import {
+  parseChatTrace,
+  parseRetrievalMode,
+  splitChatStream,
+} from '@/lib/chat/stream';
 import { markEgg } from '@/lib/eggs';
 
 interface TraceEntry {
@@ -31,6 +35,7 @@ export function TwinChat() {
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState('');
   const [trace, setTrace] = useState<TraceEntry[]>([]);
+  const [retrievalMode, setRetrievalMode] = useState<string | null>(null);
   const [status, setStatus] = useState<'idle' | 'streaming' | 'error'>('idle');
   const [error, setError] = useState('');
   const threadRef = useRef<HTMLDivElement>(null);
@@ -62,6 +67,10 @@ export function TwinChat() {
   // Cancel a stream in flight when the reader navigates away mid-answer.
   useEffect(() => () => abortRef.current?.abort(), []);
 
+  useEffect(() => {
+    void fetch('/api/chat/warm').catch(() => undefined);
+  }, []);
+
   async function send(text: string): Promise<void> {
     const message = text.trim();
     if (!message || status === 'streaming') return;
@@ -83,6 +92,7 @@ export function TwinChat() {
     setStatus('streaming');
     setError('');
     setTrace([]);
+    setRetrievalMode(null);
 
     try {
       const response = await fetch('/api/chat', {
@@ -110,6 +120,7 @@ export function TwinChat() {
         if (headerLine === null) continue;
         if (!traceParsed) {
           setTrace(parseChatTrace<TraceEntry>(headerLine));
+          setRetrievalMode(parseRetrievalMode(headerLine));
           traceParsed = true;
         }
         setMessages((prev) => {
@@ -201,6 +212,11 @@ export function TwinChat() {
                       retrieval trace · {trace.length} chunks
                     </summary>
                     <div className="flex flex-col gap-1 px-3 pb-3 font-mono">
+                      {retrievalMode === 'bm25-only' ? (
+                        <div className="text-fd-muted-foreground">
+                          keyword-only retrieval (embeddings unavailable)
+                        </div>
+                      ) : null}
                       {trace.map((entry) => (
                         <div
                           key={entry.id}

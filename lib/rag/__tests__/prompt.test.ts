@@ -25,6 +25,23 @@ describe('isWeakRetrieval', () => {
   it('passes strong retrieval', () => {
     expect(isWeakRetrieval([scored('a', 'A', 'x', 0.05)])).toBe(false);
   });
+
+  it('accepts a real BM25-only hit whose ceiling is a single ranking', () => {
+    const bm25Hit: ScoredChunk = {
+      chunk: {
+        id: 'a',
+        heading: 'A',
+        text: 'x',
+        tokenEstimate: 1,
+        sourceFile: 'knowledge.md',
+      },
+      vecRank: null,
+      bm25Rank: 1,
+      fusedScore: 1 / 61,
+    };
+    expect(isWeakRetrieval([bm25Hit])).toBe(false);
+    expect(isWeakRetrieval([])).toBe(true);
+  });
 });
 
 describe('buildSystemPrompt', () => {

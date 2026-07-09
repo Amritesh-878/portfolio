@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 
-import { parseChatTrace, splitChatStream } from './stream';
+import { parseChatTrace, parseRetrievalMode, splitChatStream } from './stream';
 
 interface TraceEntry {
   id: string;
@@ -86,5 +86,18 @@ describe('parseChatTrace', () => {
   it('falls back to an empty trace when trace is missing or not an array', () => {
     expect(parseChatTrace<TraceEntry>('{}')).toEqual([]);
     expect(parseChatTrace<TraceEntry>('{"trace":"nope"}')).toEqual([]);
+  });
+});
+
+describe('parseRetrievalMode', () => {
+  it('reads the degraded retrieval marker when present', () => {
+    expect(parseRetrievalMode('{"trace":[],"retrieval":"bm25-only"}')).toBe(
+      'bm25-only',
+    );
+  });
+
+  it('returns null when absent or malformed', () => {
+    expect(parseRetrievalMode('{"trace":[]}')).toBeNull();
+    expect(parseRetrievalMode('{"trace":[{"id"')).toBeNull();
   });
 });
