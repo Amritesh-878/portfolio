@@ -10,7 +10,7 @@ import { pathToFileURL } from 'node:url';
 import { buildSystemPrompt } from '../lib/rag/prompt';
 import { injectionQuip } from '../lib/chat/injection';
 
-const DRAFT_MODEL = 'gemini-2.5-flash';
+const DRAFT_MODEL = 'gemini-3.5-flash';
 const PAIRS_PER_CHUNK = 4;
 const EMAIL = 'contact@amritesh.net';
 const TEMPLATES_KEY = '__templates__';

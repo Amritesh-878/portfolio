@@ -8,7 +8,7 @@ import { parseChatTrace, splitChatStream } from '@/lib/chat/stream';
 import { WUMPUS_API_BASE } from '@/lib/wumpus/api';
 
 const MODEL_FACTS: [string, string][] = [
-  ['Chat model', 'gemini-2.5-flash'],
+  ['Chat model', 'gemini-3.5-flash · fallback gemini-3.1-flash-lite'],
   ['Embeddings', 'gemini-embedding-001 · 768-dim · unit-normalized'],
   ['Fusion', 'Reciprocal Rank Fusion · k = 60'],
   ['Per-retriever depth', '8 candidates each, BM25 + vector'],

@@ -2,8 +2,8 @@
 // daily free-tier cap is spent, generation 429s while embeddings (a separate quota)
 // still work, so the twin must fall through rather than die at the answer step.
 export const CHAT_MODELS = [
-  'gemini-2.5-flash',
-  'gemini-2.5-flash-lite',
+  'gemini-3.5-flash',
+  'gemini-3.1-flash-lite',
 ] as const;
 
 export function isQuotaError(error: unknown): boolean {
