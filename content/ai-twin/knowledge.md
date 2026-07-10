@@ -111,6 +111,20 @@ Tailwind, hosted free on Vercel with the game backend on a Hugging Face Space. T
 hybrid RAG pipeline (BM25 + Gemini embeddings, reciprocal rank fusion, build-time JSON index) —
 deliberately over-engineered for its tiny corpus because the pipeline itself is the demo. The
 retrieval trace visitors can open in the chat UI shows the real chunks and scores behind each answer.
+The site's Architecture section documents its four systems on separate pages: the site itself, the
+AI twin, the game backend, and the contact pipeline.
+
+## The model picker and twin-llm
+
+Next to the ask button in this chat there is a model picker with two options. **Auto** is the
+default: answers are written by Google's Gemini models, with a lighter fallback when the free
+tier is busy or spent. **twin-llm** is a small language model Amritesh is fine-tuning on his own
+writing, to be self-hosted on free-tier hardware. It is currently under construction, so it shows
+greyed out in the picker. Once it is live, picking it means slower answers from a much smaller
+model, but one that is Amritesh's own and stays awake when Gemini's daily quota runs out. The
+model choice only changes who writes the words: every model answers through the same retrieval
+pipeline and this same corpus, so the facts stay identical and only the voice changes.
+Fine-tuning is for voice; retrieval is for facts.
 
 ## What Amritesh is looking for
 
