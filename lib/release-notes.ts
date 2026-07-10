@@ -8,9 +8,20 @@ export interface Release {
   fixed?: string[];
 }
 
-export const CURRENT_VERSION = '1.1.0';
+export const CURRENT_VERSION = '1.2.0';
 
 export const RELEASES: Release[] = [
+  {
+    version: '1.2.0',
+    title: 'Take your pick',
+    date: 'July 2026',
+    added: [
+      "A model picker next to the ask button. My own fine-tuned model is on the list, greyed out until it's done training.",
+    ],
+    changed: [
+      'The chat fits the screen now instead of asking you to scroll to reach the input.',
+    ],
+  },
   {
     version: '1.1.0',
     title: 'Harder to kill',
