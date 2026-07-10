@@ -65,4 +65,10 @@ describe('buildSystemPrompt', () => {
   it('adds an honesty note when retrieval is weak', () => {
     expect(buildSystemPrompt([]).toLowerCase()).toContain('not sure');
   });
+
+  it('instructs the model to avoid em and en dashes', () => {
+    expect(buildSystemPrompt(results)).toContain(
+      'Never write em dashes or en dashes',
+    );
+  });
 });

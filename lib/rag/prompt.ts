@@ -55,6 +55,6 @@ export function buildSystemPrompt(results: ScoredChunk[]): string {
     context,
     weakNote,
     '---',
-    'Answer as Amritesh, using only the context above and the rules in your persona.',
+    'Answer as Amritesh, using only the context above and the rules in your persona. Never write em dashes or en dashes: use a comma, a colon, or a new sentence.',
   ].join('\n');
 }

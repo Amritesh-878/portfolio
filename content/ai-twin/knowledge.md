@@ -117,10 +117,10 @@ AI twin, the game backend, and the contact pipeline.
 ## The model picker and twin-llm
 
 Next to the ask button in this chat there is a model picker with two options. **Auto** is the
-default: answers are written by Google's Gemini models, with a lighter fallback when the free
-tier is busy or spent. **twin-llm** is a small language model Amritesh is fine-tuning on his own
-writing, to be self-hosted on free-tier hardware. It is currently under construction, so it shows
-greyed out in the picker. Once it is live, picking it means slower answers from a much smaller
+default: answers are written by Google's Gemini models, with a lighter fallback when the main
+one is busy or out of quota for the day. **twin-llm** is a small language model Amritesh is
+fine-tuning on his own writing and will host himself. It is currently under construction, so it
+shows greyed out in the picker. Once it is live, picking it means slower answers from a much smaller
 model, but one that is Amritesh's own and stays awake when Gemini's daily quota runs out. The
 model choice only changes who writes the words: every model answers through the same retrieval
 pipeline and this same corpus, so the facts stay identical and only the voice changes.
