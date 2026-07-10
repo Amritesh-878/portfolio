@@ -1,17 +1,22 @@
+import { twinModelConfigured } from '@/lib/chat/twin-model';
+
 export const runtime = 'nodejs';
 
 const WARM_TIMEOUT_MS = 3_000;
 
 export async function GET(): Promise<Response> {
-  const url = process.env.TWIN_MODEL_URL;
-  if (url && process.env.TWIN_MODEL_API_KEY) {
+  const configured = twinModelConfigured();
+  if (configured) {
     try {
-      await fetch(`${url}/health`, {
+      await fetch(`${process.env.TWIN_MODEL_URL}/health`, {
         signal: AbortSignal.timeout(WARM_TIMEOUT_MS),
       });
     } catch {
       // Best-effort wake; ignore a cold or sleeping Space.
     }
   }
-  return new Response(null, { status: 204 });
+  return Response.json(
+    { twin: configured },
+    { headers: { 'cache-control': 'no-store' } },
+  );
 }

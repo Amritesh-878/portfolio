@@ -2,7 +2,9 @@
 
 import { useEffect, useRef, useState, type FormEvent } from 'react';
 
+import { ModelPicker } from '@/components/site/ModelPicker';
 import { isInjectionAttempt } from '@/lib/chat/injection';
+import type { ChatModelChoice } from '@/lib/chat/schema';
 import {
   parseChatTrace,
   parseRetrievalMode,
@@ -38,6 +40,8 @@ export function TwinChat() {
   const [retrievalMode, setRetrievalMode] = useState<string | null>(null);
   const [status, setStatus] = useState<'idle' | 'streaming' | 'error'>('idle');
   const [error, setError] = useState('');
+  const [model, setModel] = useState<ChatModelChoice>('auto');
+  const [twinAvailable, setTwinAvailable] = useState(false);
   const threadRef = useRef<HTMLDivElement>(null);
   const autoSent = useRef(false);
   const abortRef = useRef<AbortController | null>(null);
@@ -67,8 +71,17 @@ export function TwinChat() {
   // Cancel a stream in flight when the reader navigates away mid-answer.
   useEffect(() => () => abortRef.current?.abort(), []);
 
+  // One round trip does both jobs: wake the self-hosted model and learn
+  // whether it exists, which unlocks it in the picker.
   useEffect(() => {
-    void fetch('/api/chat/warm').catch(() => undefined);
+    void fetch('/api/chat/warm')
+      .then((res) => (res.ok ? (res.json() as Promise<unknown>) : null))
+      .then((data) => {
+        if (data && typeof data === 'object' && 'twin' in data) {
+          setTwinAvailable(data.twin === true);
+        }
+      })
+      .catch(() => undefined);
   }, []);
 
   async function send(text: string): Promise<void> {
@@ -98,7 +111,7 @@ export function TwinChat() {
       const response = await fetch('/api/chat', {
         method: 'POST',
         headers: { 'content-type': 'application/json' },
-        body: JSON.stringify({ message, history }),
+        body: JSON.stringify({ message, history, model }),
         signal: controller.signal,
       });
       if (!response.ok || !response.body) {
@@ -149,7 +162,13 @@ export function TwinChat() {
   };
 
   return (
-    <div className="not-prose my-6 flex h-[70vh] min-h-[480px] flex-col">
+    <div
+      className={`not-prose mb-2 mt-4 flex flex-col ${
+        messages.length > 0
+          ? 'h-[calc(100dvh-21rem)] min-h-[320px] sm:h-[calc(100dvh-17rem)]'
+          : ''
+      }`}
+    >
       <div
         ref={threadRef}
         role="log"
@@ -158,7 +177,7 @@ export function TwinChat() {
         className="flex-1 overflow-y-auto p-4 sm:p-6"
       >
         {messages.length === 0 ? (
-          <div className="flex h-full flex-col items-center justify-center gap-6 text-center">
+          <div className="flex h-full flex-col items-center gap-6 pt-4 text-center sm:pb-10 sm:pt-10">
             <div>
               <h2 className="font-mono text-lg font-medium text-fd-foreground">
                 Ask my AI twin
@@ -200,7 +219,7 @@ export function TwinChat() {
                   {message.content ||
                     (status === 'streaming' && i === messages.length - 1 ? (
                       <span className="text-fd-muted-foreground">
-                        thinking…
+                        {model === 'twin' ? 'waking my model…' : 'thinking…'}
                       </span>
                     ) : null)}
                 </div>
@@ -245,14 +264,19 @@ export function TwinChat() {
 
       <form
         onSubmit={onSubmit}
-        className="flex gap-2 border-t border-fd-border p-3"
+        className="relative flex gap-2 border-t border-fd-border p-3"
       >
         <input
           value={input}
           onChange={(event) => setInput(event.target.value)}
           placeholder="Ask the twin…"
           aria-label="Ask the AI twin a question"
-          className="flex-1 rounded-full border border-fd-border bg-fd-background px-4 py-2.5 text-sm text-fd-foreground outline-none transition-colors placeholder:text-fd-muted-foreground/60 focus:border-fd-primary"
+          className="min-w-0 flex-1 rounded-full border border-fd-border bg-fd-background px-4 py-2.5 text-sm text-fd-foreground outline-none transition-colors placeholder:text-fd-muted-foreground/60 focus:border-fd-primary"
+        />
+        <ModelPicker
+          value={model}
+          onChange={setModel}
+          twinAvailable={twinAvailable}
         />
         <button
           type="submit"

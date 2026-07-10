@@ -26,6 +26,9 @@ export const maxDuration = 60;
 const TWIN_TAIL_NOTE =
   "\n\n(Gemini's free tier is spent for today, so my own self-hosted model answered this one. Slower, but always awake.)";
 
+const TWIN_FALLBACK_NOTE =
+  "\n\n(My own model didn't answer in time, so Gemini covered this one.)";
+
 const EMAIL = 'contact@amritesh.net';
 
 let indexCache: RagIndex | null | undefined;
@@ -169,10 +172,10 @@ export async function POST(request: Request): Promise<Response> {
       : { trace };
   const systemInstruction = buildSystemPrompt(results);
 
-  const models = [
-    ...CHAT_MODELS,
-    ...(twinModelConfigured() ? [TWIN_MODEL] : []),
-  ];
+  const pinTwin = parsed.value.model === 'twin' && twinModelConfigured();
+  const models = pinTwin
+    ? [TWIN_MODEL, ...CHAT_MODELS]
+    : [...CHAT_MODELS, ...(twinModelConfigured() ? [TWIN_MODEL] : [])];
 
   const stream = new ReadableStream<Uint8Array>({
     async start(controller) {
@@ -198,8 +201,10 @@ export async function POST(request: Request): Promise<Response> {
           ? `\n\n(I've hit today's free-tier limit on my language model, which resets at midnight Pacific. Email ${EMAIL} and the human will reply.)`
           : `\n\n(My model dropped mid-thought, likely a hiccup. Try again, or email ${EMAIL}.)`;
         controller.enqueue(encoder.encode(tail));
-      } else if (result.model === TWIN_MODEL) {
+      } else if (result.model === TWIN_MODEL && !pinTwin) {
         controller.enqueue(encoder.encode(TWIN_TAIL_NOTE));
+      } else if (pinTwin && result.model !== TWIN_MODEL) {
+        controller.enqueue(encoder.encode(TWIN_FALLBACK_NOTE));
       }
       controller.close();
     },

@@ -142,6 +142,76 @@ describe('POST /api/chat tier-3 fallback', () => {
   });
 });
 
+describe('POST /api/chat pinned twin', () => {
+  function askTwin(message: string, ip: string): Request {
+    return post(JSON.stringify({ message, history: [], model: 'twin' }), ip);
+  }
+
+  beforeEach(() => {
+    vi.stubEnv('GEMINI_API_KEY', 'test-key');
+    embedMock.mockReset();
+    embedMock.mockResolvedValue(new Array(768).fill(0.1));
+    generateContentStream.mockReset();
+    vi.spyOn(console, 'error').mockImplementation(() => {});
+  });
+
+  afterEach(() => {
+    vi.unstubAllEnvs();
+    vi.unstubAllGlobals();
+    vi.restoreAllMocks();
+  });
+
+  it('tries the twin first and skips the quota note on an explicit pick', async () => {
+    vi.stubEnv('TWIN_MODEL_URL', 'http://twin.test');
+    vi.stubEnv('TWIN_MODEL_API_KEY', 'twin-secret');
+    const fetchMock = vi.fn().mockResolvedValue(sseResponse('pinned answer'));
+    vi.stubGlobal('fetch', fetchMock);
+
+    const res = await POST(askTwin('what is the wumpus paper?', 'route-pin-1'));
+    const body = await readBody(res);
+
+    expect(res.status).toBe(200);
+    expect(fetchMock).toHaveBeenCalledOnce();
+    expect(generateContentStream).not.toHaveBeenCalled();
+    expect(body).toContain('pinned answer');
+    expect(body).not.toContain('self-hosted model answered');
+  });
+
+  it('falls back to Gemini when the pinned twin fails and says so', async () => {
+    vi.stubEnv('TWIN_MODEL_URL', 'http://twin.test');
+    vi.stubEnv('TWIN_MODEL_API_KEY', 'twin-secret');
+    const fetchMock = vi.fn().mockRejectedValue(new Error('twin is down'));
+    vi.stubGlobal('fetch', fetchMock);
+    generateContentStream.mockReturnValue(
+      Promise.resolve(geminiStream('gemini rescue')),
+    );
+
+    const res = await POST(askTwin('what is the wumpus paper?', 'route-pin-2'));
+    const body = await readBody(res);
+
+    expect(res.status).toBe(200);
+    expect(fetchMock).toHaveBeenCalledOnce();
+    expect(body).toContain('gemini rescue');
+    expect(body).toContain('Gemini covered this one');
+  });
+
+  it('ignores the pin when the twin is not configured', async () => {
+    const fetchMock = vi.fn();
+    vi.stubGlobal('fetch', fetchMock);
+    generateContentStream.mockReturnValue(
+      Promise.resolve(geminiStream('gemini answer')),
+    );
+
+    const res = await POST(askTwin('what is the wumpus paper?', 'route-pin-3'));
+    const body = await readBody(res);
+
+    expect(res.status).toBe(200);
+    expect(fetchMock).not.toHaveBeenCalled();
+    expect(body).toContain('gemini answer');
+    expect(body).not.toContain('covered this one');
+  });
+});
+
 describe('POST /api/chat degraded retrieval', () => {
   beforeEach(() => {
     vi.stubEnv('GEMINI_API_KEY', 'test-key');

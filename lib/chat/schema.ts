@@ -3,9 +3,12 @@ export interface ChatMessage {
   content: string;
 }
 
+export type ChatModelChoice = 'auto' | 'twin';
+
 export interface ChatRequest {
   message: string;
   history: ChatMessage[];
+  model: ChatModelChoice;
 }
 
 export type ParseResult =
@@ -54,6 +57,8 @@ export function parseChatRequest(body: unknown): ParseResult {
     value: {
       message: message.trim(),
       history: normalizeHistory(record.history),
+      // Clients never name raw model IDs; only the literal twin pin is honored.
+      model: record.model === 'twin' ? 'twin' : 'auto',
     },
   };
 }
