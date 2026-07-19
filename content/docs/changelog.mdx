@@ -8,19 +8,11 @@ description: Experience and education, shipped as release notes, newest first.
 Converted from intern to a full-time **AI & ML Associate** at Impact Solutions Lab (an AAM
 Foundation initiative) on 1 June 2026. What I'm building now:
 
-- A **Text-to-SQL survey-intelligence pipeline** that answers plain-English questions over
-  thousands of community survey responses. Groq (Llama 3.3 70B) with schema-aware prompting,
-  read-only SQL validation with auto-repair, and a narration layer that turns query results into
-  concrete program recommendations. The messy multilingual data lives in a hybrid SQLite schema
-  (a shared core table plus an EAV overflow table) so it never needs a migration when new surveys
-  arrive.
-- A **per-student learning chatbot** grounded in each student's own class recordings. A WhisperX
-  Hindi-and-English transcription pipeline with multi-layer hallucination filters feeds a
-  pgvector store of 1,013 chunks across 9 classes; every student gets a RAG bot scoped to what
-  they said, missed, and were taught, with strict per-student isolation. Shipped behind a
-  security audit and a passing 367-test suite.
-- **Rebuilding the entrance-exam portal** into an all-purpose internal assessment platform:
-  teacher content upload (Word to JSON), student and subject assignment, and role-based access.
+- A **Text-to-SQL survey-intelligence pipeline** that answers plain-English questions about
+  community survey data with guarded, read-only SQL and narrated, exact results.
+- A **per-student learning chatbot** grounded in each student's own class recordings, with strict
+  per-student isolation built into the pipeline.
+- More internal tooling around assessments and program operations, which I keep vague on purpose.
 
 ## v2026.05: Graduated
 
@@ -37,8 +29,8 @@ running:
   GitHub Actions.
 - A **Zoom attendance tool** that pulls participant data and turns it into per-student
   attendance reports.
-- The **Adira Academy entrance-exam portal**, used by 300+ students for application,
-  assessment, and selection.
+- The **Adira Academy entrance-exam portal** that ran real application, assessment, and
+  selection rounds.
 - Early work on the **AI for Social Impact** DataHub, exploring community survey data and
   laying the groundwork for a production Text-to-SQL pipeline.
 
