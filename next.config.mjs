@@ -8,6 +8,20 @@ const config = {
   outputFileTracingIncludes: {
     '/api/chat': ['./src/generated/rag-index.json'],
   },
+  async redirects() {
+    return [
+      {
+        source: '/projects/class-recording-rag',
+        destination: '/projects/student-learning-assistant',
+        permanent: true,
+      },
+      {
+        source: '/projects/text-to-sql',
+        destination: '/projects/survey-intelligence',
+        permanent: true,
+      },
+    ];
+  },
 };
 
 const withMDX = createMDX();

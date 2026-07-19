@@ -1,0 +1,41 @@
+---
+title: Survey Intelligence
+description: A production pipeline that answers plain-English questions about community survey data with guarded, read-only SQL.
+---
+
+import { TextToSqlPipeline } from '@/components/site/ISLDiagrams';
+
+## What it is
+
+A production pipeline at Impact Solutions Lab that takes a plain-English question about community
+survey data, generates a read-only SQL query, runs it behind privacy guardrails, and narrates the
+result in two or three sentences. The answers are exact counts and percentages, not
+approximations, because real decisions run on them.
+
+The system is live, keeps growing at work, and handles real people's responses, so this page stays
+at the level of design principles and skips the specifics.
+
+## Why SQL, not vectors
+
+This is structured data, and the questions are aggregates: counts, percentages, breakdowns by
+group. A vector store would answer from the nearest few rows; a SQL query computes over every row
+exactly. So there are no embeddings anywhere in this system, and the query itself is the
+retrieval.
+
+## System design
+
+<TextToSqlPipeline />
+
+- **Messy input, normalized once.** Surveys arrive multilingual and inconsistent, and no two look
+  alike. Ingestion maps everything onto one canonical schema, and every mapping decision is logged
+  so a reviewer can trace how a raw header became a database column.
+- **The model writes SQL and nothing else.** A schema-aware prompt produces a single read-only
+  `SELECT`; anything else is rejected before it reaches the database.
+- **Aggregate-only answers.** Queries return counts and percentages, never rows about a person,
+  and small groups are suppressed so an answer can never single anyone out.
+
+## The rest is on request
+
+The fuller design, the ingestion tradeoffs, and the eval story stay private because the system is
+in production on real community data. If you'd like to walk through it, [reach out](/contact) and
+I'm happy to share selectively.
