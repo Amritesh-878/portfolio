@@ -19,26 +19,33 @@ const PROJECTS: Project[] = [
     badge: '▸ playable',
   },
   {
-    name: 'Survey Text-to-SQL',
+    name: 'Survey Intelligence',
     blurb:
-      'A production pipeline that answers plain-English questions over thousands of messy, multilingual survey responses with exact, guarded SQL. Scores perfectly on a golden-set eval.',
-    stack: ['Python', 'SQLite', 'RapidFuzz', 'FastAPI'],
-    href: '/projects/text-to-sql',
+      'A production pipeline at work that turns plain-English questions over multilingual survey data into guarded, read-only SQL and narrates the exact result.',
+    stack: ['Python', 'SQL', 'FastAPI'],
+    href: '/projects/survey-intelligence',
     badge: '▸ production',
   },
   {
-    name: 'Class-Recording RAG',
+    name: 'Student Learning Assistant',
     blurb:
-      'A production RAG assistant that grounds each student in their own class recordings. It handles student audio, so the deep write-up is shared on request.',
+      'A production RAG assistant that grounds each student in their own classes: the recordings themselves plus the material the class was taught from. It handles student audio, so the deep write-up is shared on request.',
     stack: ['WhisperX', 'pgvector', 'Groq'],
-    href: '/projects/class-recording-rag',
+    href: '/projects/student-learning-assistant',
     locked: true,
   },
   {
     name: 'Exam Portal',
     blurb:
-      'An online entrance-exam portal with in-browser proctoring: face verification, gaze monitoring, and heartbeat liveness, used by 300+ students. Answers and incidents queue asynchronously to a results store.',
-    stack: ['FastAPI', 'OpenCV', 'MediaPipe', 'React'],
+      'An online entrance-exam portal with in-browser proctoring, used for real admission intakes at work.',
+    stack: ['FastAPI', 'OpenCV', 'React'],
+  },
+  {
+    name: 'Wildfire Smoke Detection',
+    blurb:
+      'Term-long college research: we took SmokeyNet, a published wildfire smoke-detection model, got its codebase training on our own hardware, and tested our own improvement ideas against it, from background subtraction to captioning to anomaly detection. Clouds defeated most of them, and learning why was the point.',
+    stack: ['PyTorch Lightning', 'torchvision', 'OpenCV'],
+    badge: '▸ research',
   },
   {
     name: 'Mental Health RAG Chatbot',
@@ -50,23 +57,17 @@ const PROJECTS: Project[] = [
   {
     name: 'Cognizant Hackathon RAG',
     blurb:
-      'Document-intelligence RAG built for a Cognizant hackathon under tight time constraints. It ingests mixed-format documents into a vector store and answers questions with a citation on every response, so every claim traces back to its source. The emphasis was reliability over cleverness: grounded, verifiable answers rather than open-ended generation.',
-    stack: ['LangChain', 'Groq', 'ChromaDB'],
+      'Document-intelligence RAG built for a Cognizant hackathon: two pipelines built in parallel, one fully local and one API-based, then benchmarked head to head. The local build won on context recall and answer faithfulness. My slice was the model integration and the benchmarking.',
+    stack: ['LangChain', 'ChromaDB', 'Groq', 'Ollama'],
     href: 'https://github.com/Amritesh-878/rag-application',
   },
   {
     name: 'Easy Cash ATM',
     blurb:
-      'A full-stack ATM application with a React frontend and a Node/Express backend.',
-    stack: ['React', 'Node.js', 'Express'],
+      'My 10th grade final project, a console Java ATM that kept its records in a CSV file, redesigned in my free time as a full-stack app with an actual UI. A homage, not a flagship.',
+    stack: ['Java', 'React', 'Node.js', 'Express'],
     href: 'https://github.com/Amritesh-878/atm-banking-system',
-  },
-  {
-    name: 'VoiceToText',
-    blurb:
-      'Browser speech-to-text via the Web Speech API, with Whisper-powered audio-file transcription.',
-    stack: ['Web Speech API', 'Whisper', 'Flask'],
-    href: 'https://github.com/Amritesh-878/speech-to-text',
+    badge: '▸ homage',
   },
   {
     name: 'YouTube Trends Dashboard',
