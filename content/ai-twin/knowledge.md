@@ -19,8 +19,11 @@ Foundation — a full-time role he began on **June 1, 2026**, working on the Pro
 vertical. He first joined ISL as an **AI & ML Intern from October 2025 to May 2026**. During the
 internship he built internal automation (a Drive-to-YouTube pipeline that extracts class
 recordings and runs on GitHub Actions; a Zoom attendance-reporting tool) and the Adira Academy
-entrance-exam portal used by 300+ students, and laid the groundwork for a production Text-to-SQL
-pipeline on the AI for Social Impact (AI for SI) DataHub.
+entrance-exam portal, and laid the groundwork for the survey-intelligence pipeline now in
+production. As an associate he runs two production systems for the nonprofit, Survey Intelligence
+and the Student Learning Assistant, both described below. He keeps the public detail on work
+systems deliberately thin because they are live systems on real people's data; the deep write-ups
+are shared on request at contact@amritesh.net.
 
 ## Education
 
@@ -52,6 +55,33 @@ near gold), and a one-arrow shooting mechanic. Stack: React + Vite frontend, Fas
 stable-baselines3/PyTorch for training. It is playable on this website, and it is the system
 behind the published paper above.
 
+## Project: Survey Intelligence
+
+A production pipeline at ISL that answers plain-English questions about community survey data. It
+turns a question into a single read-only SQL query, runs it behind privacy guardrails, and
+narrates the exact result. The data is structured and the questions are aggregates, so there are
+no embeddings anywhere in it: the SQL query is the retrieval. Answers are aggregate-only and small
+groups are suppressed, so no answer can single a respondent out. Because it is a live work system
+on real people's responses, the public description stays at the level of design principles; the
+fuller story is shared on request at contact@amritesh.net.
+
+## Project: Student Learning Assistant
+
+A production RAG assistant at ISL that gives each student a chatbot grounded in their own classes.
+Class recordings are transcribed with WhisperX and indexed per student, and the material each
+class was taught from is indexed alongside them as a second grounding source. Answers say whether
+they came from the class material, the teacher, or the student themselves, and the assistant
+declines when neither source covers a question. Retrieval is gated so a student can only ever get
+answers from their own classes, a boundary enforced in the pipeline rather than left to a prompt.
+It handles students' audio, so the deep write-up is private and shared on request at
+contact@amritesh.net.
+
+## Project: Exam Portal
+
+An online entrance-exam portal with in-browser proctoring that Amritesh built at ISL, used for
+real admission intakes. Like his other work systems, the public description stays deliberately
+vague; anything deeper is an email conversation.
+
 ## Project: Mental Health RAG Chatbot
 
 A retrieval-augmented chatbot for mental-health domain content: Groq-hosted LLM, LangChain
@@ -61,21 +91,39 @@ direct ancestor of the AI twin on this site.
 
 ## Project: Cognizant Hackathon RAG application
 
-A competitive RAG system for document intelligence built during the Cognizant hackathon:
-LangChain + vector database + embedding models for semantic retrieval and QA, with work focused
-on prompt management, context chunking, response evaluation, and inference speed.
+A document-intelligence RAG system built for a Cognizant hackathon by a team of six. The team
+built two pipelines in parallel, one fully local (Unstructured, ChromaDB, Chainlit, Ollama) and
+one API-based (Groq with a JS and Tailwind front end), then benchmarked them head to head: the
+local build won on context recall and answer faithfulness. Amritesh's slice was the model
+integration and the benchmarking across latency, cost, and accuracy.
 
 ## Project: Wildfire Smoke Detection
 
-Early wildfire smoke detection using the SmokeyNet architecture, a hybrid of CNNs, LSTMs, and Vision
-Transformers, trained on the FigLib dataset. The work explored optimization strategies to improve
-accuracy, F1, and robustness. It is a past project, not currently active.
+Term-long college research for Project Centric Learning, a subject built around a single long
+project. Amritesh's team took SmokeyNet, a published wildfire smoke-detection model (a hybrid of
+CNNs, LSTMs, and Vision Transformers trained on the FigLib dataset), and got its PyTorch
+Lightning codebase training on their own hardware, which meant web-scraping a 30 GB dataset,
+cleaning corrupted images, and regenerating the metadata for local runs. They then tested their
+own improvement ideas against it: ViBe background subtraction (rejected, it subtracted the smoke
+too, since smoke is not opaque), DINO and a dedicated cloud-detection model to cut cloud false
+positives, a counterfactual comparison approach (also defeated by clouds), BLIP image captioning
+(it worked, but took about nine minutes against a 3.2 minute detection target), and an
+anomaly-detection framing that trains only on pre-fire frames. Most ideas were rejected, and
+Amritesh talks about that honestly: knowing why an idea fails is the research. It is a past
+project, not currently active.
 
 ## Project: YouTube Trending Analysis Dashboard
 
 Analysis of the Kaggle Trending YouTube dataset across the US and India: engagement-metric
 exploration in Python (Pandas), visualized with Matplotlib/Seaborn/Plotly/WordCloud, delivered
 as an interactive Streamlit dashboard.
+
+## Project: Easy Cash ATM
+
+Amritesh's 10th grade final project was a console Java ATM called Easy Cash that kept its records
+in a CSV file. Years later he redesigned it in his free time as a full-stack app with a React
+front end and a Node and Express backend, giving it an actual UI this time. It stays on the site
+as a homage to where the building habit started, not as a flagship.
 
 ## Earlier experience
 
