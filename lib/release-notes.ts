@@ -8,9 +8,22 @@ export interface Release {
   fixed?: string[];
 }
 
-export const CURRENT_VERSION = '1.2.0';
+export const CURRENT_VERSION = '1.3.0';
 
 export const RELEASES: Release[] = [
+  {
+    version: '1.3.0',
+    title: 'Research, and a homage',
+    date: 'July 2026',
+    added: [
+      'A college research project on wildfire smoke detection, and an honest tally of the improvement ideas the clouds kept defeating.',
+      'My 10th grade final project, a Java ATM, rebuilt years later with a real interface and kept around as a homage.',
+    ],
+    changed: [
+      'The two work projects go by clearer names now, Survey Intelligence and the Student Learning Assistant, with the old links still finding them.',
+      "A lighter touch on the specifics of the live work systems, which run on real people's data.",
+    ],
+  },
   {
     version: '1.2.0',
     title: 'Take your pick',
