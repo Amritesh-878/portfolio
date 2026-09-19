@@ -37,8 +37,9 @@ const PROJECTS: Project[] = [
   {
     name: 'Exam Portal',
     blurb:
-      'An online entrance-exam portal with in-browser proctoring, used for real admission intakes at work.',
-    stack: ['FastAPI', 'OpenCV', 'React'],
+      'A timed, in-browser entrance exam for Adira Academy with camera proctoring and auto-grading, live as a real annual admissions exam.',
+    stack: ['React', 'FastAPI', 'MediaPipe'],
+    badge: '▸ production',
   },
   {
     name: 'Wildfire Smoke Detection',

@@ -78,9 +78,14 @@ contact@amritesh.net.
 
 ## Project: Exam Portal
 
-An online entrance-exam portal with in-browser proctoring that Amritesh built at ISL, used for
-real admission intakes. Like his other work systems, the public description stays deliberately
-vague; anything deeper is an email conversation.
+An online entrance-exam platform Amritesh built for Adira Academy at Impact Solutions Lab. Students
+sit a timed, multi-subject paper in the browser under camera-based proctoring (it watches for an
+absent face, multiple faces, and a gaze turned away), with face enrollment tying an attempt to the
+student who enrolled. Answers and proctoring events are written per-event, so a dropped tab costs one
+event rather than the whole paper, and multiple-choice and spoken answers are auto-graded on submit
+with results synced out through a durable retry queue. He built it during his internship,
+growing it from a single file into two separate services, a React client and a FastAPI backend. It runs as a real annual admissions exam, and because it handles real applicants' data
+the deeper details are shared on request at contact@amritesh.net.
 
 ## Project: Mental Health RAG Chatbot
 
