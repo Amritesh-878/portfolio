@@ -1,4 +1,4 @@
-# AI Twin knowledge corpus — Amritesh Praveen
+# AI Twin knowledge corpus: Amritesh Praveen
 
 > **Amritesh: this file is what your twin knows. Review every fact before launch. The twin is
 > instructed to never answer beyond this corpus, so anything missing here is something it will
@@ -14,8 +14,8 @@ reinforcement learning. GitHub: github.com/Amritesh-878 · LinkedIn: linkedin.co
 
 ## Current role
 
-Amritesh is an **AI & ML Associate at Impact Solutions Lab (ISL)** — an initiative of the AAM
-Foundation — a full-time role he began on **June 1, 2026**, working on the Program and Curriculum
+Amritesh is an **AI & ML Associate at Impact Solutions Lab (ISL)**, an initiative of the AAM
+Foundation, a full-time role he began on **June 1, 2026**, working on the Program and Curriculum
 vertical. He first joined ISL as an **AI & ML Intern from October 2025 to May 2026**. During the
 internship he built internal automation (a Drive-to-YouTube pipeline that extracts class
 recordings and runs on GitHub Actions; a Zoom attendance-reporting tool) and the Adira Academy
@@ -36,20 +36,20 @@ Amritesh co-authored "Reinforcement Learning for Constraint Satisfaction Game Ag
 Gagan Venkat, published May 2026 on Zenodo (DOI: 10.5281/zenodo.20076630). The paper progresses
 from tabular RL methods through deep Q-networks to an adversarial PPO-trained Wumpus agent that
 learns pursuit behavior using memory-based tracking and reward optimization. The accompanying
-system — the game playable on this site — is a full-stack build: FastAPI backend, React frontend,
+system, the game playable on this site, is a full-stack build: FastAPI backend, React frontend,
 Gymnasium-compatible training environment, stable-baselines3 PPO.
 
 ## Patent Publication
 
 Amritesh is listed on Indian patent application 202541017469 A (published 2025-03-07): "Railway
-Track Monitoring and Repairing Device" — a track-riding trolley with acoustic defect sensors, a
+Track Monitoring and Repairing Device", a track-riding trolley with acoustic defect sensors, a
 robotic repair link with motorized cutter, GPS, an EMI sensor, and an AI-based imaging unit for
 monitoring gravel distribution.
 
 ## Project: Hunter Wumpus
 
 An adversarial dungeon game on a 10×10 grid: the player seeks gold or hunts the Wumpus while the
-Wumpus — a PPO-trained RL agent — hunts the player using indirect sensory memory rather than
+Wumpus, a PPO-trained RL agent, hunts the player using indirect sensory memory rather than
 direct sight. Features fog of war, sensory hints (Breeze near pits, Stench near the Wumpus, Shine
 near gold), and a one-arrow shooting mechanic. Stack: React + Vite frontend, FastAPI backend,
 stable-baselines3/PyTorch for training. It is playable on this website, and it is the system
@@ -127,12 +127,12 @@ as a homage to where the building habit started, not as a flagship.
 
 ## Earlier experience
 
-- **SixPhrase — Machine Learning Intern (Feb–May 2025):** end-to-end classical ML — data
+- **SixPhrase, Machine Learning Intern (Feb to May 2025):** end-to-end classical ML: data
   preprocessing (missing values, scaling, encoding), dimensionality reduction with PCA/LDA that
   cut training time ~25%, supervised models (logistic regression, decision trees, SVM, KNN)
   reaching up to 87% accuracy, cross-validation and metric-driven evaluation, L1/L2/dropout
   regularization.
-- **Miles Education — Data Analysis Intern (Apr–May 2024):** SQL data cleaning that reduced
+- **Miles Education, Data Analysis Intern (Apr to May 2024):** SQL data cleaning that reduced
   redundancy ~30%, Pandas/Matplotlib/Seaborn analysis, weekly stakeholder presentations, and a
   hotel-bookings behavior study.
 
@@ -156,7 +156,7 @@ Services); Google Cloud Computing Foundations (Google Cloud).
 
 The portfolio itself is a project: a docs-site-style portfolio built with Next.js, Fumadocs, and
 Tailwind, hosted free on Vercel with the game backend on a Hugging Face Space. The AI twin is a
-hybrid RAG pipeline (BM25 + Gemini embeddings, reciprocal rank fusion, build-time JSON index) —
+hybrid RAG pipeline (BM25 + Gemini embeddings, reciprocal rank fusion, build-time JSON index),
 deliberately over-engineered for its tiny corpus because the pipeline itself is the demo. The
 retrieval trace visitors can open in the chat UI shows the real chunks and scores behind each answer.
 The site's Architecture section documents its four systems on separate pages: the site itself, the
