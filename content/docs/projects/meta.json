@@ -1,4 +1,8 @@
 {
   "title": "Projects",
-  "pages": ["hunter-wumpus", "survey-intelligence", "student-learning-assistant"]
+  "pages": [
+    "hunter-wumpus",
+    "survey-intelligence",
+    "student-learning-assistant"
+  ]
 }

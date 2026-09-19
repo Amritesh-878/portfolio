@@ -8,6 +8,8 @@ import { Evidence } from '@/components/site/landing/Evidence';
 import { SpecSheet } from '@/components/site/landing/SpecSheet';
 import { FeaturedWork } from '@/components/site/landing/FeaturedWork';
 import { DocsDoor } from '@/components/site/landing/DocsDoor';
+import { embedHref } from '@/lib/discord-embed';
+import { siteOrigin } from '@/lib/site-origin';
 
 const DESCRIPTION =
   'AI/ML engineer building production RAG systems, reinforcement-learning agents, and NLP. Explore the docs, chat with my AI twin, or play against a PPO agent.';
@@ -57,6 +59,11 @@ const JSON_LD = {
 export default function LandingPage() {
   return (
     <>
+      <link
+        rel="discord:component-embed"
+        type="application/json"
+        href={embedHref(siteOrigin())}
+      />
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(JSON_LD) }}

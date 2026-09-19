@@ -1,8 +1,7 @@
+import { GITHUB_URL, LINKEDIN_URL } from '@/lib/profiles';
+
 export const NAV_ICON_CLASS =
   'flex size-8 items-center justify-center rounded-md text-fd-muted-foreground transition-colors hover:bg-fd-primary/10 hover:text-fd-primary';
-
-const GITHUB_URL = 'https://github.com/Amritesh-878';
-const LINKEDIN_URL = 'https://linkedin.com/in/amritesh-praveen';
 
 export function LinkedInLink() {
   return (
