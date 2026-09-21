@@ -1,0 +1,51 @@
+---
+title: Adira Exams
+description: 'Two exam products on one codebase at Adira Academy: a frozen annual entrance exam, and the internal platform the school now runs its term exams on.'
+---
+
+import { ExamPaperFlow } from '@/components/site/ISLDiagrams';
+
+## What it is
+
+Two exam products at Adira Academy sharing one codebase, built at Impact Solutions Lab.
+
+The first is the annual entrance exam: candidates sit a timed, multi-subject paper in the browser
+under camera proctoring and get a graded result. I built it during my internship. The second grew
+out of it after I went full time and is the larger system now: the internal platform the school runs
+its own term exams on, finals included. Teachers are authoring and marking on it and students are
+sitting papers on it today.
+
+I am the developer on the application, both the React client and the FastAPI backend. Deployment and
+infrastructure are someone else's.
+
+Because students are sitting real exams on this right now, this page stays at the level of design
+principles and skips every mechanism.
+
+## System design
+
+<ExamPaperFlow />
+
+- **Two products, one codebase.** The entrance exam runs once a year and is frozen, so the internal
+  platform had to be built on top of it without disturbing it. Every change on the shared path is
+  additive, and the entrance flow behaves exactly as it did the year before.
+- **Authoring without a form builder.** Teachers write a whole paper in a Google Doc from a plain
+  template. The backend parses it into typed questions, validates it, and turns it into a publishable
+  paper. Anything the parser is unsure of is flagged for the author instead of dropped, because
+  silently losing a question is worse than admitting the parser could not read it.
+- **The question types a paper needs.** Multiple choice, typed answers, spoken answers, handwritten
+  work the student photographs, and coding questions, with images, shared passages, and a calculator
+  where a subject calls for one.
+- **Grading with the teacher in charge.** Multiple choice marks against the key. For open answers an
+  LLM reads the response against that question's rubric and suggests a mark, labelled as a suggestion
+  everywhere it appears. The teacher's mark is a separate record and it is the grade. When no
+  suggestion can be produced, the answer waits for a human rather than becoming a zero.
+- **Nothing lost mid-exam.** Answers are saved as they are given rather than held until submit, so a
+  closed tab or a dropped connection costs one answer at worst and never the paper.
+- **One loop for the teacher.** Write, publish, assign to classes, watch progress, mark what is left,
+  release results. Everything else in the system exists to keep those six steps boring.
+
+## The rest is on request
+
+The architecture, the proctoring and grading design, and the tradeoffs stay private because students
+are sitting finals on this system now. If you'd like to walk through it, [reach out](/contact) and I'm
+happy to share selectively.

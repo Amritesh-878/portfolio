@@ -35,10 +35,11 @@ const PROJECTS: Project[] = [
     locked: true,
   },
   {
-    name: 'Exam Portal',
+    name: 'Adira Exams',
     blurb:
-      'A timed, in-browser entrance exam for Adira Academy with camera proctoring and auto-grading, live as a real annual admissions exam.',
-    stack: ['React', 'FastAPI', 'MediaPipe'],
+      'Two exam products on one codebase for Adira Academy: the timed, camera-proctored entrance exam I built during my internship, and the internal platform the school now runs its own term exams on.',
+    stack: ['React', 'FastAPI', 'Google Docs API'],
+    href: '/projects/adira-exams',
     badge: '▸ production',
   },
   {

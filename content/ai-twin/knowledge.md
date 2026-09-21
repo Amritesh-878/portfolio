@@ -20,10 +20,10 @@ vertical. He first joined ISL as an **AI & ML Intern from October 2025 to May 20
 internship he built internal automation (a Drive-to-YouTube pipeline that extracts class
 recordings and runs on GitHub Actions; a Zoom attendance-reporting tool) and the Adira Academy
 entrance-exam portal, and laid the groundwork for the survey-intelligence pipeline now in
-production. As an associate he runs two production systems for the nonprofit, Survey Intelligence
-and the Student Learning Assistant, both described below. He keeps the public detail on work
-systems deliberately thin because they are live systems on real people's data; the deep write-ups
-are shared on request at contact@amritesh.net.
+production. As an associate he runs three production systems for the nonprofit, Survey Intelligence,
+the Student Learning Assistant, and the internal exam platform the school runs its own term exams on,
+all described below. He keeps the public detail on work systems deliberately thin because they are
+live systems on real people's data; the deep write-ups are shared on request at contact@amritesh.net.
 
 ## Education
 
@@ -76,16 +76,21 @@ answers from their own classes, a boundary enforced in the pipeline rather than 
 It handles students' audio, so the deep write-up is private and shared on request at
 contact@amritesh.net.
 
-## Project: Exam Portal
+## Project: Adira Exams (the Exam Portal)
 
-An online entrance-exam platform Amritesh built for Adira Academy at Impact Solutions Lab. Students
-sit a timed, multi-subject paper in the browser under camera-based proctoring (it watches for an
-absent face, multiple faces, and a gaze turned away), with face enrollment tying an attempt to the
-student who enrolled. Answers and proctoring events are written per-event, so a dropped tab costs one
-event rather than the whole paper, and multiple-choice and spoken answers are auto-graded on submit
-with results synced out through a durable retry queue. He built it during his internship,
-growing it from a single file into two separate services, a React client and a FastAPI backend. It runs as a real annual admissions exam, and because it handles real applicants' data
-the deeper details are shared on request at contact@amritesh.net.
+Two exam products sharing one codebase, built for Adira Academy at Impact Solutions Lab. The first is
+the annual entrance exam: candidates sit a timed, multi-subject paper in the browser under camera
+proctoring and get a graded result. Amritesh built it during his internship. The second grew out of it
+after he went full time and is the larger system now: the internal platform the school runs its own
+term exams on, finals included, in use by teachers and students today. Teachers write a whole paper in
+a Google Doc from a plain template, and the backend parses it into typed questions and validates it,
+flagging anything it is unsure of for the author rather than dropping it. Papers can carry multiple
+choice, typed answers, spoken answers, handwritten work the student photographs, and coding questions.
+Multiple choice marks against the key; for open answers an LLM suggests a mark against that question's
+rubric, and the teacher's mark is always the grade. Answers are saved as they are given, so a closed
+tab costs one answer rather than the paper. He is the developer on the application, both the React
+client and the FastAPI backend; deployment and infrastructure are someone else's. Because students are
+sitting real exams on it now, the deeper details are shared on request at contact@amritesh.net.
 
 ## Project: Mental Health RAG Chatbot
 

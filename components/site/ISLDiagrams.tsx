@@ -51,10 +51,33 @@ const CLASS_RAG: ElkFlowProps = {
   ],
 };
 
+const EXAM_PAPER: ElkFlowProps = {
+  direction: 'RIGHT',
+  nodes: [
+    { id: 'Doc', label: 'Teacher writes\nthe paper in a Doc' },
+    { id: 'Review', label: 'Flagged questions\nreviewed' },
+    { id: 'Publish', label: 'Published and\nassigned to classes' },
+    { id: 'Sit', label: 'Students sit\nthe paper' },
+    { id: 'Mark', label: 'Marked\nteacher decides' },
+    { id: 'Release', label: 'Results released' },
+  ],
+  edges: [
+    { source: 'Doc', target: 'Review' },
+    { source: 'Review', target: 'Publish' },
+    { source: 'Publish', target: 'Sit' },
+    { source: 'Sit', target: 'Mark' },
+    { source: 'Mark', target: 'Release' },
+  ],
+};
+
 export function TextToSqlPipeline() {
   return <ElkFlow {...TEXT_TO_SQL} />;
 }
 
 export function ClassRecordingPipeline() {
   return <ElkFlow {...CLASS_RAG} />;
+}
+
+export function ExamPaperFlow() {
+  return <ElkFlow {...EXAM_PAPER} />;
 }
