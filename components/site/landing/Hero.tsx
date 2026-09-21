@@ -68,6 +68,12 @@ export function Hero() {
             </span>
           </Link>
         ))}
+        <Link
+          href="/resume"
+          className="font-mono text-xs tracking-wide text-fd-muted-foreground uppercase underline underline-offset-4 transition-colors hover:text-fd-primary"
+        >
+          Résumé
+        </Link>
       </div>
 
       <div className="mt-9 grid gap-3 sm:grid-cols-3">
