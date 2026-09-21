@@ -8,9 +8,22 @@ export interface Release {
   fixed?: string[];
 }
 
-export const CURRENT_VERSION = '1.3.0';
+export const CURRENT_VERSION = '1.4.0';
 
 export const RELEASES: Release[] = [
+  {
+    version: '1.4.0',
+    title: 'Exams, and a résumé',
+    date: 'September 2026',
+    added: [
+      'A page for the exam work at Adira Academy: the entrance exam I built as an intern, and the internal platform the school runs its own term exams on.',
+      'A résumé page you can read without downloading anything, linked from the top of the landing page.',
+      'The landing page unfurls as a card in Discord instead of a bare link.',
+    ],
+    changed: [
+      'The résumé links on the introduction and contact pages point at that page now, rather than handing you a file.',
+    ],
+  },
   {
     version: '1.3.0',
     title: 'Research, and a homage',
