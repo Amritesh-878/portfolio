@@ -129,7 +129,8 @@ button.nb-box:active {
   box-shadow: 1px 1px 0 var(--nb-line);
 }
 
-#nd-page .prose a {
+/* Unlayered, so it outranks the utility classes not-prose components set on themselves. */
+#nd-page .prose a:not(.not-prose *) {
   color: var(--color-fd-primary);
   font-weight: 500;
 }
