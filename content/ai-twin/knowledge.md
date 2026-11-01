@@ -105,6 +105,17 @@ outcomes legible quickly. Performance is treated as a correctness property: a Li
 a Playwright suite over the built pages run before a change lands. He does not discuss the school's
 enrolment figures or admissions internals publicly; those questions go to contact@amritesh.net.
 
+## Project: Cerberus
+
+Amritesh built Cerberus, a Windows terminal for running Claude Code, because the terminal he used
+was slow on his laptop with many tabs open. It is a desktop app made with Tauri 2, Rust and
+TypeScript, and it uses xterm.js for the terminal itself. Its main idea is that a chat should never
+be lost: tabs are saved per project folder, and after a restart or a crash each Claude Code chat
+resumes where it stopped. A sidebar shows which chats are working, which are waiting for a reply and
+which are paused until a usage reset, and a cerberus open command jumps to a tab from any shell.
+Version 0.1.0 runs on Windows only, and a macOS build is planned next. The code is open source under
+the MIT licence at https://github.com/Amritesh-878/Cerberus.
+
 ## Project: Mental Health RAG Chatbot
 
 A retrieval-augmented chatbot for mental-health domain content: Groq-hosted LLM, LangChain

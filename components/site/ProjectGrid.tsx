@@ -58,6 +58,14 @@ const PROJECTS: Project[] = [
     badge: '▸ research',
   },
   {
+    name: 'Cerberus',
+    blurb:
+      'A Windows terminal I built for running Claude Code, because the one I was using got slow with a lot of tabs open. Chats are saved per project folder, so a restart or a crash never loses one, and a sidebar shows which are working and which are waiting on me.',
+    stack: ['Tauri 2', 'Rust', 'TypeScript', 'xterm.js'],
+    href: 'https://github.com/Amritesh-878/Cerberus',
+    badge: '▸ desktop app',
+  },
+  {
     name: 'Mental Health RAG Chatbot',
     blurb:
       'A retrieval-augmented chatbot over a mental-health corpus, returning grounded answers with citations.',
