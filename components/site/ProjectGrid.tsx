@@ -43,6 +43,14 @@ const PROJECTS: Project[] = [
     badge: '▸ production',
   },
   {
+    name: 'Adira Academy Website',
+    blurb:
+      'The public website for Adira Academy, the virtual high school run by Impact Solutions Lab, where I work. I built it and I run the deploys. Pages are statically generated, and the school edits every visitor-facing word and photo itself through a git-backed CMS, so content changes do not wait on me.',
+    stack: ['Astro', 'TypeScript', 'Keystatic', 'Tailwind CSS'],
+    href: 'https://adira-academy.islorg.com',
+    badge: '▸ live',
+  },
+  {
     name: 'Wildfire Smoke Detection',
     blurb:
       'Term-long college research: we took SmokeyNet, a published wildfire smoke-detection model, got its codebase training on our own hardware, and tested our own improvement ideas against it, from background subtraction to captioning to anomaly detection. Clouds defeated most of them, and learning why was the point.',

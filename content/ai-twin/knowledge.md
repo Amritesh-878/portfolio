@@ -22,7 +22,7 @@ recordings and runs on GitHub Actions; a Zoom attendance-reporting tool) and the
 entrance-exam portal, and laid the groundwork for the survey-intelligence pipeline now in
 production. As an associate he runs three production systems for the nonprofit, Survey Intelligence,
 the Student Learning Assistant, and the internal exam platform the school runs its own term exams on,
-all described below. He keeps the public detail on work systems deliberately thin because they are
+and he built and deploys Adira Academy's public website, all described below. He keeps the public detail on work systems deliberately thin because they are
 live systems on real people's data; the deep write-ups are shared on request at contact@amritesh.net.
 
 ## Education
@@ -91,6 +91,19 @@ rubric, and the teacher's mark is always the grade. Answers are saved as they ar
 tab costs one answer rather than the paper. He is the developer on the application, both the React
 client and the FastAPI backend; deployment and infrastructure are someone else's. Because students are
 sitting real exams on it now, the deeper details are shared on request at contact@amritesh.net.
+
+## Project: Adira Academy Website
+
+The public website for Adira Academy, the virtual high school at Impact Solutions Lab, live at
+https://adira-academy.islorg.com since October 2026. Amritesh built it as a ground-up replacement
+for the school's older site, in Astro and TypeScript with Tailwind CSS, and he owns it end to end:
+he writes it and he runs the deploys, unlike the exam work where deployment is someone else's. Pages
+are statically generated, and the school's own staff edit every visitor-facing word and photograph
+through Keystatic, a git-backed CMS, so a content change needs no developer. The audience is
+international admissions officers, so the site's job is to make the school's teaching, selection and
+outcomes legible quickly. Performance is treated as a correctness property: a Lighthouse budget and
+a Playwright suite over the built pages run before a change lands. He does not discuss the school's
+enrolment figures or admissions internals publicly; those questions go to contact@amritesh.net.
 
 ## Project: Mental Health RAG Chatbot
 

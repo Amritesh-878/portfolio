@@ -7,7 +7,7 @@ interface Metric {
 }
 
 const METRICS: Metric[] = [
-  { label: 'Projects', value: '8', href: '/projects' },
+  { label: 'Projects', value: '10', href: '/projects' },
   { label: 'Publication', value: '1', href: '/research' },
   { label: 'Live systems', value: '3', href: '/projects' },
 ];
