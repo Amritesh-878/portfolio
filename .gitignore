@@ -27,3 +27,6 @@ content/ai-twin/sources/
 # OS noise
 Thumbs.db
 .DS_Store
+
+# Copied from pdfjs-dist at build time
+/public/pdf.worker.min.mjs

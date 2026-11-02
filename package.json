@@ -7,8 +7,9 @@
     "node": ">=20.9.0"
   },
   "scripts": {
+    "predev": "tsx scripts/copy-pdf-worker.ts",
     "dev": "next dev",
-    "prebuild": "tsx scripts/build-rag-index.ts",
+    "prebuild": "tsx scripts/build-rag-index.ts && tsx scripts/copy-pdf-worker.ts",
     "build": "next build",
     "build:index": "tsx scripts/build-rag-index.ts",
     "twin:dataset": "tsx scripts/twin-dataset.mjs",
@@ -32,6 +33,7 @@
     "fumadocs-ui": "16.10.7",
     "next": "16.2.10",
     "next-themes": "0.4.6",
+    "pdfjs-dist": "6.5.438",
     "react": "19.2.8",
     "react-dom": "19.2.8",
     "sonner": "2.0.7",

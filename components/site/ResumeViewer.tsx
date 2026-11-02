@@ -1,4 +1,5 @@
 import { LINKEDIN_URL } from '@/lib/profiles';
+import { ResumePages } from '@/components/site/ResumePages';
 
 const PDF = '/resume.pdf';
 
@@ -36,10 +37,7 @@ export function ResumeViewer() {
         className="mt-4 hidden aspect-[1/1.414] w-full rounded-lg border border-fd-border bg-fd-card sm:block"
       />
 
-      <p className="mt-4 text-sm text-fd-muted-foreground sm:hidden">
-        Phone browsers do not render an embedded PDF reliably, so open it with
-        the button above.
-      </p>
+      <ResumePages src={PDF} />
     </div>
   );
 }

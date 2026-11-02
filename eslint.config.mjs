@@ -9,6 +9,7 @@ const config = [
       '.source/**',
       'node_modules/**',
       'src/generated/**',
+      'public/pdf.worker.min.mjs',
       'next-env.d.ts',
     ],
   },

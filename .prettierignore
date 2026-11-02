@@ -4,6 +4,9 @@
 coverage
 src/generated
 
+# Vendored at build time from pdfjs-dist
+public/pdf.worker.min.mjs
+
 # Machine-generated lockfile
 package-lock.json
 
