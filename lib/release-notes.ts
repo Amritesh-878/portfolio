@@ -8,9 +8,22 @@ export interface Release {
   fixed?: string[];
 }
 
-export const CURRENT_VERSION = '1.4.0';
+export const CURRENT_VERSION = '1.5.0';
 
 export const RELEASES: Release[] = [
+  {
+    version: '1.5.0',
+    title: 'A school site, and a terminal',
+    date: 'November 2026',
+    added: [
+      "Adira Academy's public website, which I built and deploy, now that it is live. The school edits every word and photo itself.",
+      'Cerberus, a Windows terminal I built for running Claude Code, open source and on its first release.',
+    ],
+    changed: ['The project count on the landing page matches the grid again.'],
+    fixed: [
+      'Buttons inside a documentation page no longer borrow the colour of a link.',
+    ],
+  },
   {
     version: '1.4.0',
     title: 'Exams, and a résumé',
