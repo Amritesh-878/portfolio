@@ -101,8 +101,30 @@ he writes it and he runs the deploys, unlike the exam work where deployment is s
 are statically generated, and the school's own staff edit every visitor-facing word and photograph
 through Keystatic, a git-backed CMS, so a content change needs no developer. The audience is
 international admissions officers, so the site's job is to make the school's teaching, selection and
-outcomes legible quickly. Performance is treated as a correctness property: a Lighthouse budget and
-a Playwright suite over the built pages run before a change lands. He does not discuss the school's
+outcomes legible quickly.
+
+How it is built. Astro 7 generates every page statically with TypeScript throughout, and a page
+ships no client JavaScript unless it needs some, so the interactive parts are small scripts rather
+than a framework. Styling is Tailwind CSS 4 over a layer of design tokens, with the fonts
+self-hosted and size-matched to their fallbacks so nothing jumps while they load. There is no
+database: the content is JSON in the repository, validated against schemas at build time, so a
+missing or mistyped field fails the build and names the file rather than reaching a visitor. Images
+go through Astro's asset pipeline into responsive AVIF and WebP. Editors work in Keystatic, a
+git-backed CMS, so a save becomes a commit and content is versioned and reviewable like code. The
+site is served from Cloudflare Pages with a Worker for the CMS and redirects, and the whole thing
+runs on free tiers at no hosting cost.
+
+Performance is treated as a correctness property, because speed was the reason for leaving
+WordPress: a Lighthouse budget is enforced like a type error, and about 975 Playwright tests cover
+content, layout at laptop and phone sizes, accessibility, keyboard and touch, redirects and SEO.
+Twenty two addresses from the old WordPress site redirect to their new pages so existing links
+survive the move.
+
+The hardest part of the launch was the domain cutover. The old hosting had left a hidden DNS zone
+behind that overrode the parent zone and was invisible in the hosting control panel, so Amritesh
+proved it existed from the nameservers' own answers and escalated it until it was removed. He also
+keeps a rule that every published figure about students traces to a named source, and no student
+name or photograph ships without a recorded consent record. He does not discuss the school's
 enrolment figures or admissions internals publicly; those questions go to contact@amritesh.net.
 
 ## Project: Cerberus
