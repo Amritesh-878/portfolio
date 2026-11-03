@@ -1,6 +1,8 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
+
+import { ResumeLightbox } from '@/components/site/ResumeLightbox';
 
 const PHONE_QUERY = '(max-width: 639px)';
 const WORKER_SRC = '/pdf.worker.min.mjs';
@@ -14,6 +16,8 @@ type Status = 'idle' | 'rendering' | 'ready' | 'failed';
 export function ResumePages({ src }: { src: string }) {
   const containerRef = useRef<HTMLDivElement>(null);
   const [status, setStatus] = useState<Status>('idle');
+  const [open, setOpen] = useState(false);
+  const close = useCallback(() => setOpen(false), []);
 
   useEffect(() => {
     const phone = window.matchMedia(PHONE_QUERY);
@@ -75,17 +79,34 @@ export function ResumePages({ src }: { src: string }) {
   }, [src]);
 
   return (
-    <div className="mt-4 sm:hidden">
-      <div ref={containerRef} className="flex flex-col gap-3" />
-      {status === 'rendering' ? (
-        <p className="text-sm text-fd-muted-foreground">Drawing the pages.</p>
-      ) : null}
-      {status === 'failed' ? (
-        <p className="text-sm text-fd-muted-foreground">
-          The pages would not draw on this browser, so open the PDF with the
-          button above.
-        </p>
-      ) : null}
-    </div>
+    <>
+      <div className="mt-4 sm:hidden">
+        <div className="relative">
+          <div ref={containerRef} className="flex flex-col gap-3" />
+          {status === 'ready' ? (
+            <button
+              type="button"
+              aria-label="Open the résumé full screen"
+              onClick={() => setOpen(true)}
+              className="absolute inset-0 flex items-end justify-end rounded-lg p-2"
+            >
+              <span className="rounded-md bg-neutral-900/85 px-2 py-1 font-mono text-xs text-neutral-100">
+                tap to zoom
+              </span>
+            </button>
+          ) : null}
+        </div>
+        {status === 'rendering' ? (
+          <p className="text-sm text-fd-muted-foreground">Drawing the pages.</p>
+        ) : null}
+        {status === 'failed' ? (
+          <p className="text-sm text-fd-muted-foreground">
+            The pages would not draw on this browser, so open the PDF with the
+            button above.
+          </p>
+        ) : null}
+      </div>
+      {open ? <ResumeLightbox src={src} onClose={close} /> : null}
+    </>
   );
 }
