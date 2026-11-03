@@ -43,12 +43,12 @@ export function ResumeLightbox({
   const hostRef = useRef<HTMLDivElement>(null);
   const closeRef = useRef<HTMLButtonElement>(null);
   const stageRef = useRef<ResumeStage | null>(null);
-  const scaleRef = useRef(MIN_SCALE);
+  const scaleRef = useRef(DOUBLE_TAP_SCALE);
   const focalRef = useRef<{ x: number; y: number } | null>(null);
   const pinchRef = useRef<{ distance: number; scale: number } | null>(null);
   const lastTapRef = useRef<{ at: number; x: number; y: number } | null>(null);
   const movedRef = useRef(false);
-  const [scale, setScale] = useState(MIN_SCALE);
+  const [scale, setScale] = useState(DOUBLE_TAP_SCALE);
   const [status, setStatus] = useState<Status>('rendering');
 
   useEffect(() => {
@@ -61,7 +61,10 @@ export function ResumeLightbox({
     stageRef.current = stage;
     stage.load(src, scroll.clientWidth).then(
       () => {
-        if (!cancelled) setStatus('ready');
+        if (cancelled) return;
+        setStatus('ready');
+        stage.applyScale(scaleRef.current);
+        void stage.redraw(scaleRef.current);
       },
       () => {
         if (!cancelled) setStatus('failed');
