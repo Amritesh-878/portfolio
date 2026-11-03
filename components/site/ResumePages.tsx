@@ -5,6 +5,10 @@ import { useEffect, useRef, useState } from 'react';
 const PHONE_QUERY = '(max-width: 639px)';
 const WORKER_SRC = '/pdf.worker.min.mjs';
 
+// Rendered well above display size so pinch-zoom has real pixels to draw from.
+const MIN_RENDER_WIDTH = 1500;
+const MAX_RENDER_WIDTH = 2400;
+
 type Status = 'idle' | 'rendering' | 'ready' | 'failed';
 
 export function ResumePages({ src }: { src: string }) {
@@ -27,14 +31,18 @@ export function ResumePages({ src }: { src: string }) {
         pdfjs.GlobalWorkerOptions.workerSrc = WORKER_SRC;
         const doc = await pdfjs.getDocument({ url: src }).promise;
         const width = container.clientWidth;
-        const ratio = Math.min(window.devicePixelRatio || 1, 2);
+        const ratio = Math.min(window.devicePixelRatio || 1, 3);
+        const renderWidth = Math.min(
+          Math.max(width * ratio * 2, MIN_RENDER_WIDTH),
+          MAX_RENDER_WIDTH,
+        );
 
         for (let number = 1; number <= doc.numPages; number += 1) {
           if (cancelled) break;
           const page = await doc.getPage(number);
           const unscaled = page.getViewport({ scale: 1 });
           const viewport = page.getViewport({
-            scale: (width * ratio) / unscaled.width,
+            scale: renderWidth / unscaled.width,
           });
           const canvas = document.createElement('canvas');
           const context = canvas.getContext('2d');
