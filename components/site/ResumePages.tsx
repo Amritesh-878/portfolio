@@ -17,11 +17,19 @@ export function ResumePages({ src }: { src: string }) {
   const containerRef = useRef<HTMLDivElement>(null);
   const [status, setStatus] = useState<Status>('idle');
   const [open, setOpen] = useState(false);
+  const [isPhone, setIsPhone] = useState(false);
   const close = useCallback(() => setOpen(false), []);
 
   useEffect(() => {
     const phone = window.matchMedia(PHONE_QUERY);
-    if (!phone.matches) return;
+    const sync = () => setIsPhone(phone.matches);
+    sync();
+    phone.addEventListener('change', sync);
+    return () => phone.removeEventListener('change', sync);
+  }, []);
+
+  useEffect(() => {
+    if (!isPhone) return;
 
     let cancelled = false;
     const canvases: HTMLCanvasElement[] = [];
@@ -76,7 +84,7 @@ export function ResumePages({ src }: { src: string }) {
       cancelled = true;
       for (const canvas of canvases) canvas.remove();
     };
-  }, [src]);
+  }, [src, isPhone]);
 
   return (
     <>
