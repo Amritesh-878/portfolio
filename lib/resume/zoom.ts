@@ -4,7 +4,7 @@ export const DOUBLE_TAP_SCALE = 2.5;
 export const ZOOM_STEP = 1.5;
 
 // A phone browser drops a canvas with too big a backing store, so past these a deeper zoom stretches pixels instead of gaining them.
-const MAX_PIXEL_WIDTH = 3000;
+const MAX_PIXEL_WIDTH = 4000;
 const MAX_PIXEL_AREA = 16_000_000;
 
 type Point = { clientX: number; clientY: number };

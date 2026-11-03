@@ -8,6 +8,8 @@ import { renderPixelWidth } from './zoom';
 
 const WORKER_SRC = '/pdf.worker.min.mjs';
 const MAX_DEVICE_RATIO = 3;
+// Oversampled even on a 1x screen: pdf.js text drawn 1:1 reads soft next to a native PDF viewer.
+const MIN_RENDER_RATIO = 2;
 const PIXEL_TOLERANCE = 8;
 
 type StagePage = {
@@ -77,7 +79,10 @@ export class ResumeStage {
 
   async redraw(scale: number): Promise<void> {
     const token = (this.token += 1);
-    const ratio = Math.min(window.devicePixelRatio || 1, MAX_DEVICE_RATIO);
+    const ratio = Math.min(
+      Math.max(window.devicePixelRatio || 1, MIN_RENDER_RATIO),
+      MAX_DEVICE_RATIO,
+    );
     for (const entry of this.pages) {
       if (token !== this.token || this.destroyed) return;
       const pixelWidth = renderPixelWidth(

@@ -79,7 +79,7 @@ describe('renderPixelWidth', () => {
   });
 
   it('caps the backing store on a deep zoom', () => {
-    expect(renderPixelWidth(1670, 3, 1.414)).toBe(3000);
+    expect(renderPixelWidth(1670, 3, 1.414)).toBe(3363);
   });
 
   it('caps on total area for a very tall page', () => {
